@@ -34,7 +34,11 @@ def inline_sprites(css: str) -> str:
             if not path.is_file():
                 missing.append(name)
                 return match.group(0)
-            data = base64.b64encode(path.read_bytes()).decode("ascii")
+            # Git may check text SVGs out with different line endings on each
+            # platform. Normalize those line endings before embedding, while
+            # keeping binary PNG payloads byte-for-byte unchanged.
+            payload = path.read_text(encoding="utf-8").encode("utf-8") if path.suffix == ".svg" else path.read_bytes()
+            data = base64.b64encode(payload).decode("ascii")
             mime = "image/svg+xml" if path.suffix == ".svg" else "image/png"
             cache[name] = f"url(data:{mime};base64,{data})"
         return cache[name]

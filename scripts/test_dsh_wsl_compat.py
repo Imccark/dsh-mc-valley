@@ -4,14 +4,29 @@ from __future__ import annotations
 
 import json
 import os
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from build_plugin import HOST_CLASSES, add_host_compat, read_skin_css
+import build_plugin
+from build_plugin import HOST_CLASSES, add_host_compat, inline_sprites, read_skin_css
 from derive_dsh_class_map import read_modules
 
 
 class DshWebCompatibility(unittest.TestCase):
+    def test_svg_embedding_is_independent_of_checkout_line_endings(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "sprites").mkdir()
+            svg = root / "sprites" / "icon.svg"
+            with patch.object(build_plugin, "SKIN", root):
+                svg.write_bytes(b'<svg>\r\n<rect/>\r\n</svg>\r\n')
+                windows = inline_sprites('a { background: url(sprites/icon.svg); }')
+                svg.write_bytes(b'<svg>\n<rect/>\n</svg>\n')
+                linux = inline_sprites('a { background: url(sprites/icon.svg); }')
+            self.assertEqual(windows, linux)
+
     def test_exact_classes_keep_desktop_and_linux_branches(self) -> None:
         result = add_host_compat('[class~="wtg9ga_newSession"] { color: red; }')
         self.assertEqual(
