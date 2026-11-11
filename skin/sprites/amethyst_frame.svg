@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" shape-rendering="crispEdges">
+<!-- Original six-pixel nine-slice; transparent center and stepped corners. -->
+<path fill="#342a3e" fill-rule="evenodd" d="M2 0h20v2h2v20h-2v2H2v-2H0V2h2zM6 6v12h12V6z"/>
+<path fill="#9777ac" d="M2 1h20v2H3v19H1V2h1z"/>
+<path fill="#564064" d="M21 3h2v19h-1v1H3v-2h18z"/>
+<path fill="#b79bc8" d="M3 3h3v1H4v2H3zm15 0h3v3h-1V4h-2zM3 18h1v2h2v1H3zm17 0h1v3h-3v-1h2z"/>
+<path fill="#6d4c81" d="M4 4h2v2H4zm14 0h2v2h-2zM4 18h2v2H4zm14 0h2v2h-2z"/>
+</svg>

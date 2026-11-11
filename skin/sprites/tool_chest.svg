@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Pixel-rounded isometric axes: (13,7.5), (13,-7.5), (0,15), each about 15.
+       Every visible face is a projection of the same 15 x 15 square. -->
+  <g transform="matrix(.866666667 .5 0 1 3 8.5)">
+    <path d="M0 0h15v15H0Z" fill="#62421e"/>
+    <path d="M1 1h13v13H1Z" fill="#bb8238"/>
+    <path d="M2 1h11v3H2Z" fill="#d8a54e"/>
+    <path d="M2 6h11v7H2Z" fill="#c18b3d"/>
+    <path d="M4 6h1v7H4Zm6 0h1v7h-1Z" fill="#a8712e"/>
+    <path d="M0 4h15v2H0ZM0 14h15v1H0Z" fill="#62421e"/>
+    <path d="M6 3h4v6H6Z" fill="#433b28"/>
+    <path d="M7 3h2v5H7Z" fill="#d9cfa5"/>
+    <path d="M7 3h2v1H7Z" fill="#fff2c4"/>
+  </g>
+  <g transform="matrix(.866666667 -.5 0 1 16 16)">
+    <path d="M0 0h15v15H0Z" fill="#49341c"/>
+    <path d="M1 1h13v13H1Z" fill="#8b5d28"/>
+    <path d="M2 1h11v3H2Z" fill="#a57533"/>
+    <path d="M2 6h11v7H2Z" fill="#986a2e"/>
+    <path d="M5 6h1v7H5Zm5 0h1v7h-1Z" fill="#7b5226"/>
+    <path d="M0 4h15v2H0ZM0 14h15v1H0Z" fill="#49341c"/>
+  </g>
+  <g transform="matrix(.866666667 .5 .866666667 -.5 3 8.5)">
+    <path d="M0 0h15v15H0Z" fill="#694b23"/>
+    <path d="M1 1h13v13H1Z" fill="#e1b65e"/>
+    <path d="M2 4h11v1H2Zm0 5h11v1H2Z" fill="#bd8c3b"/>
+    <path d="M1 1h13v1H1ZM1 2h1v12H1Z" fill="#f4ce7b"/>
+  </g>
+  <path d="m16 1 13 7.5v15L16 31 3 23.5v-15Z M3 8.5 16 16l13-7.5 M16 16v15" fill="none" stroke="#382a18" stroke-width="1" stroke-linejoin="miter"/>
+</svg>

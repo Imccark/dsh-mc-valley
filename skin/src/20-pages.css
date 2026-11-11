@@ -1,0 +1,1265 @@
+/* C1: actual SettingsRoot, general rows, account and provider editors.
+ * The host has no general group headings or provider tabs. Reuse its real
+ * headings and keep its editable list, slots, radiogroup and secret mask. */
+:is([class~="AnXs9G_panel"], [class~="GAdqeW_page"]) {
+  --dsw-alias-label-primary: #2b2118;
+  --dsw-alias-label-secondary: #6c5942;
+  --dsw-alias-label-tertiary: #78634e;
+  --dsw-alias-label-dimmed: #87745e;
+  --dsw-alias-label-caption: #87745e;
+  --dsw-alias-border-l2: #89734f44;
+  --dsw-alias-state-error-primary: #a02e25;
+  --dsw-alias-state-success-primary: #3d6422;
+  --dsw-alias-state-warn-label: #855015;
+  --dsw-focus-ring-color: #547c2b;
+  --dsw-focus-ring-width: 2px;
+  color: var(--mc-ink) !important;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+}
+[class~="AnXs9G_panel"] { border: 6px solid transparent !important; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 stretch !important; }
+:is([class~="AnXs9G_nav"], [class~="AnXs9G_navTitle"]) { background: #573925 url(sprites/dirt.png) left top / 64px 64px; color: #fff1dc; }
+[class~="AnXs9G_navTitle"] { font-weight: 650; padding: 20px 12px 10px 18px; }
+[class~="AnXs9G_navList"] { gap: 8px; padding-bottom: 16px; }
+button[class~="AnXs9G_navCell"] {
+  box-sizing: border-box; flex-shrink: 0; min-height: 40px; height: auto;
+  background: #aa7b43 var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px 32px !important;
+  border: 6px solid transparent !important; border-image: url(sprites/plank.png) 6 / 6px / 0 stretch !important;
+  background-clip: padding-box !important; border-radius: 0 !important;
+  padding: 4px 8px; color: #fff6ea !important; font-weight: 600; text-shadow: 1px 1px #50331d;
+}
+button[class~="AnXs9G_navCell"][aria-current="true"] {
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px !important;
+  background-clip: padding-box !important;
+  border-image-source: url(sprites/green.png) !important;
+}
+button[class~="AnXs9G_navCell"]:hover { filter: brightness(1.08); }
+[class~="AnXs9G_options"] { padding: 0 24px 24px; color: var(--mc-ink); }
+:is([class~="RmVo8q_section"], [class~="jrmgQW_section"], [class~="_6qcDqa_section"]) { min-width: 0; max-width: 100%; }
+:is([class~="Iwzhua_title"], [class~="jrmgQW_title"], [class~="jrmgQW_editorHeader"]) {
+  box-sizing: border-box; min-width: 0; padding: 4px 10px;
+  background: #9b713e var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px 32px;
+  border: 3px solid transparent; border-image: url(sprites/plank.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box; color: #fff6ea !important; font-size: 14px; font-weight: 650;
+  overflow-wrap: anywhere; text-shadow: 1px 1px #50331d;
+}
+:is([class~="jrmgQW_editorTitle"], [class~="jrmgQW_editorRoute"]) { color: inherit; }
+[class~="jrmgQW_editorHeader"] { flex-wrap: wrap; }
+:is([class~="_1jfq5W_row"], [class~="-TO4SG_row"], [class~="V68kMG_row"], [class~="_7qxJPq_row"], [class~="uYSObG_row"]) { min-width: 0; border-bottom-color: #89734f44; gap: 12px; }
+:is([class~="_1jfq5W_title"], [class~="-TO4SG_title"], [class~="V68kMG_title"], [class~="_7qxJPq_title"], [class~="uYSObG_title"]) { font-weight: 600; overflow-wrap: anywhere; }
+:is([class~="_1jfq5W_rowText"], [class~="-TO4SG_rowText"], [class~="V68kMG_rowText"], [class~="_7qxJPq_rowText"]) { padding-right: 8px; }
+[class~="_7qxJPq_stepper"] { background: #f4e5c9; border: 2px solid #89734f; background-clip: padding-box; border-radius: 0; box-shadow: inset 1px 1px #4e3c2a66; }
+[class~="Iwzhua_themeCube"] { min-width: 0; padding: 14px 8px; flex-basis: 120px; }
+/* Primitives emit these stable icon identities; unknown theme icons stay native. */
+[class~="Iwzhua_themeCube"]:has(> svg[data-icon="dsw-icon-light-outline-medium"]) { --mc-theme-cube: url(sprites/grass_cube.svg); }
+[class~="Iwzhua_themeCube"]:has(> svg[data-icon="dsw-icon-dark-outline-medium"]) { --mc-theme-cube: url(sprites/theme_night_cube.svg); }
+[class~="Iwzhua_themeCube"]:has(> svg[data-icon="dsw-icon-followsystem-outline-medium"]) { --mc-theme-cube: url(sprites/theme_system_cube.svg); }
+[class~="Iwzhua_themeCube"]:has(> svg:is([data-icon="dsw-icon-light-outline-medium"],[data-icon="dsw-icon-dark-outline-medium"],[data-icon="dsw-icon-followsystem-outline-medium"]))::before { content: ""; display: block; width: 44px; height: 48px; background: var(--mc-theme-cube) center / contain no-repeat; image-rendering: pixelated; pointer-events: none; }
+[class~="Iwzhua_themeCube"] > svg:is([data-icon="dsw-icon-light-outline-medium"],[data-icon="dsw-icon-dark-outline-medium"],[data-icon="dsw-icon-followsystem-outline-medium"]) { position: absolute; visibility: hidden; }
+
+/* Stone operations remain separate from wood navigation and primary actions. */
+:is(button[class~="AnXs9G_close"], button[class~="jrmgQW_secondaryButton"], button[class~="jrmgQW_addButton"], button[class~="jrmgQW_addModelButton"], button[class~="jrmgQW_iconButton"], button[class~="jrmgQW_linkButton"], [class~="_6qcDqa_linkButton"]:not([class~="_6qcDqa_primary"])) {
+  box-sizing: border-box; max-width: 100%; min-width: 0;
+  border: 3px solid transparent !important; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch !important;
+  border-radius: 0 !important; background: #d3d0ca var(--mc-cobble) left top / 64px 64px !important;
+  background-clip: padding-box !important; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+:is(button[class~="jrmgQW_primaryButton"], [class~="_6qcDqa_primary"]) {
+  border: 4px solid transparent !important; border-image: url(sprites/green.png) 6 / 4px / 0 stretch !important;
+  border-radius: 0 !important; background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px !important;
+  background-clip: padding-box !important; color: #fffdf2 !important;
+}
+button[class~="jrmgQW_dangerButton"] { color: #a02e25; border-radius: 0; }
+:is([class~="AnXs9G_panel"], [class~="GAdqeW_page"]) :is(button,a,input,select,summary):focus-visible {
+  outline: 2px solid #547c2b !important; outline-offset: 2px; box-shadow: none !important;
+}
+:is([class~="AnXs9G_panel"], [class~="GAdqeW_page"]) :is(button,input):is(:disabled,[aria-disabled="true"]) { opacity: .5; }
+
+/* Shelves decorate the native list; editing, model drag handles, statuses,
+ * fetch candidates, save errors and advanced fields stay host-owned. */
+[class~="jrmgQW_rows"] {
+  box-sizing: border-box; padding: 8px; gap: 12px;
+  border: 6px solid transparent; border-image: url(sprites/plank.png) 6 / 6px / 0 stretch;
+  background: #a37642 var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px 32px;
+  background-clip: padding-box;
+}
+[class~="jrmgQW_rows"]:not(:empty)::before { content: ""; display: block; height: 40px; flex: none; background: url(sprites/settings_bookshelf.svg) left top / 64px 40px repeat-x; image-rendering: pixelated; pointer-events: none; }
+:is([class~="jrmgQW_rowCard"], [class~="jrmgQW_setupCard"], [class~="jrmgQW_addCard"], [class~="_6qcDqa_card"], [class~="_6qcDqa_balanceCard"]) {
+  box-sizing: border-box; min-width: 0; border: 4px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch; border-radius: 0;
+  background: #fff0da var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; padding: 10px 12px; box-shadow: 0 2px #36271933;
+}
+[class~="jrmgQW_rowHead"] { flex-wrap: wrap; }
+[class~="jrmgQW_rowIdentity"] { overflow-wrap: anywhere; flex-wrap: wrap; }
+[class~="jrmgQW_rowIdentity"]::before { content: ""; width: 24px; height: 24px; flex: none; background: url(sprites/tool_item_enchanted_book.svg) center / contain no-repeat; image-rendering: pixelated; }
+[class~="jrmgQW_rowName"] { overflow-wrap: anywhere; min-width: 0; }
+[class~="jrmgQW_rowActions"] { flex-wrap: wrap; }
+[class~="jrmgQW_rowTag"] { border-radius: 0; background: #e9dcbd; background-clip: padding-box; }
+[class~="jrmgQW_editor"] { min-width: 0; padding: 10px; background: #f2e4ca; border-radius: 0; box-shadow: inset 1px 1px #6a54354d; }
+:is([class~="jrmgQW_field"], [class~="jrmgQW_modelField"], [class~="jrmgQW_customizedBody"]) { min-width: 0; }
+[class~="jrmgQW_input"] { min-width: 0; max-width: 100%; }
+[class~="jrmgQW_editorActions"] { flex-wrap: wrap; }
+[class~="jrmgQW_modelEntry"] { border-radius: 0; background-clip: padding-box; }
+
+/* Native password/reveal semantics are unchanged. The shared SecretMask keeps
+ * its mask image (never remove it or make hidden text readable via CSS). */
+[class~="jrmgQW_keyInput"] { min-width: 0; }
+[class~="jrmgQW_keyInput"] > input,
+[class~="cnK6Wa_secret"] {
+  box-sizing: border-box;
+  background: #312b3b !important; color: #f4e4ff !important; caret-color: #f4e4ff;
+  border: 4px solid transparent !important; border-image: url(sprites/amethyst_frame.svg) 6 / 4px / 0 stretch !important;
+  border-radius: 0 !important; background-clip: padding-box !important;
+  box-shadow: inset 1px 1px #17111f !important;
+}
+[class~="jrmgQW_keyInput"] > input { min-height: 36px; padding-left: 10px; }
+[class~="jrmgQW_keyInputFilled"] { padding-right: 40px !important; }
+[class~="jrmgQW_keyInput"] > input::placeholder { color: #c1accb !important; }
+[class~="cnK6Wa_secret"] { padding: 2px 6px; gap: 5px; vertical-align: middle; }
+[class~="cnK6Wa_value"] { min-width: 0; }
+:is([class~="jrmgQW_keyToggle"], [class~="cnK6Wa_toggle"]) { color: #f4e4ff !important; border-radius: 0; }
+[class~="jrmgQW_keyToggle"] { inset: 4px 4px 4px auto; width: 28px; }
+:is([class~="jrmgQW_keyToggle"], [class~="cnK6Wa_toggle"]):hover { background-color: #ffffff22; }
+[class~="jrmgQW_keyInput"] > input[aria-invalid="true"] { border-image: none !important; border-color: #b53e34 !important; }
+
+/* Account cards preserve actual identity, balance, links and loading/errors.
+ * Welcome artwork is decorative CSS; no signed-in success or data is invented. */
+:is([class~="_6qcDqa_identityCopy"], [class~="_6qcDqa_status"], [class~="_6qcDqa_name"]) { overflow-wrap: anywhere; }
+[class~="_6qcDqa_avatar"] { border-radius: 0; background: #ded0b2; }
+[class~="_6qcDqa_avatar"] img { image-rendering: auto; }
+[class~="_6qcDqa_signedOutContent"]::before { content: ""; display: block; width: min(100%,400px); aspect-ratio: 16 / 9; background: url(sprites/settings_welcome.png) center / contain no-repeat; pointer-events: none; }
+[class~="_6qcDqa_signedOutTitle"] { font-size: 18px; font-weight: 650; }
+[class~="_6qcDqa_signedOutDescription"] { overflow-wrap: anywhere; }
+[class~="GAdqeW_page"] { box-sizing: border-box; min-height: 100%; height: auto; padding: clamp(20px,4vw,48px); overflow: auto; }
+[class~="GAdqeW_content"] { position: relative; width: min(100%,1130px); top: auto; left: auto; transform: none; margin: 24px auto 80px; }
+[class~="GAdqeW_welcome"] { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); align-items: center; gap: 32px; min-height: calc(100vh - 180px); }
+[class~="GAdqeW_welcome"] [class~="GAdqeW_copy"] { position: static; width: auto; min-width: 0; transform: none; }
+[class~="GAdqeW_copy"] h1 { font-weight: 650; overflow-wrap: anywhere; }
+[class~="GAdqeW_welcomeIllustration"] { position: static; width: 100%; height: auto; aspect-ratio: 16 / 9; background: url(sprites/settings_welcome.png) center / contain no-repeat; }
+[class~="GAdqeW_welcomeArtwork"] { display: none; }
+[class~="GAdqeW_start"] { margin-top: 28px; max-width: 100%; }
+:is([class~="GAdqeW_purpose"], [class~="GAdqeW_process"]) { gap: 28px; }
+[class~="GAdqeW_card"] {
+  min-width: 0; min-height: 180px; padding: 24px 20px;
+  border: 4px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch;
+  background: #fff0da var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; border-radius: 0; backdrop-filter: none; box-shadow: 0 3px #36271933;
+}
+[class~="GAdqeW_card"]::before, [class~="GAdqeW_card"]::after { content: none !important; animation: none !important; }
+[class~="GAdqeW_card"]:is([aria-checked="true"],:has(input:checked)) { border-image-source: url(sprites/green.png); background-color: #f3eccb; }
+[class~="GAdqeW_processIcon"] { width: 40px; height: 40px; background: url(sprites/tool_item_written_book.svg) center / 36px 36px no-repeat; image-rendering: pixelated; }
+[data-process="standard"] [class~="GAdqeW_processIcon"] { background-image: url(sprites/tool_item_enchanted_book.svg); }
+[data-process="detailed"] [class~="GAdqeW_processIcon"] { background-image: url(sprites/tool_item_writable_book.svg); }
+[class~="GAdqeW_processIcon"] > img { visibility: hidden; }
+[class~="GAdqeW_cardTitle"] { font-weight: 600; }
+[class~="GAdqeW_cardDescription"] { overflow-wrap: anywhere; }
+[class~="GAdqeW_primaryAction"] { position: static; margin-top: 4px; }
+[class~="GAdqeW_navigation"] { box-sizing: border-box; position: relative; left: auto; bottom: auto; transform: none; width: min(100%,1130px); margin: auto; gap: 20px; }
+[class~="GAdqeW_status"] { position: static; text-align: center; margin-top: 16px; }
+[class~="GAdqeW_indicator"] { border-radius: 0; background-clip: padding-box; }
+@media (max-width: 767px) {
+  /* Also apply on desktop webviews with data-windows-titlebar, which the
+   * upstream mobile rule excludes. Keep the horizontal native nav scrollport. */
+  [class~="AnXs9G_panel"] { grid-template: "AnXs9G_title AnXs9G_header" "AnXs9G_nav AnXs9G_nav" "AnXs9G_options AnXs9G_options" minmax(0,1fr) / minmax(0,1fr) auto !important; width: calc(100vw - 16px) !important; max-width: calc(100vw - 16px) !important; height: calc(100dvh - 32px) !important; }
+  [class~="AnXs9G_nav"] { padding: 0 !important; }
+  [class~="AnXs9G_navList"] { flex-direction: row !important; overflow: auto hidden; padding: 8px 10px 12px !important; }
+  button[class~="AnXs9G_navCell"] { flex: 0 0 auto; min-width: 108px; }
+  [class~="AnXs9G_options"] { padding: 0 12px 16px !important; }
+  :is([class~="_1jfq5W_row"], [class~="-TO4SG_row"], [class~="V68kMG_row"], [class~="uYSObG_row"]) { flex-wrap: wrap; }
+  :is([class~="_1jfq5W_rowText"], [class~="-TO4SG_rowText"], [class~="V68kMG_rowText"]) { flex-basis: 100%; }
+  [class~="Iwzhua_themeCube"] { flex: 1 1 0; padding: 12px 4px; font-size: 12px; }
+  [class~="GAdqeW_welcome"] { grid-template-columns: minmax(0,1fr); min-height: 0; gap: 20px; }
+  [class~="GAdqeW_welcomeIllustration"] { grid-row: 1; max-width: 600px; margin: auto; }
+  :is([class~="GAdqeW_processCards"], [class~="GAdqeW_purposeCards"]) { grid-template-columns: minmax(0,1fr); }
+  [class~="GAdqeW_card"] { min-height: 0; padding: 16px; }
+  [class~="GAdqeW_credit"] { grid-template-columns: minmax(0,1fr); }
+  [class~="GAdqeW_copy"] h1 { font-size: 24px; line-height: 1.5; }
+  :is([class~="_6qcDqa_card"], [class~="_6qcDqa_row"]) { flex-wrap: wrap; }
+  [class~="_6qcDqa_identity"] { max-width: 100%; }
+  [class~="jrmgQW_rows"] { padding: 6px; }
+  :is([class~="jrmgQW_rowCard"], [class~="jrmgQW_setupCard"], [class~="jrmgQW_addCard"]) { padding: 8px; }
+  [class~="jrmgQW_rowActions"] { margin-left: auto; }
+  [class~="jrmgQW_modelAdvanced"] { grid-template-columns: minmax(0,1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class~="GAdqeW_page"], [class~="GAdqeW_page"] * { animation: none !important; transition: none !important; }
+  [class~="AnXs9G_panel"] * { transition: none !important; }
+}
+@media (forced-colors: active) {
+  :is([class~="AnXs9G_panel"], [class~="GAdqeW_page"]) { --dsw-alias-label-primary: CanvasText; --dsw-alias-label-secondary: CanvasText; --dsw-alias-label-tertiary: CanvasText; --dsw-alias-label-dimmed: GrayText; --dsw-alias-state-error-primary: CanvasText; --dsw-alias-state-success-primary: CanvasText; }
+  :is([class~="AnXs9G_panel"], [class~="AnXs9G_nav"], [class~="AnXs9G_navTitle"], [class~="AnXs9G_navCell"], [class~="AnXs9G_close"], [class~="Iwzhua_title"], [class~="Iwzhua_themeCube"], [class~="jrmgQW_title"], [class~="jrmgQW_rows"], [class~="jrmgQW_rowCard"], [class~="jrmgQW_setupCard"], [class~="jrmgQW_addCard"], [class~="jrmgQW_editor"], [class~="jrmgQW_editorHeader"], [class~="jrmgQW_primaryButton"], [class~="jrmgQW_secondaryButton"], [class~="jrmgQW_addButton"], [class~="jrmgQW_addModelButton"], [class~="jrmgQW_iconButton"], [class~="jrmgQW_linkButton"], [class~="_6qcDqa_card"], [class~="_6qcDqa_balanceCard"], [class~="_6qcDqa_linkButton"], [class~="GAdqeW_page"], [class~="GAdqeW_card"], [class~="cnK6Wa_secret"], [class~="jrmgQW_keyInput"] > input) {
+    border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; text-shadow: none !important; box-shadow: none !important; filter: none !important;
+  }
+  button[class~="AnXs9G_navCell"][aria-current="true"], [class~="Iwzhua_themeCube"][class~="Iwzhua_selected"], [class~="GAdqeW_card"][aria-checked="true"] { background: Canvas !important; border-image: none !important; color: CanvasText !important; outline: 2px solid Highlight !important; outline-offset: -3px; }
+  :is([class~="AnXs9G_panel"], [class~="GAdqeW_page"]) :is(button,a,input,select,summary):focus-visible { outline-color: Highlight !important; }
+  :is([class~="jrmgQW_keyToggle"], [class~="cnK6Wa_toggle"]) { color: ButtonText !important; }
+  [class~="cnK6Wa_mask"] { forced-color-adjust: none; color: CanvasText !important; -webkit-text-fill-color: transparent !important; background-color: CanvasText !important; }
+  [class~="GAdqeW_processIcon"] { background: none; }
+  [class~="GAdqeW_processIcon"] > img { visibility: visible; }
+  [class~="jrmgQW_rowIdentity"]::before, [class~="jrmgQW_rows"]::before, [class~="_6qcDqa_signedOutContent"]::before { display: none !important; }
+  [class~="GAdqeW_welcomeIllustration"] { display: none; }
+  [class~="Iwzhua_themeCube"]::before { display: none !important; }
+  [class~="Iwzhua_themeCube"] > svg:is([data-icon="dsw-icon-light-outline-medium"],[data-icon="dsw-icon-dark-outline-medium"],[data-icon="dsw-icon-followsystem-outline-medium"]) { position: static; visibility: visible; }
+}
+
+
+/* C2: shortcuts screen. A native <dialog> never matches the shared
+ * [role="dialog"] rule, so the frame is installed here. Rows stay real list
+ * items: row buttons, hover, focus and the recording state remain host-owned,
+ * only the chrome turns into an MC options screen. */
+[class~="St8tea_dialog"] {
+  display: flex; flex-direction: column;
+  --dsw-alias-label-primary: #2b2118;
+  --dsw-alias-label-secondary: #6c5942;
+  --dsw-alias-label-tertiary: #78634e;
+  --dsw-alias-state-error-primary: #a02e25;
+  --dsw-focus-ring-color: #547c2b;
+  box-sizing: border-box; padding: 0; transform: none;
+  color: var(--mc-ink) !important;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important;
+  background-clip: padding-box !important;
+  box-shadow: 0 8px 0 #120a0455 !important;
+}
+dialog[class~="St8tea_dialog"]::backdrop { background: #120a04a6; }
+[class~="St8tea_dialog"] [class~="St8tea_header"] { flex: 0 0 46px; display: flex; align-items: center; padding: 0; }
+/* R04: the sign strip used to be bright #9b713e with a 32px plank tile, so the
+ * dense grain peaked at 2.86:1 behind 15px cream text. A darker wood with a
+ * low-contrast veil and a 48px tile keeps the sign readable (measured >= 4.5:1
+ * over the brightest grain pixel) without turning the title into a dark banner. */
+[class~="St8tea_dialog"] [class~="St8tea_title"] {
+  box-sizing: border-box; display: flex; align-items: center; align-self: stretch;
+  flex: 1; min-width: 0; margin: 0; padding: 0 44px 0 12px;
+  background-color: #8a6437;
+  background-image: linear-gradient(#2a1a0a59, #2a1a0a59), var(--mc-plank, url(sprites/plank_tile.png));
+  background-size: auto, 48px 48px;
+  background-position: left top, left top;
+  border-bottom: 3px solid #6b4a2b;
+  color: #fff6ea !important; font-size: 15px; font-weight: 650; line-height: 1.2;
+  text-shadow: 1px 1px #50331d; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+[class~="St8tea_dialog"] [class~="St8tea_close"] {
+  box-sizing: border-box; width: 26px; height: 26px; right: 8px; padding: 0;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  border-radius: 0; background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+[class~="St8tea_dialog"] [class~="St8tea_close"]:hover { background-color: #e2dfd8; }
+
+/* Search reads as a recessed slot: dark stone rim, no paper field inside. */
+[class~="St8tea_dialog"] [class~="St8tea_searchRow"] { flex: 0 0 56px; padding: 12px 14px 8px; }
+[class~="St8tea_dialog"] [class~="St8tea_searchField"] {
+  box-sizing: border-box; height: 34px; padding: 0 8px;
+  border: 3px solid transparent; border-image: url(sprites/stone_dark.png) 6 / 3px / 0 stretch;
+  border-radius: 0; background: #3b332a; background-clip: padding-box;
+  box-shadow: inset 1px 1px 0 #16120e88;
+}
+[class~="St8tea_dialog"] [class~="St8tea_searchIcon"] { color: #d8c39f; }
+[class~="St8tea_dialog"] [class~="St8tea_searchField"] > [class~="St8tea_search"] {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important;
+  box-shadow: none !important; color: #fff6ea !important; font-size: 14px;
+}
+[class~="St8tea_dialog"] [class~="St8tea_search"]::placeholder { color: #bda98a !important; }
+[class~="St8tea_dialog"] [class~="St8tea_clearSearch"] { border-radius: 0; border-color: #bda98a; color: #f6e7cf !important; }
+
+[class~="St8tea_dialog"] [class~="St8tea_list"] { padding: 0 12px 10px; }
+[class~="St8tea_dialog"] [class~="St8tea_group"] {
+  display: inline-block; margin: 14px 6px 6px; padding: 2px 10px;
+  background-color: #9b713e;
+  background-image: linear-gradient(#2b1a0a66, #2b1a0a66), var(--mc-plank, url(sprites/plank_tile.png));
+  background-size: auto, 32px 32px;
+  background-position: left top, left top;
+  border: 2px solid transparent; border-image: url(sprites/plank.png) 6 / 2px / 0 stretch;
+  background-clip: padding-box;
+  color: #fff6ea !important; font-size: 12px; font-weight: 650; text-shadow: 1px 1px #50331d;
+}
+[class~="St8tea_dialog"] [class~="St8tea_row"] { min-height: 34px; padding: 5px 8px; border-radius: 0; color: var(--mc-ink) !important; font-size: 14px; }
+[class~="St8tea_dialog"] [class~="St8tea_row"] + [class~="St8tea_row"] { border-top: 1px solid #89734f3d; }
+[class~="St8tea_dialog"] [class~="St8tea_row"]:has([class~="St8tea_rowButton"]:enabled):hover { background: #6b4a2f14; }
+[class~="St8tea_dialog"] [class~="St8tea_rowButton"] { border-radius: 0; }
+[class~="St8tea_dialog"] [class~="St8tea_rowButton"]:focus-visible { outline: 2px solid #547c2b; outline-offset: -2px; }
+[class~="St8tea_dialog"] :is([class~="St8tea_keyBadge"], [class~="St8tea_fixedKeyBadge"]) { border-radius: 0; }
+[class~="St8tea_dialog"] [class~="St8tea_commandLabel"] { flex: 1 1 auto; color: var(--mc-ink) !important; }
+
+/* Recording keeps a redstone edge; the unbound chip is a dashed empty slot. */
+[class~="St8tea_dialog"] [class~="St8tea_recorder"] {
+  box-sizing: border-box; min-width: 104px; height: 26px; padding: 0 10px;
+  border: 2px solid #a02e25; border-radius: 0;
+  background: #f4d6cf; background-clip: padding-box;
+  color: #7d1f18 !important; box-shadow: inset 0 0 0 1px #ffffff88;
+}
+[class~="St8tea_dialog"] [class~="St8tea_recorder"]:is([class~="St8tea_invalid"], [aria-invalid="true"]) {
+  border-style: dashed; background: #f7e2dc; box-shadow: inset 0 0 0 1px #a02e2533;
+}
+[class~="St8tea_dialog"] [class~="St8tea_unbound"] {
+  box-sizing: border-box; height: 24px; padding: 2px 10px;
+  border: 2px dashed #8a7457; border-radius: 0; background: #e7dcc2; background-clip: padding-box;
+  color: #6c5942 !important;
+}
+[class~="St8tea_dialog"] [class~="St8tea_review"] { color: #7d1f18 !important; font-size: 12px; }
+[class~="St8tea_dialog"] [class~="St8tea_inlineAction"] { color: #4d6d22 !important; font-weight: 600; }
+[class~="St8tea_dialog"] [class~="St8tea_inlineAction"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 2px; }
+[class~="St8tea_dialog"] [class~="St8tea_hint"] { margin: 10px 6px 4px; color: #78634e !important; font-size: 12px; }
+
+[class~="St8tea_dialog"] [class~="St8tea_footer"] { min-height: 44px; padding: 0 14px; border-top: 3px solid #6b4a2b; background: #e9dcc1; }
+[class~="St8tea_dialog"] [class~="St8tea_resetAll"] {
+  box-sizing: border-box; padding: 4px 10px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  border-radius: 0; background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+[class~="St8tea_dialog"] [class~="St8tea_resetAll"]:disabled { opacity: .5; }
+[class~="St8tea_dialog"] [class~="St8tea_modifiedCount"] { color: #6c5942 !important; }
+
+/* The settings row that opens the dialog follows the same option-row rhythm. */
+[class~="St8tea_setting"] { gap: 12px; padding: 10px 2px; border-bottom: 1px solid #89734f44; }
+[class~="St8tea_settingTitle"] { color: var(--mc-ink) !important; font-weight: 600; }
+[class~="St8tea_settingDescription"] { color: #6c5942 !important; }
+[class~="St8tea_button"] {
+  box-sizing: border-box; height: 32px; min-width: 0; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  border-radius: 0; background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+:is([class~="St8tea_dialog"], [class~="St8tea_setting"]) :is(button, input):focus-visible { outline: 2px solid #547c2b !important; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { [class~="St8tea_dialog"] * { transition: none !important; animation: none !important; } }
+@media (forced-colors: active) {
+  [class~="St8tea_dialog"] { --dsw-alias-label-primary: CanvasText; --dsw-alias-label-secondary: CanvasText; --dsw-alias-label-tertiary: CanvasText; --dsw-alias-state-error-primary: CanvasText; border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; box-shadow: none !important; }
+  [class~="St8tea_dialog"] :is([class~="St8tea_title"], [class~="St8tea_searchField"], [class~="St8tea_recorder"], [class~="St8tea_unbound"], [class~="St8tea_resetAll"], [class~="St8tea_close"], [class~="St8tea_button"], [class~="St8tea_keyBadge"], [class~="St8tea_fixedKeyBadge"]) {
+    border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important; text-shadow: none !important;
+  }
+  [class~="St8tea_dialog"] [class~="St8tea_row"]:hover { background: Canvas !important; outline: 1px solid Highlight; outline-offset: -1px; }
+  [class~="St8tea_dialog"] [class~="St8tea_recorder"][class~="St8tea_invalid"] { border-style: dashed !important; }
+  [class~="St8tea_dialog"] ::backdrop { background: Canvas !important; }
+}
+
+/* C3: plugin manager. Rows stay native list items and every icon keeps the
+ * host's own glyph - the skin only replaces the container chrome. Where the
+ * host has no stable per-plugin identity, no item mapping is invented. */
+[class~="V7pFBG_cards"] { gap: 0; }
+[class~="V7pFBG_card"] { border-radius: 0; border-bottom: 1px solid #967b4566; background: transparent; }
+[class~="V7pFBG_card"]:last-child { border-bottom: 0; }
+[class~="V7pFBG_cardHead"] { border-radius: 0; }
+:is([class~="V7pFBG_cardIcon"], [class~="V7pFBG_rowIcon"], [class~="V7pFBG_skeletonIcon"]) {
+  box-sizing: border-box; width: calc(44px + 2 * (var(--mc-slot) - 3px)); height: calc(44px + 2 * (var(--mc-slot) - 3px)); border-radius: 0;
+  border: var(--mc-slot) solid transparent; border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / var(--mc-slot) / 0 stretch;
+  background: #494136 var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box; box-shadow: inset 1px 1px #1b1712aa;
+  color: #f4e6c8 !important;
+}
+/* R06/C3: the slot is 44px, so the host glyph has to fill more of it. Host icons
+ * are SVGs; the fixture uses the same slot with a text glyph. Nothing is remapped
+ * to a new picture - only the existing glyph's size inside its slot changes. */
+:is([class~="V7pFBG_cardIcon"], [class~="V7pFBG_rowIcon"]) { font-size: 22px; line-height: 1; }
+:is([class~="V7pFBG_cardIcon"], [class~="V7pFBG_rowIcon"]) > :is(svg, img) { width: 26px; height: 26px; flex: none; }
+/* C3 hierarchy: page title (20px) > plugin name (14px/650) > group label
+ * (12px, spaced, muted) > version/status chips (12px stone). The group label used
+ * to be the same 14px/500 as the plugin names. */
+[class~="V7pFBG_pageTitle"] { font-weight: 650; }
+[class~="V7pFBG_groupTitle"] { font-size: 12px; font-weight: 650; letter-spacing: .06em; color: #6b5942 !important; }
+[class~="V7pFBG_cardTitle"], [class~="V7pFBG_cardOpen"] { font-weight: 650; overflow-wrap: anywhere; }
+[class~="V7pFBG_cardDesc"] { color: #5d5039 !important; }
+:is([class~="V7pFBG_statusTag"], [class~="V7pFBG_versionTag"], [class~="V7pFBG_attemptBadge"]) {
+  box-sizing: border-box; display: inline-block; vertical-align: middle;
+  max-width: 100%; height: 20px; padding: 0 6px;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e7dcc4; background-clip: padding-box; border-radius: 0;
+  color: #4a3f2c !important; font-size: 12px; line-height: 16px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+[class~="V7pFBG_titleRow"] { flex-wrap: wrap; row-gap: 4px; }
+/* Failures keep the host sentence and gain a redstone rail, never just a glyph. */
+[class~="V7pFBG_rowFailure"] {
+  color: #a02e25 !important; padding-left: 8px;
+  border-left: 3px solid #a02e25; background: #f9e3de55; overflow-wrap: anywhere;
+}
+[class~="V7pFBG_failure"], [class~="V7pFBG_inputError"] { color: #a02e25 !important; }
+[class~="V7pFBG_detailsBody"] { padding: 0 8px 10px; }
+[class~="V7pFBG_detailsToggle"] { color: #5d5039 !important; }
+[class~="V7pFBG_detailTitle"] { font-size: 14px; font-weight: 650; }
+[class~="V7pFBG_detailDesc"] { color: #5d5039 !important; overflow-wrap: anywhere; }
+/* Version panel: paper ledger with real strings; blocked rows stay muted. */
+[class~="V7pFBG_versionPanel"] {
+  box-sizing: border-box; padding: 10px 12px;
+  border: 4px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch;
+  background: #fff1dc var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; border-radius: 0;
+}
+[class~="V7pFBG_versionRow"] { grid-template-columns: minmax(0,1fr) max-content max-content; gap: 12px; border-bottom: 1px dashed #967b4566; }
+[class~="V7pFBG_versionNumber"] { font-family: Consolas, "Cascadia Mono", monospace; overflow-wrap: anywhere; }
+[class~="V7pFBG_versionDate"] { color: #746348; white-space: nowrap; }
+[class~="V7pFBG_versionRow"][data-blocked] [class~="V7pFBG_versionNumber"] { color: #746348; }
+/* Permission list reads as a nailed sign: wood border, paper face, sign glyph. */
+[class~="V7pFBG_approval"] {
+  box-sizing: border-box; padding: 10px 12px;
+  border: 4px solid transparent; border-image: url(sprites/plank.png) 6 / 4px / 0 stretch;
+  background: #fdf0d8 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; border-radius: 0;
+}
+/* C3: the version ledger and the permission card are two heavy frames; they need
+ * a stable gap instead of touching each other. */
+[class~="V7pFBG_versionPanel"] + [class~="V7pFBG_approval"] { margin-top: 12px; }
+[class~="V7pFBG_approvalTitle"] { display: flex; align-items: center; gap: 8px; }
+[class~="V7pFBG_approvalTitle"]::before { content: ""; width: 20px; height: 20px; flex: none; background: url(sprites/tool_item_sign.svg) center / 20px no-repeat; image-rendering: pixelated; }
+[class~="V7pFBG_approvalList"] code { border-radius: 0; background: #e7d9ba; color: #3a3022; font-size: 12px; }
+[class~="V7pFBG_approvalCaution"] { color: #7a4a12 !important; }
+/* Danger zone: redstone rail and red-lettered stone button, wording unchanged. */
+[class~="V7pFBG_danger"] {
+  box-sizing: border-box; padding: 10px 12px;
+  border: 1px solid #a02e2544; border-left: 4px solid #a02e25;
+  background: #f9e3de; background-clip: padding-box;
+}
+[class~="V7pFBG_reason"] { color: #7d1f18 !important; overflow-wrap: anywhere; }
+[class~="V7pFBG_dangerButton"] {
+  box-sizing: border-box; min-height: 32px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #e9cfc8 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: #7d1f18 !important; font-weight: 600; box-shadow: 0 2px #221b1233;
+}
+[class~="V7pFBG_deleteButton"] {
+  box-sizing: border-box; width: 28px; height: 28px; border-radius: 0;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d9d3c6 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  color: #a02e25 !important; padding: 0;
+}
+[class~="V7pFBG_addButton"], [class~="V7pFBG_addMore"] {
+  box-sizing: border-box; height: 32px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+[class~="V7pFBG_addMore"] { width: 30px; padding: 0; }
+[class~="V7pFBG_addPrimary"] {
+  box-sizing: border-box; height: 32px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/green.png) 6 / 3px / 0 stretch;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px; background-clip: padding-box;
+  border-radius: 0; color: #fffdf2 !important; font-weight: 600;
+  text-shadow: 1px 1px 0 #20380899;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88, inset -2px -2px 0 #263f0b88, 0 2px 0 #1b280833;
+}
+[class~="V7pFBG_wizardClose"] {
+  box-sizing: border-box; width: 26px; height: 26px; margin-right: 6px; padding: 0;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important;
+}
+[class~="V7pFBG_page"] :is(button, [role="switch"], a, input, summary):focus-visible { outline: 2px solid #547c2b !important; outline-offset: 2px; }
+/* Install wizard: same stone frame as the other dialogs, anvil hero, real steps. */
+[class~="V7pFBG_installDialog"] {
+  box-sizing: border-box; display: flex; flex-direction: column; padding: 0;
+  --dsw-alias-label-primary: #2b2118; --dsw-alias-label-secondary: #6c5942; --dsw-alias-label-tertiary: #78634e;
+  border: 6px solid transparent; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  background-clip: padding-box; border-radius: 0; color: var(--mc-ink);
+}
+dialog[class~="V7pFBG_installDialog"]::backdrop { background: #120a04a6; }
+[class~="V7pFBG_wizard"] { display: flex; flex-direction: column; min-height: 0; }
+[class~="V7pFBG_wizardHead"] { display: flex; align-items: center; gap: 8px; padding: 0; }
+[class~="V7pFBG_wizardTitle"] {
+  flex: 1; min-width: 0; margin: 0; padding: 6px 12px;
+  background: #9b713e var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px 32px;
+  color: #fff6ea !important; font-size: 15px; font-weight: 650; text-shadow: 1px 1px #50331d;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+[class~="V7pFBG_wizardHero"] { padding: 12px 0 6px; }
+[class~="V7pFBG_wizardIcon"] {
+  box-sizing: border-box; width: 48px; height: 48px; padding: 2px; font-size: 0;
+  border: 2px solid #8a7457; background: #f2e4c9 url(sprites/tool_item_anvil.svg) center / 40px 40px no-repeat;
+  image-rendering: pixelated;
+}
+[class~="V7pFBG_wizardIcon"][data-state="done"] { border-color: #3d6422; }
+[class~="V7pFBG_wizardIcon"][data-state="error"] { border-color: #a02e25; }
+[class~="V7pFBG_wizardIcon"] > * { visibility: hidden; }
+[class~="V7pFBG_wizardSub"] { color: #6c5942 !important; }
+[class~="V7pFBG_wizardScroll"] { padding: 0 16px; }
+[class~="V7pFBG_installField"] { display: block; margin-block: 8px; color: #5d5039; }
+[class~="V7pFBG_installField"] > input { width: 100%; margin-top: 4px; }
+[class~="V7pFBG_installSafety"] { color: #78634e !important; font-size: 12px; }
+[class~="V7pFBG_wizardFoot"] { display: flex; justify-content: flex-end; padding: 8px 12px; border-top: 3px solid #6b4a2b; background: #e9dcc1; }
+[class~="V7pFBG_wizardActions"] { display: flex; gap: 8px; }
+[class~="V7pFBG_wizardBack"] {
+  box-sizing: border-box; min-height: 32px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+@media (max-width: 600px) {
+  [class~="V7pFBG_versionRow"] { grid-template-columns: minmax(0,1fr) max-content; row-gap: 2px; }
+  [class~="V7pFBG_versionDate"] { grid-column: 1 / -1; }
+  [class~="V7pFBG_danger"] { padding: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="V7pFBG_page"] * { transition: none !important; animation: none !important; } }
+@media (forced-colors: active) {
+  /* Windows high contrast drops every texture, not just the component chrome:
+   * the birch board and its medallions would otherwise stay painted behind
+   * CanvasText, so flatten the whole surface to system colors. */
+  :is([class~="V7pFBG_page"], [class~="V7pFBG_installDialog"], [class~="V7pFBG_wizard"]) {
+    background: Canvas !important; background-image: none !important;
+    border-color: CanvasText !important; border-image: none !important;
+    color: CanvasText !important; box-shadow: none !important;
+  }
+  :is([class~="V7pFBG_page"], [class~="V7pFBG_installDialog"]) ::before,
+  :is([class~="V7pFBG_page"], [class~="V7pFBG_installDialog"]) ::after { background-image: none !important; }
+  :is([class~="V7pFBG_page"], [class~="V7pFBG_installDialog"]) * { background-image: none !important; color: CanvasText !important; }
+  :is([class~="V7pFBG_cardIcon"], [class~="V7pFBG_rowIcon"], [class~="V7pFBG_statusTag"], [class~="V7pFBG_versionTag"], [class~="V7pFBG_attemptBadge"], [class~="V7pFBG_versionPanel"], [class~="V7pFBG_approval"], [class~="V7pFBG_danger"], [class~="V7pFBG_dangerButton"], [class~="V7pFBG_deleteButton"], [class~="V7pFBG_wizardIcon"], [class~="V7pFBG_wizardTitle"], [class~="V7pFBG_wizardBack"], [class~="V7pFBG_wizardFoot"], [class~="V7pFBG_addButton"], [class~="V7pFBG_addPrimary"], [class~="V7pFBG_addMore"], [class~="V7pFBG_wizardClose"]) {
+    border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="V7pFBG_rowFailure"], [class~="V7pFBG_failure"] { color: CanvasText !important; border-left: 3px solid CanvasText; }
+  [class~="V7pFBG_wizardIcon"] { font-size: inherit; }
+  [class~="V7pFBG_wizardIcon"] > * { visibility: visible; }
+}
+/* C4: plugin market. Native list, native install buttons, no invented prices.
+ * Categories borrow the trade-option shape (small framed rows, grass-green
+ * selection) without turning the page into the villager two-column trade UI. */
+[class~="m2i3Fa_toolbar"] { gap: 8px; }
+/* The shared field treatment already gives every input an inset paper face;
+ * the market only sizes its search box so the shared look is not duplicated. */
+[class~="m2i3Fa_search"] { height: 32px; min-width: 140px; padding: 0 10px; font: inherit; font-size: 14px; }
+[class~="m2i3Fa_search"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 1px; }
+[class~="m2i3Fa_categories"] { gap: 6px; }
+[class~="m2i3Fa_categories"] > button {
+  box-sizing: border-box; height: 28px; padding: 0 10px;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e9dcc1 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: #4a3f2c !important; font-size: 14px; box-shadow: 0 2px #221b1233;
+}
+[class~="m2i3Fa_categories"] > button:hover { background-color: #f2e6cd; }
+:is([class~="m2i3Fa_categories"] > button[aria-pressed="true"], [class~="m2i3Fa_categories"] > button[aria-selected="true"], [class~="m2i3Fa_categories"] > button[data-selected="true"], [class~="m2i3Fa_categories"] > button[data-active="true"], [class~="m2i3Fa_categories"] > [aria-current="true"]) {
+  border-image: url(sprites/green.png) 6 / 2px / 0 stretch;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px; background-clip: padding-box;
+  color: #fffdf2 !important; font-weight: 600; text-shadow: 1px 1px 0 #20380899;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88, inset -2px -2px 0 #263f0b88, 0 2px 0 #1b280833;
+}
+[class~="m2i3Fa_marketButton"] {
+  box-sizing: border-box; max-width: 240px; margin-left: 0; min-height: 32px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+/* The notice keeps the host sentence; amber rail instead of a rounded pill. C4:
+ * it is an explanation, not the page's focal point, so it loses the heavy
+ * padding and keeps a 12px helper size. */
+[class~="m2i3Fa_notice"] {
+  border: 1px solid #b8862f55; border-left: 4px solid #b8862f;
+  background: #f8ecd0 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; border-radius: 0; color: #5d5039;
+  padding: 6px 10px !important; font-size: 12px; line-height: 1.55;
+}
+[class~="m2i3Fa_cards"] { gap: 0; }
+[class~="m2i3Fa_card"] { margin: 0; padding: 8px 8px; border-radius: 0; border-bottom: 1px solid #967b4566; }
+[class~="m2i3Fa_card"]:last-child { border-bottom: 0; }
+[class~="m2i3Fa_card"]:hover { background: #71562714; }
+:is([class~="m2i3Fa_icon"], [class~="m2i3Fa_image"]) {
+  box-sizing: border-box; width: calc(44px + 2 * (var(--mc-slot) - 3px)); height: calc(44px + 2 * (var(--mc-slot) - 3px)); border-radius: 0;
+  border: var(--mc-slot) solid transparent; border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / var(--mc-slot) / 0 stretch;
+  background: #494136 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  box-shadow: inset 1px 1px #1b1712aa; color: #f4e6c8 !important;
+}
+[class~="m2i3Fa_image"] { object-fit: contain; padding: 4px; }
+[class~="m2i3Fa_cardOpen"] { font-weight: 600; }
+[class~="m2i3Fa_description"] { color: #5d5039 !important; }
+/* C4/R03: the meta line used `overflow-wrap:anywhere`, so a long version or an
+ * author name broke mid-token into fragments. `break-word` only breaks a word
+ * that cannot fit, so at 320px the line now breaks at the "·" separators. */
+[class~="m2i3Fa_meta"] { color: #6b5942 !important; font-size: 12px; overflow-wrap: break-word; word-break: normal; }
+[class~="m2i3Fa_tags"] { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+[class~="m2i3Fa_tags"] > * {
+  box-sizing: border-box; display: inline-block; height: 20px; padding: 0 6px;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e7dcc4; background-clip: padding-box; border-radius: 0;
+  color: #4a3f2c; font-size: 12px; line-height: 16px; white-space: nowrap;
+}
+[class~="m2i3Fa_blocked"] { opacity: .62; }
+[class~="m2i3Fa_failure"] { align-items: flex-start; gap: 10px; padding-left: 8px; border-left: 3px solid #a02e25; background: #f9e3de55; }
+[class~="m2i3Fa_error"] { color: #a02e25 !important; overflow-wrap: anywhere; }
+[class~="m2i3Fa_empty"] { padding: 40px 0; }
+[class~="m2i3Fa_empty"] > span {
+  box-sizing: border-box; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  border: 3px solid transparent; border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / 3px / 0 stretch;
+  background: #494136 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box; color: #f4e6c8;
+}
+[class~="m2i3Fa_emptyTitle"] { font-weight: 650; }
+[class~="m2i3Fa_muted"] { color: #78634e !important; }
+[class~="m2i3Fa_more"] { align-self: center; }
+[class~="m2i3Fa_more"] > button, [class~="m2i3Fa_empty"] > button, [class~="m2i3Fa_failure"] > button {
+  box-sizing: border-box; min-height: 30px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+/* Install confirmation: same stone frame as the other dialogs. */
+[class~="m2i3Fa_dialog"] {
+  box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; padding: 0;
+  width: min(480px, 100%);
+  --dsw-alias-label-primary: #2b2118; --dsw-alias-label-secondary: #6c5942; --dsw-alias-label-tertiary: #78634e;
+  border: 6px solid transparent; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  background-clip: padding-box; border-radius: 0; color: var(--mc-ink);
+}
+dialog[class~="m2i3Fa_dialog"]::backdrop { background: #120a04a6; }
+[class~="m2i3Fa_confirmHead"] {
+  margin: 0; padding: 6px 12px;
+  background: #9b713e var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px 32px;
+  color: #fff6ea; text-shadow: 1px 1px #50331d;
+}
+[class~="m2i3Fa_confirmHead"] > h2 { margin: 0; font-size: 15px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+[class~="m2i3Fa_dialogBody"] { display: flex; flex-direction: column; gap: 8px; padding: 4px 14px; }
+[class~="m2i3Fa_dialogBody"] p { margin: 0; overflow-wrap: anywhere; }
+[class~="m2i3Fa_dialog"] > [class~="m2i3Fa_cardEnd"] { justify-content: flex-end; padding: 8px 12px; border-top: 3px solid #6b4a2b; background: #e9dcc1; }
+[class~="m2i3Fa_blocked"] [class~="m2i3Fa_tags"] > * { opacity: 1; }
+@media (max-width: 600px) {
+  [class~="m2i3Fa_categories"] > button { height: 26px; padding: 0 8px; font-size: 12px; }
+  /* Narrow rows keep the title and description readable; the install action
+   * moves under the text instead of squeezing the description to five chars. */
+  [class~="m2i3Fa_card"] { flex-wrap: wrap; align-items: flex-start; gap: 10px; }
+  [class~="m2i3Fa_main"] { flex: 1 1 140px; }
+  [class~="m2i3Fa_cardEnd"] { flex: 1 0 100%; justify-content: flex-end; padding-left: 54px; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="m2i3Fa_section"] * { transition: none !important; animation: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="V7pFBG_page"], [class~="m2i3Fa_dialog"], [class~="m2i3Fa_confirmHead"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important;
+    border-image: none !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  :is([class~="V7pFBG_page"], [class~="m2i3Fa_dialog"]) ::before,
+  :is([class~="V7pFBG_page"], [class~="m2i3Fa_dialog"]) ::after { background-image: none !important; }
+  :is([class~="V7pFBG_page"], [class~="m2i3Fa_dialog"]) * { background-image: none !important; color: CanvasText !important; }
+  :is([class~="m2i3Fa_icon"], [class~="m2i3Fa_image"], [class~="m2i3Fa_tags"] > *, [class~="m2i3Fa_categories"] > button, [class~="m2i3Fa_marketButton"], [class~="m2i3Fa_notice"], [class~="m2i3Fa_dialogBody"], [class~="m2i3Fa_more"] > button, [class~="m2i3Fa_empty"] > span, [class~="m2i3Fa_confirmHead"]) {
+    border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="m2i3Fa_error"], [class~="m2i3Fa_failure"] { color: CanvasText !important; border-left: 3px solid CanvasText; }
+}
+
+/* C5: automation tasks. The schedule page keeps its own two-pane shell; the
+ * skin only dresses the native list, the rule ledger, the delivery log and the
+ * delete confirmation. Numbers, units, time zones and next-run text untouched. */
+[class~="olCj9W_pageContent"] { padding-bottom: 12px; }
+[class~="olCj9W_pageHeading"] { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 8px; }
+[class~="olCj9W_pageHeading"] > h1 { margin: 0; font-size: 20px; font-weight: 600; }
+[class~="olCj9W_creationActions"] { flex: none; }
+[class~="olCj9W_createGroup"] { display: inline-flex; gap: 0; }
+[class~="olCj9W_createPrimary"], [class~="olCj9W_createMore"], [class~="olCj9W_headerAction"], [class~="olCj9W_emptyAction"] {
+  box-sizing: border-box; height: 30px; padding: 0 10px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important; box-shadow: 0 2px #221b1233;
+}
+[class~="olCj9W_createPrimary"] {
+  border-image: url(sprites/green.png) 6 / 3px / 0 stretch;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px; background-clip: padding-box;
+  color: #fffdf2 !important; font-weight: 600; text-shadow: 1px 1px 0 #20380899;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88, inset -2px -2px 0 #263f0b88, 0 2px 0 #1b280833;
+}
+[class~="olCj9W_createMore"] { width: 30px; padding: 0; }
+[class~="olCj9W_filters"] { padding: 4px 0 8px; }
+[class~="olCj9W_filterTabs"] { display: flex; gap: 4px; flex-wrap: wrap; }
+[class~="olCj9W_filterTab"] {
+  box-sizing: border-box; height: 26px; padding: 0 9px;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e9dcc1 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: #4a3f2c !important; font-size: 12px;
+}
+[class~="olCj9W_filterTabActive"] {
+  border-image: url(sprites/green.png) 6 / 2px / 0 stretch;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px; background-clip: padding-box;
+  color: #fffdf2 !important; font-weight: 600; text-shadow: 1px 1px 0 #20380899;
+}
+/* C5: the search box used a 2px stone frame while every other form field on the
+ * page is a paper slot with a 1px inset rim; unify it with the shared field. */
+[class~="olCj9W_searchField"] { border-radius: 0 !important; border: 0 !important; background: #fff4e4 !important; background-clip: padding-box; box-shadow: inset 0 0 0 1px #87745c, inset 1px 1px 0 #55463155 !important; }
+[class~="olCj9W_searchField"] > :first-child { background: transparent !important; box-shadow: none !important; }
+[class~="olCj9W_searchField"] input { background: transparent !important; box-shadow: none !important; border: 0 !important; }
+[class~="olCj9W_listRows"] { gap: 0; }
+/* C5: unselected task rows used the host's near-white list surface. They now sit
+ * on the same warm paper as the rest of the page, with the green selected rail
+ * and the dimmed ended rows still carrying the hierarchy. */
+[class~="olCj9W_row"] {
+  border-radius: 0; padding: 8px 6px; border-bottom: 1px solid #967b4566;
+  border-left: 3px solid transparent; background: #f8efd8;
+}
+[class~="olCj9W_row"]:hover { background: #f2e3c4; }
+[class~="olCj9W_listRows"] > li:last-child > [class~="olCj9W_row"] { border-bottom: 0; }
+[class~="olCj9W_selectedRow"] { background: #f8e7c6 !important; border-left-color: #547c2b; }
+[class~="olCj9W_endedRow"] { opacity: .72; }
+[class~="olCj9W_rowGlyph"] {
+  box-sizing: border-box; width: 22px; height: 22px; margin-top: 1px; padding: 3px;
+  border: 2px solid transparent; border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / 2px / 0 stretch;
+  background: #cdc2a8; background-clip: padding-box; color: #3a2f20 !important; font-size: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+[class~="olCj9W_rowTitle"] { font-weight: 600; }
+[class~="olCj9W_rowSummary"] { color: #6b5942 !important; }
+/* Detail pane */
+[class~="olCj9W_detailHeader"] {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 16px; border-bottom: 1px solid #967b4566;
+  background: #f2e3c4;
+}
+[class~="olCj9W_readonlyName"] { font-size: 16px; font-weight: 650; overflow-wrap: anywhere; }
+[class~="olCj9W_detailActions"] { display: inline-flex; gap: 6px; flex: none; }
+[class~="olCj9W_detailIconButton"] {
+  box-sizing: border-box; width: 28px; height: 28px; padding: 0;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #d9d3c6 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important;
+}
+[class~="olCj9W_detailTabsBar"] { border-bottom: 1px solid #967b4566; padding: 0 12px; background: #f6e8ca; }
+[class~="olCj9W_detailTabs"] { display: flex; gap: 14px; }
+[class~="olCj9W_detailTab"] {
+  background: none; border: 0; border-bottom: 3px solid transparent; padding: 8px 2px 6px;
+  color: #6b5942 !important; font-size: 14px; cursor: pointer;
+}
+[class~="olCj9W_detailTab"][aria-selected="true"] { color: #2b2118 !important; font-weight: 650; border-bottom-color: #547c2b; }
+[class~="olCj9W_tabBody"] { padding: 12px 16px 4px; }
+[class~="olCj9W_taskEditor"] { gap: 14px; }
+[class~="olCj9W_editorField"] > h3 { font-size: 14px; font-weight: 650; color: #4a3f2c; }
+[class~="olCj9W_editorField"] > input, [class~="olCj9W_editorField"] > textarea, [class~="olCj9W_instruction"] { width: 100%; font: inherit; font-size: 14px; }
+/* Rule ledger: a paper board of rows, one hairline each. */
+[class~="olCj9W_ruleRows"] {
+  border: 4px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch;
+  background: #fff1dc var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box; border-radius: 0; padding: 0 12px;
+}
+[class~="olCj9W_ruleRow"], [class~="olCj9W_ruleRowMenu"] { border-bottom: 1px dashed #967b4566; }
+[class~="olCj9W_ruleRow"] { min-height: 44px; }
+[class~="olCj9W_ruleLabel"] { color: #4a3f2c; }
+[class~="olCj9W_ruleValueFace"] {
+  box-sizing: border-box; min-height: 26px; padding: 0 8px; border-radius: 0;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e9dcc1; background-clip: padding-box; color: #2b2118;
+}
+[class~="olCj9W_ruleWeekdays"] { align-items: center; }
+[class~="olCj9W_ruleWeekdays"] > button {
+  box-sizing: border-box; width: 26px; height: 26px; padding: 0;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e9dcc1 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: #4a3f2c !important; font-size: 12px;
+}
+[class~="olCj9W_ruleWeekdays"] > button[aria-pressed="true"], [class~="olCj9W_ruleWeekdays"] > button[aria-checked="true"] {
+  border-image: url(sprites/green.png) 6 / 2px / 0 stretch;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px; background-clip: padding-box;
+  color: #fffdf2 !important; font-weight: 650; text-shadow: 1px 1px 0 #20380899;
+}
+[class~="olCj9W_ruleIntervalStepper"] {
+  border-radius: 0; min-width: 84px; height: 30px;
+  border: 2px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #e9dcc1 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+}
+[class~="olCj9W_ruleIntervalStepper"] [class~="olCj9W_ruleIntervalInput"] { border-radius: 0; background: transparent !important; box-shadow: none !important; color: #2b2118; }
+/* R03: the stepper arrows are a decorative triangle glyph inside a 22px stone
+ * key; the host already gives the button an accessible name, so this stays a
+ * symbol size instead of pretending to be text. */
+[class~="olCj9W_ruleIntervalArrow"] {
+  border-radius: 0; background: #c9c2b4; color: #7d1f18 !important; font-size: 10px;
+  border: 1px solid #7a6a52;
+}
+[class~="olCj9W_ruleIntervalArrow"]:hover:not(:disabled) { background: #e0b7ad; }
+[class~="olCj9W_ruleIntervalArrow"]:disabled { background: #ddd7ca; color: #98907f !important; }
+[class~="olCj9W_ruleWeekdays"], [class~="olCj9W_ruleControl"] { flex-wrap: wrap; }
+/* C5: the host's TaskMenu marks the current zone only with `js5r2G_selected` plus a
+ * check glyph, so the shared menu rule (which keys off aria-selected) never
+ * matched and the current zone looked like any other row. Give the selected row
+ * the same grass plate as every other menu selection. */
+[role="menu"] button[class~="js5r2G_selected"] {
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat !important;
+  color: #fffdf2 !important;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88, inset -2px -2px 0 #263f0b88 !important;
+}
+[role="menu"] button[class~="js5r2G_selected"] [class~="js5r2G_check"] { color: inherit !important; }
+/* The zone search sits in the menu header; keep it a paper slot with body text. */
+[class~="olCj9W_zoneSearch"] { box-sizing: border-box; height: 32px; padding: 0 8px; font-size: 14px; }
+[role="menu"] button[class~="js5r2G_item"] { font-size: 14px; }
+/* Next run keeps the host string and gets a tiny clock marker. */
+[class~="olCj9W_nextRun"] {
+  display: flex; align-items: center; gap: 8px; margin: 2px 0 0; padding: 6px 10px;
+  border-left: 4px solid #547c2b; background: #f0f7e2; color: #3f5323;
+}
+[class~="olCj9W_nextRun"]::before {
+  content: ""; width: 16px; height: 16px; flex: none;
+  background: url(sprites/pixel_clock.svg) center / 16px no-repeat; image-rendering: pixelated;
+}
+[class~="olCj9W_nextRunRelative"] { font-weight: 650; }
+[class~="olCj9W_saveFailure"] {
+  margin: 0; padding: 6px 10px; border-left: 4px solid #a02e25; background: #f9e3de; color: #7d1f18;
+}
+[class~="olCj9W_saveFooter"] {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 14px; border-top: 3px solid #6b4a2b; background: #e9dcc1;
+}
+[class~="olCj9W_saveNotice"] { margin: 0; color: #6b5942; font-size: 12px; }
+/* Delivery log: paper records with a green/red rail, body text never covered. */
+[class~="olCj9W_deliveryHistory"] { display: flex; flex-direction: column; gap: 10px; }
+[class~="olCj9W_delivery"] {
+  position: static;
+  border: 1px solid #967b4555; border-left: 4px solid #547c2b; border-radius: 0;
+  background: #fdf3e0 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  padding: 8px 10px;
+}
+[class~="olCj9W_delivery"][data-state="failed"] { border-left-color: #a02e25; background-color: #fbe9e4; }
+[class~="olCj9W_deliveryHead"] { display: flex; align-items: center; gap: 6px; font-weight: 650; font-size: 14px; }
+[class~="olCj9W_deliveryGlyph"] { color: #3d6422; }
+[class~="olCj9W_delivery"][data-state="failed"] [class~="olCj9W_deliveryGlyph"] { color: #a02e25; }
+[class~="olCj9W_deliveryTime"] { margin: 2px 0 4px; color: #6b5942; font-size: 12px; font-family: Consolas, "Cascadia Mono", monospace; }
+[class~="olCj9W_deliveryBody"] { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+[class~="olCj9W_hostSessionEmpty"] { color: #6b5942; padding: 10px 0; }
+[class~="olCj9W_empty"] { padding: 32px 0; }
+[class~="olCj9W_emptyAction"] {
+  box-sizing: border-box; min-height: 30px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: var(--mc-ink) !important;
+}
+/* Delete confirmation keeps the shared stone dialog frame. */
+[class~="olCj9W_confirmDialog"] {
+  box-sizing: border-box; width: min(440px, 100%); padding: 0;
+  --dsw-alias-label-primary: #2b2118; --dsw-alias-label-secondary: #6c5942;
+  border: 6px solid transparent; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  background-clip: padding-box; border-radius: 0; color: var(--mc-ink);
+}
+dialog[class~="olCj9W_confirmDialog"]::backdrop { background: #120a04a6; }
+[class~="olCj9W_confirmContent"] { padding: 14px 16px 10px; }
+[class~="olCj9W_confirmPrompt"] { margin: 0; overflow-wrap: anywhere; }
+[class~="olCj9W_confirmActions"] { display: flex; justify-content: flex-end; gap: 8px; padding: 8px 12px; border-top: 3px solid #6b4a2b; background: #e9dcc1; }
+[class~="olCj9W_deleteButton"] {
+  box-sizing: border-box; min-height: 30px; padding: 0 12px;
+  border: 3px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background: #e9cfc8 var(--mc-cobble) left top / 64px 64px; background-clip: padding-box;
+  border-radius: 0; color: #7d1f18 !important; font-weight: 600;
+}
+@media (max-width: 760px) {
+  [class~="olCj9W_listPane"] { flex-basis: auto; border-right: 0; border-bottom: 1px solid #967b4566; }
+  [class~="olCj9W_detailHeader"] { padding: 8px 12px; }
+  [class~="olCj9W_tabBody"] { padding: 10px 12px 4px; }
+  [class~="olCj9W_ruleRow"] { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="olCj9W_page"] * { transition: none !important; animation: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="olCj9W_page"], [class~="olCj9W_confirmDialog"]) { background: Canvas !important; background-image: none !important; border-color: CanvasText !important; border-image: none !important; color: CanvasText !important; }
+  :is([class~="olCj9W_page"], [class~="olCj9W_confirmDialog"]) ::before,
+  :is([class~="olCj9W_page"], [class~="olCj9W_confirmDialog"]) ::after { background-image: none !important; }
+  :is([class~="olCj9W_page"], [class~="olCj9W_confirmDialog"]) * { background-image: none !important; color: CanvasText !important; }
+  :is([class~="olCj9W_rowGlyph"], [class~="olCj9W_filterTab"], [class~="olCj9W_filterTabActive"], [class~="olCj9W_ruleRows"], [class~="olCj9W_ruleValueFace"], [class~="olCj9W_ruleWeekdays"] > button, [class~="olCj9W_ruleIntervalStepper"], [class~="olCj9W_ruleIntervalArrow"], [class~="olCj9W_delivery"], [class~="olCj9W_detailIconButton"], [class~="olCj9W_createPrimary"], [class~="olCj9W_createMore"], [class~="olCj9W_headerAction"], [class~="olCj9W_emptyAction"], [class~="olCj9W_saveFooter"], [class~="olCj9W_deleteButton"]) {
+    border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="olCj9W_nextRun"], [class~="olCj9W_saveFailure"] { border-left: 3px solid CanvasText; color: CanvasText !important; }
+}
+
+/* C6: trajectory ledger. The table stays the host's virtualized table; the skin
+ * draws the turn rail as a hard pixel line, turns kind tags into compact badges
+ * and keeps payloads on paper. Code keeps the host syntax colors untouched. */
+[class~="xeixwq_split"] { background: #f2e9cf var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size); color: #302819; }
+[class~="xeixwq_tablePane"] { background: transparent; }
+[class~="xeixwq_table"] { background: transparent; color: #302819; }
+[class~="xeixwq_table"] thead th { background: #e4d5b4; color: #2b2118; border-bottom: 2px solid #6b4a2b; font-size: 12px; font-weight: 650; letter-spacing: .04em; }
+[class~="xeixwq_table"] td { border-bottom: 1px solid #967b4544; }
+[class~="xeixwq_table"] tbody tr:hover { background: #71562714; }
+[class~="xeixwq_table"] tbody tr[data-selected="true"] { background: #f8e7c6; box-shadow: inset 3px 0 0 #547c2b; }
+/* Turn rail: two-pixel hard edge with a light core, like a drawn advancement line. */
+[class~="xeixwq_turnRail"] {
+  width: 3px !important; background: linear-gradient(90deg, #4a2f1a 0 1px, #c8a06a 1px 3px) !important;
+  image-rendering: pixelated;
+}
+[class~="xeixwq_table"] tbody tr[data-error="true"] [class~="xeixwq_turnRail"] { background: linear-gradient(90deg, #7d1f18 0 1px, #d98a76 1px 3px) !important; }
+[class~="xeixwq_table"] tbody tr[data-turn-start="true"]:not(:first-child) td::before { background: #6b4a2b; height: 2px; }
+[class~="xeixwq_turnLabel"] {
+  color: #4a3f2c; background: #e9dcc1; border: 1px solid #a89372; padding: 0 3px;
+  font-family: Consolas, "Cascadia Mono", monospace;
+}
+[class~="xeixwq_turnLabelActive"] { color: #2b2118; background: #d9e8bd; border-color: #547c2b; }
+/* Compact badges: one stone frame, kind color on the tag only. */
+[class~="xeixwq_kindTag"] {
+  border: 1px solid #7a6a52; border-radius: 0; background: #e9dcc1; color: #3a2f20;
+  box-shadow: inset 0 0 0 1px #fff6dd66;
+  letter-spacing: 0;
+}
+[class~="xeixwq_kindTag"] [class~="xeixwq_kindTagLabel"] { color: inherit; }
+[class~="xeixwq_kindTag"][class~="xeixwq_toolAmber"], [class~="xeixwq_kindTag"][class~="xeixwq_subtoolAmber"] { background: #f0d9a8; border-color: #9a7420; color: #4a3210; }
+[class~="xeixwq_kindTag"][class~="xeixwq_contextGreen"] { background: #dcebc4; border-color: #547c2b; color: #2f4316; }
+[class~="xeixwq_kindTag"][class~="xeixwq_assistantVioletBright"] { background: #e2d6ec; border-color: #6b4a86; color: #33223f; }
+[class~="xeixwq_kindTag"][class~="xeixwq_systemNeutral"] { background: #e4e0d6; border-color: #7a6a52; color: #3a2f20; }
+[class~="xeixwq_contentText"] { color: #302819; overflow-wrap: anywhere; }
+[class~="xeixwq_payloadPreview"], [class~="xeixwq_jsonPreview"], [class~="xeixwq_markdownPreview"] {
+  color: #4a3f2c; font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px;
+}
+[class~="xeixwq_error"], [class~="xeixwq_errorPayload"] { color: #7d1f18 !important; }
+/* Details pane: paper sheet, wood edge, code block stays dark and keeps its syntax colors. */
+[class~="xeixwq_details"] {
+  background: #f7ead1 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  border-left: 4px solid #6b4a2b;
+  color: #302819;
+}
+[class~="xeixwq_detailsHeader"] { background: #e9dcc1; border-bottom: 1px solid #967b4566; padding: 6px 10px; }
+[class~="xeixwq_detailsTitle"] { font-weight: 650; }
+[class~="xeixwq_detailsLocation"] { color: #6b5942; }
+[class~="xeixwq_detailTabs"] { border-bottom: 1px solid #967b4566; padding: 0 8px; background: #f2e3c4; }
+[class~="xeixwq_detailTab"] { background: none; border: 0; border-bottom: 3px solid transparent; padding: 6px 6px 4px; color: #6b5942 !important; font-size: 12px; }
+[class~="xeixwq_detailTabActive"] { color: #2b2118 !important; font-weight: 650; border-bottom-color: #547c2b; }
+[class~="xeixwq_detailBody"] { padding: 10px; overflow: auto; }
+/* C6/R03: the host payload is `min-height:100%`; our 2px frame and padding then
+ * pushed it past the drawer height, so even a one-line payload showed a vertical
+ * scrollbar. Size to content and keep a real max-height so long payloads still
+ * scroll instead of being clipped. */
+[class~="xeixwq_payload"] {
+  background: #221a12; border: 2px solid #4a3a28; border-radius: 0; padding: 8px 10px;
+  min-height: 0 !important; max-height: min(56vh, 420px); overflow: auto;
+}
+[class~="xeixwq_payload"] pre, [class~="xeixwq_programSource"] {
+  margin: 0; background: transparent; color: #f2e8d6; font-family: Consolas, "Cascadia Mono", monospace;
+  font-size: 12px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 2;
+  /* The host gives the payload's <pre> min-height:100%, which fills whatever box
+   * it lands in and forces a scrollbar even for one line. */
+  min-height: 0 !important;
+}
+/* Usage keeps host numbers; the bar only exists when the host supplies a total. */
+[class~="xeixwq_usagePanel"] { margin-top: 12px; border-top: 1px dashed #967b4566; padding-top: 8px; }
+[class~="xeixwq_usageHeading"] { margin: 0 0 6px; font-size: 12px; font-weight: 650; color: #4a3f2c; }
+[class~="xeixwq_usageGroup"] { display: flex; justify-content: space-between; gap: 10px; margin: 0 0 4px; font-size: 12px; color: #4a3f2c; }
+[class~="xeixwq_requestTokenDetail"] { font-family: Consolas, "Cascadia Mono", monospace; color: #302819; }
+[class~="xeixwq_usagePanel"] > p { margin: 6px 0 0; font-size: 12px; color: #6b5942; }
+[class~="xeixwq_historyLoadingBar"] { background: #e9dcc1; }
+@media (max-width: 760px) {
+  [class~="xeixwq_details"] { border-left: 0; border-top: 4px solid #6b4a2b; }
+  [class~="xeixwq_event"] { padding-left: 26px !important; }
+  [class~="xeixwq_kindSlot"] { width: 38px !important; }
+}
+/* Narrow windows keep the event body readable: the table scrolls sideways
+ * instead of squeezing the message down to a couple of glyphs. */
+@media (max-width: 600px) {
+  [class~="xeixwq_table"] { min-width: 520px; }
+  [class~="xeixwq_event"] { width: 220px !important; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="xeixwq_split"] * { transition: none !important; animation: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="xeixwq_split"], [class~="xeixwq_details"], [class~="xeixwq_payload"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important; color: CanvasText !important;
+  }
+  [class~="xeixwq_split"] ::before, [class~="xeixwq_split"] ::after { background-image: none !important; }
+  [class~="xeixwq_split"] * { background-image: none !important; }
+  :is([class~="xeixwq_kindTag"], [class~="xeixwq_turnLabel"], [class~="xeixwq_payload"], [class~="xeixwq_details"]) {
+    border: 1px solid CanvasText !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="xeixwq_turnRail"] { background: CanvasText !important; }
+}
+
+/* C7: background job queue as a furnace-side ledger. The queue stays the host's
+ * fixed-size popover; the skin only gives each job a compact paper slot, a
+ * furnace-slot rail for the running one, and a dark terminal plate for output.
+ * No fuel, no smelting percentage: only the host's own status words and clocks. */
+[class~="Ag-ohG_trigger"] {
+  border: 1px solid #a89372 !important; border-radius: 0; background: #efe0bd !important;
+  color: #4a3f2c !important; box-shadow: inset 0 0 0 1px #fff6dd66; padding: 2px 6px !important;
+  min-height: 26px !important; gap: 5px !important;
+}
+[class~="Ag-ohG_trigger"]:hover { background: #f7ead1 !important; color: #2b2118 !important; }
+[class~="Ag-ohG_trigger"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 1px; }
+[class~="Ag-ohG_count"] {
+  margin: 0 2px !important; padding: 0 4px; min-width: 16px; text-align: center;
+  background: #d9c9a4; border: 1px solid #a89372; color: #3a2f20; font-variant-numeric: tabular-nums;
+}
+[class~="Ag-ohG_triggerDot"] { color: #2a5d8f; }
+[class~="Ag-ohG_menu"] {
+  background: #f2e9cf var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 6px solid transparent !important; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important; box-shadow: inset 0 0 0 1px #6b4a2b99, 4px 6px 0 #00000038 !important;
+  color: #302819;
+}
+[class~="Ag-ohG_menuBody"] { background: transparent; padding: 2px 4px 4px; gap: 0; }
+[class~="Ag-ohG_sectionHeader"] {
+  margin: 6px 2px 2px; padding: 3px 6px; border-top: 0;
+  background: #6b4a2b var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px repeat;
+  color: #f6e9cc; border-bottom: 2px solid #4a2f1a;
+  letter-spacing: .02em; font-weight: 650;
+}
+[class~="Ag-ohG_sectionHeader"]:first-child { margin-top: 2px; }
+[class~="Ag-ohG_sectionToggle"], [class~="Ag-ohG_sectionClear"] {
+  color: #f6e9cc !important; border: 1px solid #a89372; border-radius: 0; background: #00000026;
+  padding: 0 4px; font-size: 12px;
+}
+[class~="Ag-ohG_sectionToggle"]:hover, [class~="Ag-ohG_sectionClear"]:hover { background: #00000040 !important; color: #fff8e6 !important; }
+/* One job = one slot. The running one gets a furnace-slot rail; settled ones stay quiet. */
+[class~="Ag-ohG_rowLine"] {
+  align-items: center; gap: 6px; padding: 3px 6px 3px 4px;
+  border-bottom: 1px solid #967b4540; background: #f8efd8;
+}
+[class~="Ag-ohG_rowLine"]:last-child { border-bottom: 0; }
+/* R05: the live row is *running*, so it gets the information blue the host uses
+ * for state-business-primary, not the grass green that means primary/selected.
+ * Settled rows keep the neutral caption ink; failures keep the redstone rail. */
+[class~="Ag-ohG_rowLineLive"] {
+  background: #f7ead1 !important; border-radius: 0 !important; padding: 3px 6px 3px 1px !important;
+  box-shadow: inset 3px 0 0 #2a5d8f;
+}
+[class~="Ag-ohG_rowLineLive"]:hover { background: #f2e3c4 !important; }
+[class~="Ag-ohG_row"] { border-radius: 0 !important; }
+[class~="Ag-ohG_row"]:hover { background: #71562712 !important; }
+[class~="Ag-ohG_row"]:focus-visible { outline: 2px solid #547c2b; outline-offset: -2px; }
+[class~="Ag-ohG_rowSettled"] { color: #6b5942 !important; }
+/* R03/R05: a status dot is a symbol, not text. Blue only while the row is live;
+ * settled rows fall back to the same neutral ink as their label. */
+[class~="Ag-ohG_rowDot"] { font-size: 10px; color: #6b5942; }
+[class~="Ag-ohG_rowLineLive"] [class~="Ag-ohG_rowDot"] { color: #2a5d8f; }
+[class~="Ag-ohG_kind"] {
+  border-radius: 0 !important; background: #e4d5b4 !important; color: #4a3f2c !important;
+  border: 1px solid #a89372; padding: 0 4px; line-height: 16px !important; font-size: 12px; flex: none;
+  /* R03/C7: the two-character kind label wrapped into a vertical column once it
+   * reached 12px; keep it on one line and let the host width follow the text. */
+  white-space: nowrap; width: auto; min-width: 0;
+}
+[class~="Ag-ohG_label"] { color: #2b2118; font-family: Consolas, "Cascadia Mono", monospace; }
+[class~="Ag-ohG_rowSettled"] [class~="Ag-ohG_label"] { color: #4a3f2c; }
+[class~="Ag-ohG_status"] { color: #6b5942 !important; }
+[class~="Ag-ohG_duration"] { color: #6b5942 !important; }
+[class~="Ag-ohG_stopFailed"], [class~="Ag-ohG_status"][class~="Ag-ohG_stopFailed"] { color: #a02e25 !important; }
+/* R06: stop and the queue chevron are ordinary 20px stone keys, same recipe as
+ * the rest of the A-series (stone_plain.png 6px slice shown at 2px because the
+ * key is only 20px). The armed state keeps the stone bevel and adds redstone
+ * ink plus a 1px redstone ring, so "armed" is a state of the same key rather
+ * than a differently-built control. */
+[class~="Ag-ohG_stop"], [class~="Ag-ohG_chevronBox"] {
+  box-sizing: border-box;
+  border: 2px solid transparent !important; border-radius: 0 !important;
+  border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch !important;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  background-clip: padding-box !important;
+  color: #392c20 !important;
+  box-shadow: 0 2px 0 #21170e66 !important;
+}
+[class~="Ag-ohG_stop"]:hover, [class~="Ag-ohG_stop"]:focus-visible { background-color: #eee7d9 !important; color: #a02e25 !important; }
+[class~="Ag-ohG_stop"]:active { box-shadow: inset 1px 1px 0 #4d433b55 !important; }
+[class~="Ag-ohG_stopArmed"] {
+  background: #f6d9d2 !important; color: #7d1f18 !important;
+  box-shadow: inset 0 0 0 1px #a02e25, 0 2px 0 #21170e66 !important;
+}
+[class~="Ag-ohG_stopArmed"]:hover { background: #f1c6bd !important; color: #7d1f18 !important; }
+[class~="Ag-ohG_stopLabel"] { font-weight: 650; }
+[class~="Ag-ohG_chevron"] { color: #6b5942; }
+/* Terminal output keeps the same dark plate as the trajectory payload. */
+[class~="Ag-ohG_panel"] {
+  margin: 4px 10px 8px 10px !important;
+  background: #221a12; border: 2px solid #4a3a28; border-radius: 0; padding: 6px 8px; overflow: auto;
+  max-height: 220px;
+}
+[class~="Ag-ohG_panel"] [data-terminal] {
+  margin: 0; color: #f2e8d6; font: 12px/1.7 Consolas, "Cascadia Mono", monospace;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+[class~="Ag-ohG_notice"] { margin: 4px 8px 6px !important; color: #6b5942 !important; }
+[class~="Ag-ohG_notice"][class~="Ag-ohG_noticeError"] { color: #a02e25 !important; }
+@media (max-width: 600px) {
+  [class~="Ag-ohG_menu"] { width: auto !important; left: 8px !important; right: 8px !important; }
+  [class~="Ag-ohG_kind"] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="Ag-ohG_menu"] * { transition: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="Ag-ohG_menu"], [class~="Ag-ohG_rowLine"], [class~="Ag-ohG_panel"], [class~="Ag-ohG_sectionHeader"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="Ag-ohG_menu"] * { background-image: none !important; }
+  :is([class~="Ag-ohG_trigger"], [class~="Ag-ohG_stop"], [class~="Ag-ohG_kind"], [class~="Ag-ohG_count"], [class~="Ag-ohG_chevronBox"]) {
+    border: 1px solid CanvasText !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="Ag-ohG_rowLineLive"] { border-left: 3px solid Highlight !important; }
+}
+
+/* C8a: subagent tree. The host draws the hierarchy with 0.5px pseudo borders;
+ * the skin only re-inks them as 1px wood, turns the popover into a paper card
+ * and keeps every token/duration literal. Identity glyphs stay decorative. */
+[class~="rezYhW_menu"] {
+  background: #f7ead1 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 6px solid transparent !important; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important; box-shadow: 4px 6px 0 #00000033 !important;
+}
+[class~="rezYhW_menu"]::before { background: transparent !important; }
+[class~="rezYhW_menuBody"] { padding: 4px 6px; }
+[class~="rezYhW_switcherTrigger"], [class~="rezYhW_trigger"] {
+  border: 1px solid #a89372 !important; border-radius: 0 !important; background: #efe0bd !important;
+  color: #3a2f20 !important; padding: 2px 6px !important; min-height: 26px !important;
+}
+[class~="rezYhW_switcherTrigger"]:hover, [class~="rezYhW_trigger"]:hover { background: #f7ead1 !important; }
+[class~="rezYhW_switcherTitle"] { color: #2b2118; font-weight: 600; }
+[class~="rezYhW_ancestorSwitcherTrigger"] { color: #6b5942 !important; }
+[class~="rezYhW_row"] { border-radius: 0 !important; }
+[class~="rezYhW_row"]:hover > [class~="rezYhW_clickarea"], [class~="rezYhW_row"]:focus-visible > [class~="rezYhW_clickarea"] { background: #71562714 !important; }
+[class~="rezYhW_row"]:focus-visible { outline: 2px solid #547c2b; outline-offset: -2px; }
+[class~="rezYhW_label"] { color: #2b2118; }
+/* R03/C8: the summary, token/duration metrics, the error line and the footer
+ * note were 10-11px host text. They are the only place the popover shows real
+ * numbers, so they move to the 12px auxiliary floor and keep their own leading. */
+[class~="rezYhW_summary"], [class~="rezYhW_notice"], [class~="rezYhW_error"],
+[class~="rezYhW_metricToken"], [class~="rezYhW_metricDuration"], [class~="rezYhW_metrics"] {
+  font-size: 12px !important; line-height: 17px !important;
+}
+[class~="rezYhW_summary"], [class~="rezYhW_notice"], [class~="rezYhW_error"] { color: #6b5942; }
+[class~="rezYhW_metrics"] { color: #6b5942; }
+[class~="rezYhW_disclosure"] { color: #6b4a2b; }
+[class~="rezYhW_activitySlot"], [class~="rezYhW_rowActivitySlot"] { color: #2a5d8f; }
+/* 1px wood hierarchy lines replace the host hairlines, same geometry. */
+[class~="rezYhW_children"]::before, [class~="rezYhW_children"] > [class~="rezYhW_node"]::before {
+  border-left-width: 1px !important; border-left-color: #967b4588 !important;
+}
+[class~="rezYhW_children"] > [class~="rezYhW_node"] > [class~="rezYhW_row"]::before {
+  border-top-width: 1px !important; border-top-color: #967b4588 !important;
+}
+[class~="rezYhW_error"] {
+  border-left: 3px solid #a02e25; background: #f6d9d2; color: #7d1f18 !important; margin: 2px 4px;
+}
+[class~="rezYhW_notice"] { border-top: 1px dashed #967b4566; margin-top: 4px; }
+
+/* C8b: workflow run. Phases keep the host 32px header and 24px member rows;
+ * the skin adds a wood guide line in the 16px gutter, stone dots and a paper bar. */
+[class~="b1rS4W_runHeader"] {
+  background: #e9dcc1 !important; border-bottom: 2px solid #6b4a2b; border-radius: 0 !important;
+  padding: 6px 8px; color: #302819 !important;
+}
+[class~="b1rS4W_runTitle"] { color: #2b2118 !important; }
+[class~="b1rS4W_runSummary"] { color: #6b5942 !important; }
+[class~="b1rS4W_statusTail"] {
+  border: 1px solid #a89372; background: #f2e3c4; color: #4a3f2c !important; padding: 0 5px;
+}
+[class~="b1rS4W_phaseList"] { position: relative; }
+[class~="b1rS4W_phase"] { padding-bottom: 6px; }
+[class~="b1rS4W_phaseList"]::before {
+  content: ""; position: absolute; left: 22px; top: 8px; bottom: 8px; width: 1px; background: #6b4a2bbb; pointer-events: none;
+}
+[class~="b1rS4W_phaseLeading"], [class~="b1rS4W_dotSlot"] {
+  border: 1px solid #7a6a52; background: #efe0bd; color: #4a3f2c !important;
+  width: 12px !important; height: 12px !important; border-radius: 0; justify-content: center; align-items: center;
+  font-size: 8px; line-height: 1;
+}
+[class~="b1rS4W_phaseHeader"] { height: 32px; border-bottom: 1px solid #967b4540; }
+[class~="b1rS4W_phaseTitle"] { color: #2b2118 !important; font-weight: 600; }
+[class~="b1rS4W_phaseCount"], [class~="b1rS4W_phaseStatus"] { color: #6b5942 !important; }
+[class~="b1rS4W_phaseStatus"] { text-align: right; padding-right: 6px; }
+[class~="b1rS4W_memberRow"], [class~="b1rS4W_memberButton"] {
+  border-radius: 0 !important; border-bottom: 1px solid #967b4533; padding-left: 6px;
+}
+[class~="b1rS4W_memberLabel"] { color: #3a2f20 !important; }
+[class~="b1rS4W_memberButton"] [class~="b1rS4W_memberLabel"] { color: #2f5b13 !important; text-decoration: underline dotted #2f5b1366; }
+[class~="b1rS4W_memberStatus"] { color: #6b5942 !important; font-variant-numeric: tabular-nums; }
+[class~="b1rS4W_empty"] {
+  margin: 4px 0 0 4px; padding: 7px 9px; color: #6b5942 !important;
+  border: 1px dashed #967b45aa; background: #f2e3c4; font-size: 12px;
+}
+
+/* C8c: Cordis. List rows are paper cards, the source panel stays a dark code
+ * plate, wood tabs sit above it, and redstone is reserved for real errors. */
+[class~="Fu0XRq_panel"] {
+  background: #f7ead1 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 6px solid transparent !important; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important; box-shadow: 4px 6px 0 #00000033 !important;
+}
+[class~="Fu0XRq_header"] {
+  background: #6b4a2b var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px repeat;
+  border-bottom: 2px solid #4a2f1a; padding: 6px 8px; color: #f6e9cc;
+}
+[class~="Fu0XRq_title"] { color: #f6e9cc !important; font-weight: 650; white-space: nowrap; }
+/* C8c/R06: inside the compact wood header the host badge was a 269x42 light
+ * plate that out-shouted the title. It is a status chip, so it becomes a
+ * content-sized 20px stone chip; the title, count and version keep the weight. */
+[class~="Fu0XRq_badge"] {
+  box-sizing: border-box; display: inline-flex; align-items: center; gap: 4px;
+  flex: 0 0 auto; width: auto !important; max-width: 100%; height: 20px; min-height: 0 !important;
+  background: #efe0bd !important; color: #3a2f20 !important; border: 1px solid #a89372; border-radius: 0 !important;
+  padding: 0 5px; font-size: 12px; line-height: 15px !important;
+}
+[class~="Fu0XRq_badge"] > * { min-width: 0; }
+[class~="Fu0XRq_badgeCount"] { color: #547c2b !important; font-variant-numeric: tabular-nums; }
+[class~="Fu0XRq_versionPicker"] {
+  background: #f2e3c4 !important; color: #3a2f20 !important; border: 1px solid #a89372; border-radius: 0 !important;
+  padding: 0 6px; font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px;
+}
+[class~="Fu0XRq_row"] {
+  background: #f7ead1; border: 1px solid #967b4555; border-radius: 0 !important; margin: 6px; padding: 6px 8px;
+}
+[class~="Fu0XRq_row"]:hover { background: #f2e3c4; }
+[class~="Fu0XRq_rowId"] { color: #4a3f2c !important; font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px; }
+[class~="Fu0XRq_rowName"] { color: #2b2118 !important; font-weight: 600; }
+/* R05: the host writes the real status into this label, so the skin only supplies
+ * a neutral default plus the host's own state hooks - never a text match. The
+ * running/awaiting row uses the host's data-cordis-awaiting hook (blue, the same
+ * hue as state-business-primary); failed rows keep their red text. */
+[class~="Fu0XRq_rowStatus"] { color: #6b5942 !important; }
+[class~="Fu0XRq_row"][data-cordis-awaiting] [class~="Fu0XRq_rowStatus"] { color: #2a5d8f !important; }
+[class~="Fu0XRq_rowPurpose"] { color: #6b5942 !important; }
+[class~="Fu0XRq_rowError"] { border-left: 3px solid #a02e25; background: #f6d9d2; }
+[class~="Fu0XRq_rowError"] [class~="Fu0XRq_rowStatus"], [class~="Fu0XRq_rowDetail"] { color: #7d1f18 !important; }
+[class~="Fu0XRq_actionButton"] {
+  border: 1px solid #7a6a52 !important; border-radius: 0 !important; background: #e9dcc1 !important;
+  color: #3a2f20 !important; box-shadow: inset 0 0 0 1px #fff6dd66; padding: 0 !important;
+  width: 26px !important; height: 26px !important; font-size: 14px; line-height: 1;
+}
+[class~="Fu0XRq_doubleCheck"] { width: 26px !important; height: 26px !important; }
+[class~="Fu0XRq_actionButton"]:hover { background: #f7ead1 !important; }
+[class~="Fu0XRq_actionButton"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 1px; }
+[class~="Fu0XRq_readError"] {
+  margin: 6px; padding: 6px 8px; border-left: 3px solid #a02e25; background: #f6d9d2; color: #7d1f18 !important;
+}
+[class~="Fu0XRq_footerButtons"] { border-top: 1px solid #967b4566; padding: 6px; }
+[class~="LyoXsq_card"] {
+  background: #f7ead1 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 1px solid #967b4555; border-top: 4px solid #6b4a2b; border-radius: 0 !important; margin-top: 10px;
+}
+[class~="LyoXsq_sourceTabs"] { background: #f2e3c4; border-bottom: 1px solid #967b4566; padding: 0 6px; }
+[class~="LyoXsq_sourceTab"] {
+  background: none; border: 0; border-bottom: 3px solid transparent; border-radius: 0;
+  color: #6b5942 !important; padding: 5px 8px 3px; font-size: 12px;
+}
+[class~="LyoXsq_sourceTabActive"] { color: #2b2118 !important; font-weight: 650; border-bottom-color: #547c2b; }
+[class~="LyoXsq_sourceCard"] {
+  margin: 8px; border: 2px solid #4a3a28; background: #221a12; padding: 8px 10px; overflow: auto;
+}
+[class~="LyoXsq_sourceCode"] {
+  margin: 0; color: #f2e8d6; background: transparent; font: 12px/1.7 Consolas, "Cascadia Mono", monospace;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+[class~="LyoXsq_approvalPrompt"] {
+  margin: 0 8px 8px; padding: 5px 8px; border-left: 3px solid #9a7420; background: #f0d9a8; color: #4a3210;
+}
+[class~="LyoXsq_readout"] { margin: 0 8px 8px; }
+[class~="LyoXsq_sectionLabel"] { color: #6b5942; font-size: 12px; }
+[class~="LyoXsq_output"] { margin: 2px 0 0; padding: 6px 8px; background: #efe0bd; border: 1px solid #967b4555; color: #3a2f20; font: 12px/1.6 Consolas, "Cascadia Mono", monospace; }
+[class~="M4PAiq_card"] {
+  background: #f7ead1 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 1px solid #967b4555; border-left: 4px solid #6b4a2b; border-radius: 0 !important; margin-top: 10px; padding: 8px;
+}
+[class~="M4PAiq_title"] { color: #2b2118 !important; font-weight: 650; }
+/* C8c: the business pill (12px radius) and the completion strip (8px radius) were
+ * the last rounded paper blocks inside the square Cordis card. Square them, keep
+ * the host strings, and let success green and running blue stay separate. */
+[class~="M4PAiq_business"] {
+  border: 1px solid #7a6a52; background: #efe0bd; color: #3a2f20 !important; padding: 0 5px;
+  border-radius: 0 !important;
+  font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px;
+}
+[class~="M4PAiq_status"] { color: #2f5b13 !important; }
+[class~="M4PAiq_status"][data-state="running"], [class~="M4PAiq_status"][data-cordis-awaiting] { color: #2a5d8f !important; }
+[class~="M4PAiq_message"] { color: #6b5942 !important; border-radius: 0 !important; background: #efe0bd; border-left: 3px solid #967b45; padding: 6px 10px; }
+[class~="M4PAiq_output"] { background: #efe0bd; border: 1px solid #967b4555; color: #3a2f20; padding: 6px 8px; overflow: auto; }
+[class~="M4PAiq_error"] { border-left: 3px solid #a02e25; background: #f6d9d2; color: #7d1f18 !important; padding: 4px 8px; }
+
+@media (max-width: 600px) {
+  [class~="rezYhW_menu"] { width: auto !important; max-width: calc(100vw - 24px); }
+  [class~="b1rS4W_phaseStatus"] { width: auto !important; max-width: 45%; }
+  [class~="LyoXsq_sourceTabs"] { overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="rezYhW_menu"] *, [class~="b1rS4W_root"] * { transition: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="rezYhW_menu"], [class~="Fu0XRq_panel"], [class~="LyoXsq_card"], [class~="M4PAiq_card"], [class~="LyoXsq_sourceCard"], [class~="b1rS4W_empty"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="rezYhW_menu"] *, [class~="Fu0XRq_panel"] * { background-image: none !important; }
+  :is([class~="rezYhW_switcherTrigger"], [class~="rezYhW_trigger"], [class~="Fu0XRq_badge"], [class~="Fu0XRq_versionPicker"], [class~="Fu0XRq_actionButton"], [class~="b1rS4W_phaseLeading"], [class~="b1rS4W_dotSlot"], [class~="M4PAiq_business"], [class~="M4PAiq_output"]) {
+    border: 1px solid CanvasText !important; background: Canvas !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  :is([class~="rezYhW_error"], [class~="Fu0XRq_rowError"], [class~="Fu0XRq_readError"], [class~="M4PAiq_error"]) {
+    border-left: 3px solid CanvasText !important; background: Canvas !important; color: CanvasText !important;
+  }
+  [class~="rezYhW_children"]::before, [class~="rezYhW_children"] > [class~="rezYhW_node"]::before { border-left-color: CanvasText !important; }
+  [class~="b1rS4W_phaseList"]::before { background: CanvasText !important; }
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" shape-rendering="crispEdges">
+  <!-- Reference-shaped head with a straight 45-degree shaft: one identical step per row.
+       Handle endpoint (17.5,45) is the fixed CSS pivot in this 80px canvas. -->
+  <g transform="translate(16 0) scale(3)">
+    <path fill="#3f3118" d="M10 2h1v1H10zM8 5h1v1H8zM7 6h1v1H7zM6 7h1v1H6zM5 8h1v1H5zM4 9h1v1H4zM3 10h1v1H3zM2 11h1v1H2zM1 12h1v1H1zM0 13h1v1H0z"/>
+    <path fill="#5c4923" d="M11 2h1v1H11z"/>
+    <path fill="#7c622f" d="M10 3h1v1H10zM9 5h1v1H9zM8 6h1v1H8zM7 7h1v1H7zM6 8h1v1H6zM5 9h1v1H5zM4 10h1v1H4zM3 11h1v1H3zM2 12h1v1H2zM1 13h1v1H1z"/>
+    <path fill="#221b0d" d="M11 3h1v1H11zM10 5h1v1H10zM9 6h1v1H9zM8 7h1v1H8zM7 8h1v1H7zM6 9h1v1H6zM5 10h1v1H5zM4 11h1v1H4zM3 12h1v1H3zM2 13h1v1H2zM0 14h2v1H0z"/>
+    <path fill="#1e3931" d="M4 1h5v1H4zM3 2h1v1H3zM9 2h1v1H9zM4 3h1v1H4z"/>
+    <path fill="#81e8cb" d="M4 2h1v1H4zM11 10h1v1H11z"/>
+    <path fill="#6cc1a9" d="M5 2h1v1H5zM8 2h1v1H8zM9 4h1v1H9zM11 5h1v1H11zM11 9h1v1H11z"/>
+    <path fill="#5fac96" d="M6 2h2v1H6zM8 3h2v1H8zM10 4h1v1H10zM10 5h1v1H10zM11 6h1v1H11zM11 7h1v1H11zM11 8h1v1H11z"/>
+    <path fill="#12211d" d="M5 3h3v1H5zM11 4h1v1H11zM12 5h1v1H12zM10 6h1v1H10zM12 6h1v1H12zM10 7h1v1H10zM12 7h1v1H12zM10 8h1v1H10zM12 8h1v1H12zM10 9h1v1H10zM12 9h1v1H12zM10 10h1v1H10zM12 10h1v1H12zM11 11h1v1H11z"/>
+  </g>
+</svg>

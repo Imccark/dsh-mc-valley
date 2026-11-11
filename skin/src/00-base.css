@@ -1,0 +1,1894 @@
+/* Minecraft skin for DSH. Source: skin.css + tokens.mc.json + sprites/.
+ * build_plugin.py embeds these assets in the disposable client plugin.
+ * Component hashes below are from the locally inspected DSH client build.
+ * Keep materials opt-in: a clickable file row is still a content surface.
+ */
+
+/* B1 wire-name map, centralized for host upgrades. These are host-owned
+ * data-tool names, not labels parsed from localized text. Unknown tools keep
+ * their native icon. Only original tool_item_*.svg assets are distributed. */
+:where([class~="hKdVjq_root"], [class~="cr4P6W_card"]) {
+  --mc-tool-content: none;
+  --mc-tool-icon: none;
+  --mc-tool-idle: inline-flex;
+  --mc-tool-chevron: 0;
+  --mc-tool-static-leading: inline-flex;
+}
+[class~="hKdVjq_root"]:is([data-tool="read"], [data-tool="write"], [data-tool="edit"],
+  [data-tool="apply_patch"], [data-tool="bash"], [data-tool="grep"], [data-tool="glob"],
+  [data-tool="web_search"], [data-tool="web_fetch"], [data-tool="todo_write"],
+  [data-tool="subagent"], [data-tool^="subagent_"], [data-tool="workflow"], [data-tool^="workflow_"],
+  [data-tool="skill"], [data-tool^="skill_"], [data-tool^="job_"], [data-tool="present"], [data-tool="ask_user_question"]),
+[class~="cr4P6W_card"] {
+  --mc-tool-content: "";
+  --mc-tool-idle: none;
+  --mc-tool-chevron: 1;
+  --mc-tool-static-leading: none;
+}
+[class~="hKdVjq_root"][data-tool="read"] { --mc-tool-icon: url(sprites/tool_item_writable_book.svg); }
+[class~="hKdVjq_root"][data-tool="write"] { --mc-tool-icon: url(sprites/tool_item_written_book.svg); }
+[class~="hKdVjq_root"][data-tool="edit"] { --mc-tool-icon: url(sprites/tool_item_anvil.svg); }
+[class~="hKdVjq_root"][data-tool="apply_patch"] { --mc-tool-icon: url(sprites/tool_item_crafting_table.svg); }
+[class~="hKdVjq_root"][data-tool="bash"], [class~="cr4P6W_card"] { --mc-tool-icon: url(sprites/tool_item_command_block.svg); }
+[class~="hKdVjq_root"][data-tool="grep"] { --mc-tool-icon: url(sprites/tool_item_spyglass.svg); }
+[class~="hKdVjq_root"][data-tool="glob"] { --mc-tool-icon: url(sprites/tool_item_compass.svg); }
+[class~="hKdVjq_root"][data-tool="web_search"] { --mc-tool-icon: url(sprites/tool_item_map.svg); }
+[class~="hKdVjq_root"][data-tool="web_fetch"] { --mc-tool-icon: url(sprites/tool_item_paper.svg); }
+[class~="hKdVjq_root"]:is([data-tool="todo_write"], [data-tool="ask_user_question"]) { --mc-tool-icon: url(sprites/tool_item_sign.svg); }
+[class~="hKdVjq_root"]:is([data-tool="subagent"], [data-tool^="subagent_"]) { --mc-tool-icon: url(sprites/tool_item_villager.svg); }
+[class~="hKdVjq_root"]:is([data-tool="workflow"], [data-tool^="workflow_"]) { --mc-tool-icon: url(sprites/tool_item_repeater.svg); }
+[class~="hKdVjq_root"]:is([data-tool="skill"], [data-tool^="skill_"]) { --mc-tool-icon: url(sprites/tool_item_enchanted_book.svg); }
+[class~="hKdVjq_root"][data-tool^="job_"] { --mc-tool-icon: url(sprites/tool_item_chest.svg); }
+[class~="hKdVjq_root"][data-tool="present"] { --mc-tool-icon: url(sprites/tool_item_item_frame.svg); }
+
+:root {
+  --dsw-radius-xs: 2px;
+  --dsw-radius-sm: 2px;
+  --dsw-radius-md: 2px;
+  --dsw-radius-lg: 3px;
+  --dsw-radius-xl: 3px;
+  --dsw-radius-panel: 3px;
+  --mc-ink: #2b2118;
+  --mc-cream: #fff6ea;
+  --mc-outline: #2b1c10;
+  --mc-paper-size: 128px 128px;
+  --mc-cobble: url(sprites/cobble_overlay.png);
+  --mc-font: "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", sans-serif;
+  --dsw-font-family: var(--mc-font) !important;
+}
+
+html,
+body {
+  background-color: #dcebf5 !important;
+}
+
+body {
+  /* The host also sets this custom property inline. */
+  --dsw-font-family: var(--mc-font) !important;
+  font-family: var(--dsw-font-family) !important;
+  image-rendering: pixelated;
+}
+
+img, video, canvas, iframe, embed, object,
+[class*="_image"], [class*="_thumbnail"] {
+  image-rendering: auto;
+}
+
+::selection { background: #6fa33a55; }
+
+/* D3: GUI scale. Vanilla scales its whole GUI by integer factors; we do the
+ * same only for our own decorative chrome, never for text or layout. `--mc-scale`
+ * is inherited, so a subtree can opt into 2x without touching the rest of the app
+ * and without any transform (hit testing, anchors and sticky stay exact). */
+:root { --mc-scale: 1; }
+[data-mc-scale="1"] { --mc-scale: 1; }
+[data-mc-scale="2"] { --mc-scale: 2; }
+/* Declared on every scope that can change the factor: a custom property is
+ * substituted where it is declared, so a token inherited from :root would keep
+ * the 1x value even inside a 2x subtree. */
+:root, [data-mc-scale] {
+  --mc-frame: calc(6px * var(--mc-scale));
+  --mc-slot: calc(3px * var(--mc-scale));
+}
+/* The landscape belongs to the frame; content panels paint their own paper.
+ * This standalone illustration is independent of mc_textures.py, so rebuilding
+ * the material sprites cannot overwrite it. Cover preserves the artwork's
+ * proportions; centered cropping keeps the quiet valley behind the hero. */
+[class*="q_frame"] {
+  background: #cfe4f5 url(sprites/valley_day.png) center center / cover no-repeat !important;
+  image-rendering: pixelated !important;
+}
+
+[data-windows-titlebar] [class*="q_frame"]::before {
+  box-sizing: border-box;
+  background: #573925 url(sprites/titlebar_terrain.png) left top / 512px 100% repeat-x !important;
+  border-bottom: 2px solid #3e2c1a !important;
+}
+
+/* Desktop preload measures this hidden span and forwards its colors to the
+ * native caption buttons. A transparent fill reveals the grass underneath.
+ * Keep the sidebar token brown; changing it globally also recolors other UI.
+ */
+html[data-windows-titlebar] body > span[style*="--dsw-specific-sidebar-fill"][style*="--dsw-alias-label-primary"] {
+  background-color: transparent !important;
+  color: #fff6ea !important;
+}
+
+/* The desktop menubar lives in an open shadow root; inherited tokens cross it. */
+[data-windows-menu] {
+  --dsw-alias-label-primary: #fff6ea;
+  --dsw-alias-label-secondary: #fff6ea;
+  --dsw-alias-interactive-bg-hover: #ffffff26;
+  /* R05: running/awaiting stays blue on the dark wood too; the old light green
+   * made "running" and "selected" read as the same state. */
+  --dsw-alias-state-business-primary: #a9cdec;
+  color: #fff6ea;
+  text-shadow: 0 1px 1px #283417;
+}
+[data-windows-titlebar] button[class~="wtg9ga_toggle"] { color: #fff6ea !important; }
+
+[class*="q_centerCol"], [class*="q_rightbarCol"], [class*="q_bottomRow"],
+[class*="mP3x-q_mainPanel"], [class*="an3WzG_root"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+[class*="q_sidebarCol"] {
+  background: #573925 url(sprites/dirt.png) left top / 64px 64px repeat !important;
+  border-right: 3px solid var(--mc-outline) !important;
+  --dsw-alias-label-primary: #fff1dc;
+  --dsw-alias-label-primary-dimmed: #f5e3c9;
+  --dsw-alias-label-secondary: #ecd8bc;
+  --dsw-alias-label-tertiary: #dcc4a2;
+  --dsw-alias-label-dimmed: #c6ab87;
+  --dsw-alias-label-caption: #c6ad8d;
+  --dsw-alias-menu-icon: #ecd8bc;
+  --dsw-alias-border-l1: #ffffff1f;
+  --dsw-alias-border-l2: #ffffff33;
+  --dsw-alias-border-l3: #ffffff40;
+  --dsh-scrollbar-thumb: #c8b29177;
+  --dsh-scrollbar-thumb-hover: #e4ceb0aa;
+}
+
+/* The inner sidebar previously hid the textured outer column. */
+[class*="q_sidebarCol"] [class*="wtg9ga_root"] {
+  background: linear-gradient(135deg, #e8b26a15, transparent 38%),
+    linear-gradient(180deg, transparent 55%, #24232188 100%) !important;
+}
+
+[class~="wtg9ga_regionArea"] { background: transparent; box-shadow: none; }
+
+/* Workspace browser: recessed dark groups below a small wooden toolbar.
+ * Keep the host's row heights, hierarchy indent, hover actions and drop markers. */
+[class~="wtg9ga_regionArea"] [class~="GAkraW_root"] {
+  --dsw-alias-label-primary: #fff1dc;
+  --dsw-alias-label-secondary: #ead4af;
+  --dsw-alias-label-tertiary: #d1b991;
+  --dsw-alias-label-caption: #bda780;
+  --dsw-alias-interactive-bg-hover: #fff0cc18;
+  --dsw-alias-state-business-primary: #9ec7ea;
+  --dsw-focus-ring-color: #e0f9a7;
+}
+[class~="GAkraW_root"]:not([class~="GAkraW_rail"]) [class~="GAkraW_sectionHeader"] {
+  background: linear-gradient(90deg, #382313cc, #24170fb3);
+  box-shadow: inset 0 1px 0 #d2ac7440, inset 0 -2px 0 #170e0b99;
+  border-radius: 0;
+  margin-bottom: 7px;
+}
+[class~="GAkraW_sectionLabel"] {
+  color: #ead1a7 !important;
+  font-weight: 700;
+  text-shadow: 0 2px 0 #21150c;
+}
+[class~="GAkraW_sectionHeader"] :is([class~="GAkraW_iconButton"], [class~="GAkraW_searchButton"]) {
+  box-sizing: border-box;
+  background: #24180f99 !important;
+  border: 1px solid #21150de0 !important;
+  border-radius: 0 !important;
+  box-shadow: inset 1px 1px 0 #c9a36b40, inset -1px -1px 0 #120d0980;
+  color: #f2dfba !important;
+}
+[class~="GAkraW_sectionHeader"] :is([class~="GAkraW_iconButton"], [class~="GAkraW_searchButton"]):hover:not(:disabled) {
+  background: #614125 !important;
+  color: #fff5df !important;
+}
+[class~="GAkraW_searchExpanded"] {
+  background: #21180fdd !important;
+  border: 1px solid #b58b545c !important;
+  border-radius: 0 !important;
+  box-shadow: inset 1px 1px 0 #110b0880;
+}
+[class~="GAkraW_sectionHeader"] [class~="GAkraW_searchExpanded"] [class~="GAkraW_searchButton"],
+[class~="GAkraW_sectionHeader"] [class~="GAkraW_searchExpanded"] [class~="GAkraW_searchButton"]:hover:not(:disabled) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none;
+}
+[class~="GAkraW_search"] input[class~="GAkraW_searchInput"] {
+  background: transparent !important;
+  color: #fff1dc !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+[class~="GAkraW_searchExpanded"]:focus-within {
+  outline: 1px solid #e0f9a7;
+  outline-offset: -1px;
+}
+[class~="GAkraW_searchInput"]::placeholder { color: #cdb58f !important; }
+
+[class~="GAkraW_list"]::-webkit-scrollbar { width: var(--dsh-session-list-scrollbar-width, 5px); }
+[class~="GAkraW_list"] > [class~="GAkraW_groupSection"] {
+  background: linear-gradient(90deg, #17120b99, #21190e66);
+  border: 1px solid #21170fbf;
+  border-radius: 0;
+  box-shadow: inset 0 1px 0 #c7ab8533, inset 0 -1px 0 #110d0a80;
+  padding-block: 2px;
+}
+[class~="GAkraW_groupSection"] [class~="wnFoaW_projectRow"] {
+  color: #fff1dc !important;
+  text-shadow: 0 1px 0 #170f0b;
+}
+[class~="wnFoaW_projectText"] > [class~="wnFoaW_title"] { font-weight: 650; }
+[class~="wnFoaW_slot"][class~="wnFoaW_folder"] { color: #ead4af !important; }
+[class~="wnFoaW_slot"][class~="wnFoaW_folderActive"] { color: #d9e6b0 !important; }
+[class~="wnFoaW_projectRow"] [class~="wnFoaW_folder"] {
+  background: url(sprites/tool_chest.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[class~="wnFoaW_projectRow"][aria-expanded="true"] [class~="wnFoaW_folder"],
+[class~="wnFoaW_projectRow"] [class~="wnFoaW_folderActive"] {
+  background-image: url(sprites/tool_chest_open.svg);
+}
+/* Leave the separate native hover chevron and its disclosure behavior alone. */
+[class~="wnFoaW_projectRow"] [class~="wnFoaW_folder"] > * { visibility: hidden; }
+[class~="wnFoaW_sessionRow"], [class~="wnFoaW_searchResultRow"] {
+  color: #eadfc9 !important;
+  border-radius: 0 !important;
+}
+[class~="wnFoaW_sessionRow"] [class~="wnFoaW_title"] { font-size: 14px; }
+[class~="wnFoaW_time"] { color: #c8b28f !important; }
+[class~="wnFoaW_sessionRow"]:hover,
+[class~="wnFoaW_projectRow"]:hover,
+[class~="wnFoaW_searchResultRow"]:hover,
+[class~="wnFoaW_menuOpen"] {
+  background-color: #fff0cc18 !important;
+}
+:is([class~="wnFoaW_sessionRow"], [class~="wnFoaW_searchResultRow"])[class~="wnFoaW_selected"] {
+  background: #3f6110 url(sprites/nav_grass_tile.png) left top / 64px 64px repeat !important;
+  border: 3px solid transparent !important;
+  border-image: url(sprites/nav_grass.png) 6 / 3px / 0 stretch !important;
+  background-clip: padding-box !important;
+  box-shadow: 0 2px 0 #17250999;
+  color: #fffdf2 !important;
+  text-shadow: 0 1px 0 #304d13;
+}
+[class~="wnFoaW_selected"] :is([class~="wnFoaW_time"], [class~="wnFoaW_slot"],
+  [class~="wnFoaW_iconButton"], [class~="wnFoaW_searchResultWorkspace"], [class~="wnFoaW_searchResultSnippet"]) {
+  color: #f0f4d7 !important;
+}
+[class~="wnFoaW_projectRow"] input[class~="wnFoaW_renameInput"],
+[class~="wnFoaW_sessionRow"] input[class~="wnFoaW_renameInput"] {
+  background: #21180f !important;
+  color: #fff1dc !important;
+  border-color: #c6aa78 !important;
+}
+[class~="GAkraW_fade"] { background: linear-gradient(180deg, #17120d00, #17120d55) !important; }
+
+[class*="wtg9ga_panelTitle"], [class*="wtg9ga_newSessionLabel"] {
+  color: inherit !important;
+  font-weight: 700;
+}
+[class~="wtg9ga_buildVersion"] {
+  background: #fff1dc !important;
+  color: #39291c !important;
+}
+
+/* The official wordmark is an SVG. Its HARNESS paths use the inverted-label
+ * token, independently of the local-build version chip above. */
+[class~="wtg9ga_brandName"] {
+  --dsw-alias-label-primary-inverted: #39291c;
+  color: var(--mc-cream) !important;
+}
+[class~="wtg9ga_brandMark"] { color: var(--mc-cream) !important; }
+
+/* Match the reference's grass-block emblem, bold headline and blue stamp. */
+[class~="WOwLGG_headline"] {
+  color: #382719 !important;
+  font-family: var(--mc-font) !important;
+  font-size: clamp(22px, 2.2vw, 28px) !important;
+  font-weight: 750 !important;
+  line-height: 1.35 !important;
+  gap: 12px !important;
+  text-shadow: 0 1px 0 #fff6ea55;
+}
+[class~="WOwLGG_fishHitbox"] {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 40px;
+  background: url(sprites/grass_cube.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+/* renderSlot can wrap the fallback SVG in a data-slot element. Hide the slot's
+ * entire rendered subtree, not just SVGs that happen to be direct children. */
+[class~="WOwLGG_fishHitbox"] > * { display: none !important; }
+[class~="WOwLGG_titleGroup"] {
+  align-items: center !important;
+  gap: 10px !important;
+}
+[class~="WOwLGG_titleGroup"]::before {
+  content: "";
+  flex: none;
+  height: 24px;
+  border-left: 2px solid #62452c;
+  margin-right: 2px;
+}
+[class~="WOwLGG_previewBadge"] {
+  align-self: center !important;
+  margin-top: 0 !important;
+  padding: 1px 7px !important;
+  background: #e4ebff !important;
+  border: 1px solid #8094c0 !important;
+  border-radius: 0 !important;
+  color: #35578c !important;
+  font-family: var(--mc-font) !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  line-height: 20px !important;
+  text-shadow: none;
+  box-shadow: inset 1px 1px 0 #ffffffb3, inset -1px -1px 0 #6b82b433;
+  clip-path: polygon(3px 0, calc(100% - 3px) 0, 100% 3px,
+    100% calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%,
+    0 calc(100% - 3px), 0 3px);
+}
+:is([class~="WOwLGG_workspaceRow"], [class~="an3WzG_heroWorkspaceRow"]) {
+  gap: 10px !important;
+}
+button[class~="WOwLGG_workspace"],
+:is([class~="WOwLGG_workspaceRow"], [class~="an3WzG_heroWorkspaceRow"]) button[aria-haspopup="menu"] {
+  box-sizing: border-box;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  color: var(--mc-ink) !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  min-height: 30px;
+  padding: 0 8px !important;
+  box-shadow: 0 2px 0 #221b1233;
+}
+@media (max-width: 600px) {
+  [class~="WOwLGG_titleGroup"]::before { display: none; }
+}
+
+/* One slice convention: generated frames have a six-source-pixel rim. */
+[class*="an3WzG_root"][data-phase="active"] {
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 round !important;
+  box-shadow: 0 4px 0 #180e0638 !important;
+  image-rendering: pixelated !important;
+}
+
+[class*="an3WzG_header"], [class*="an3WzG_titleRow"], [class*="an3WzG_crumb"] {
+  color: var(--mc-ink) !important;
+}
+
+/* Match the tab button, never its tabLabel child or the tabs container. */
+button[class*="an3WzG_tab"] {
+  color: #78634e !important;
+  border-radius: 2px !important;
+}
+button[class*="an3WzG_tab"]::after { background: none !important; }
+button[class*="an3WzG_tab"] [class*="an3WzG_tabLabel"] { color: inherit !important; }
+button[class*="an3WzG_tabActive"] {
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat !important;
+  color: #fffdf2 !important;
+  text-shadow: 1px 1px 0 #20380899;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88,
+    inset -2px -2px 0 #263f0b88, 0 2px 0 #1b280833 !important;
+}
+
+/* Composer: a single outer paper card. The editable area has no second frame. */
+[class~="GRgSLq_card"] {
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 round !important;
+  border-radius: 0 !important;
+  box-shadow: 0 3px 0 #180e0633 !important;
+  image-rendering: pixelated !important;
+  gap: 6px;
+}
+[class~="GRgSLq_card"] [class~="GRgSLq_input"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--mc-ink) !important;
+}
+[class~="GRgSLq_card"] [class~="GRgSLq_accessory"] {
+  background: transparent !important;
+  border-top: 0 !important;
+}
+[class~="GRgSLq_cardWorkspaceTrigger"]::after { border: 0 !important; }
+[class~="GRgSLq_placeholder"] { color: #8a7b67 !important; }
+[class~="GRgSLq_inputDisabled"] { color: #998773 !important; }
+
+/* Solid six-pixel bevels and broad grain make navigation read as raised signs.
+ * Stretch the rim once: round-repeat used to make little dotted seams. */
+button:is([class~="wtg9ga_panelRow"], [class*="_settingsNavItem"]) {
+  box-sizing: border-box;
+  background: #9d6630 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px repeat !important;
+  color: #fff6e6 !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/plank.png) 6 / 6px / 0 stretch !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  padding-block: 3px !important;
+  font-weight: 700;
+  text-shadow: 0 2px 0 #44270e;
+  box-shadow: none !important;
+  filter: drop-shadow(0 3px 0 #211309b3);
+  image-rendering: pixelated !important;
+}
+button:is([class~="wtg9ga_panelRow"], [class*="_settingsNavItem"]):hover:not(:disabled) {
+  background-image: url(sprites/plank_tile_hover.png) !important;
+  border-image-source: url(sprites/plank_hover.png) !important;
+}
+button:is([class~="wtg9ga_panelRow"], [class*="_settingsNavItem"]):active:not(:disabled) {
+  background-image: url(sprites/plank_tile_active.png) !important;
+  border-image-source: url(sprites/plank_active.png) !important;
+  filter: drop-shadow(0 1px 0 #211309b3);
+}
+
+[class~="wtg9ga_root"]:not([class~="wtg9ga_collapsed"]) [class~="wtg9ga_panelList"] {
+  gap: 6px !important;
+  margin-bottom: 12px;
+}
+[class~="wtg9ga_root"]:not([class~="wtg9ga_collapsed"]) button[class~="wtg9ga_panelRow"] {
+  min-height: 40px;
+  gap: 8px;
+}
+[class~="wtg9ga_panelList"] button:nth-child(2) { background-position: 23px 14px !important; }
+[class~="wtg9ga_panelList"] button:nth-child(3) { background-position: 47px 30px !important; }
+
+/* Stone is opt-in. File links, table rows, menu items and status text stay light. */
+button:is([class~="GRgSLq_add"], [class~="GRgSLq_retry"], [class~="Hyy-Wa_action"], [class~="_1KfHza_action"],
+  [class~="acoR2W_iconButton"], [class~="an3WzG_viewsMore"],
+  [data-sidebar-right-expand], [data-sidebar-right-toggle], [data-sidebar-right-mode],
+  [class*="_selectorButton"], [class$="_selector"]),
+[class~="_7qxJPq_stepper"] {
+  box-sizing: border-box;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  color: var(--mc-ink) !important;
+  text-shadow: none;
+  box-shadow: 0 2px 0 #221b1233 !important;
+  image-rendering: pixelated !important;
+}
+button:is([class~="GRgSLq_add"], [class~="Hyy-Wa_action"], [class~="_1KfHza_action"], [class~="acoR2W_iconButton"],
+  [class~="an3WzG_viewsMore"], [data-sidebar-right-expand], [data-sidebar-right-toggle],
+  [data-sidebar-right-mode], [class*="_selectorButton"], [class$="_selector"]):hover:not(:disabled) {
+  background-color: #eee7d9 !important;
+  background-image: var(--mc-cobble) !important;
+}
+button:is([class~="GRgSLq_add"], [class~="Hyy-Wa_action"], [class~="_1KfHza_action"], [class~="acoR2W_iconButton"]):active:not(:disabled) {
+  box-shadow: inset 1px 1px 0 #4d433b55 !important;
+}
+button:is([data-sidebar-right-expand], [data-sidebar-right-toggle], [data-sidebar-right-mode]) {
+  width: 28px;
+  height: 28px;
+  padding: 4px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+button:is([data-sidebar-right-expand], [data-sidebar-right-toggle], [data-sidebar-right-mode]) svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+/* Small icon frames should leave space for their original glyphs. */
+button:is([class~="Hyy-Wa_action"], [class~="_1KfHza_action"], [class~="acoR2W_iconButton"]) { padding: 4px; }
+button[class~="wtg9ga_iconButton"]:hover:not(:disabled) {
+  background: #ffffff1f !important;
+  box-shadow: inset 0 0 0 1px #ffffff33;
+}
+
+/* Match the actual suffix _primary (the old _primary_ missed the send button). */
+button:is([class$="_primary"], [class*="_primary "], [class*="_primary_"],
+  [class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]) {
+  box-sizing: border-box;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/green.png) 6 / 4px / 0 round !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  color: #fffdf2 !important;
+  text-shadow: 1px 1px 0 #20380899;
+  box-shadow: 0 2px 0 #1b280855 !important;
+  image-rendering: pixelated !important;
+}
+button:is([class$="_primary"], [class*="_primary "], [class*="_primary_"],
+  [class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]):hover:not(:disabled) {
+  background-image: url(sprites/green_tile_hover.png) !important;
+  border-image-source: url(sprites/green_hover.png) !important;
+}
+button:is([class$="_primary"], [class*="_primary "], [class*="_primary_"],
+  [class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]):active:not(:disabled) {
+  background-image: url(sprites/green_tile_active.png) !important;
+  border-image-source: url(sprites/green_active.png) !important;
+}
+
+/* The large sidebar actions get a thicker grass face than tiny send buttons. */
+button:is([class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]) {
+  background: #3f6110 url(sprites/nav_grass_tile.png) left top / 64px 64px repeat !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/nav_grass.png) 6 / 6px / 0 stretch !important;
+  background-clip: padding-box !important;
+  padding-block: 3px !important;
+  font-weight: 700;
+  text-shadow: 0 2px 0 #304d13;
+  box-shadow: none !important;
+  filter: drop-shadow(0 3px 0 #172509b3);
+}
+button:is([class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]):hover:not(:disabled) {
+  background-image: url(sprites/nav_grass_tile_hover.png) !important;
+  border-image-source: url(sprites/nav_grass_hover.png) !important;
+}
+button:is([class~="wtg9ga_newSession"], [class~="wtg9ga_panelActive"]):active:not(:disabled) {
+  background-image: url(sprites/nav_grass_tile_active.png) !important;
+  border-image-source: url(sprites/nav_grass_active.png) !important;
+  filter: drop-shadow(0 1px 0 #172509b3);
+}
+[class~="wtg9ga_root"]:not([class~="wtg9ga_collapsed"]) button[class~="wtg9ga_newSession"] {
+  min-height: 42px;
+  margin-bottom: 12px !important;
+}
+/* The compact rail still needs room for its 16px icons. */
+[class~="wtg9ga_root"][class~="wtg9ga_collapsed"] button:is([class~="wtg9ga_newSession"], [class~="wtg9ga_panelRow"]) {
+  border-width: 3px !important;
+  border-image-width: 3px !important;
+  padding: 2px !important;
+}
+/* The running task's stop control keeps a distinct blue state. */
+button[class~="GRgSLq_primary"][data-sending] {
+  background: #3265f1 !important;
+  border-image: none !important;
+  border-color: #2449aa !important;
+  box-shadow: inset 2px 2px 0 #9dbaff, inset -2px -2px 0 #2043b2, 0 2px 0 #15256255 !important;
+}
+
+/* Composer footer: keep selectors, chevrons and the send button on one baseline.
+ * Target the actual model trigger, not every clickable row in the application.
+ */
+[class~="GRgSLq_card"] [class~="GRgSLq_row"] {
+  border-top: 1px solid #7d64421c;
+  padding-block: 3px 4px;
+}
+[class~="GRgSLq_card"] button:is([class~="_9r0rkG_trigger"], [aria-haspopup="menu"]) {
+  box-sizing: border-box;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  color: var(--mc-ink) !important;
+  height: 28px !important;
+  padding: 0 8px !important;
+  gap: 6px;
+  text-shadow: none;
+  box-shadow: 0 2px 0 #221b1233 !important;
+  image-rendering: pixelated !important;
+}
+[class~="GRgSLq_card"] button:is([class~="_9r0rkG_trigger"], [aria-haspopup="menu"]):is(:hover, [aria-expanded="true"]):not(:disabled) {
+  background-color: #eee7d9 !important;
+  background-image: var(--mc-cobble) !important;
+}
+[class~="GRgSLq_card"] button:is([class~="_9r0rkG_trigger"], [aria-haspopup="menu"]):disabled {
+  color: #938673 !important;
+  opacity: 0.65;
+  box-shadow: none !important;
+}
+[class~="GRgSLq_card"] button[class~="_9r0rkG_trigger"] {
+  /* A translucent stone pattern preserves the warm, high-contrast face. */
+  background: #f3ead7 var(--mc-cobble) left top / 64px 64px repeat !important;
+  color: #30251b !important;
+  font-weight: 500;
+}
+[class~="GRgSLq_card"] button[class~="_9r0rkG_trigger"]:is(:hover, [aria-expanded="true"]):not(:disabled) {
+  background: #fff8eb var(--mc-cobble) left top / 64px 64px repeat !important;
+}
+[class~="_9r0rkG_triggerEffort"] { color: #5b4c39 !important; }
+[class~="_9r0rkG_chevron"] { color: #685844 !important; }
+button[aria-expanded="true"] [class~="_9r0rkG_chevron"] { transform: rotate(180deg); }
+[class~="GRgSLq_card"] select[class~="GRgSLq_select"] {
+  /* Preserve the host's SVG dropdown arrow when adding the stone edge. */
+  box-sizing: border-box;
+  background-color: #ded9d0 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"), var(--mc-cobble) !important;
+  background-position: right 4px center, left top;
+  background-size: 12px 12px, 64px 64px;
+  background-repeat: no-repeat, repeat;
+  color: var(--mc-ink) !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  border-radius: 0 !important;
+  height: 28px;
+  box-shadow: 0 2px 0 #221b1233;
+}
+button[class~="GRgSLq_primary"] {
+  transform: none !important;
+  width: 30px;
+  height: 30px;
+  text-shadow: 0 1px 0 #20380866;
+}
+button[class~="GRgSLq_primary"]:disabled:not([data-sending]) {
+  /* A solid stone frame stays crisp instead of fading the whole button. */
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  border-image-source: url(sprites/stone_plain.png) !important;
+  color: #8c8376 !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 0 #fff8ee;
+  box-shadow: inset 1px 1px 0 #fff8ee55 !important;
+}
+
+/* Paper cards keep their rows visually connected, including in dark mode. */
+[class~="HOHHba_card"], [class~="K5rwea_file"], [class~="LOmM4q_fileCard"] {
+  box-sizing: border-box;
+  --changes-fill: transparent !important;
+  --changes-hover: #6b4a2f0d !important;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 4px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  border-radius: 0 !important;
+  color: var(--mc-ink) !important;
+  box-shadow: 0 2px 0 #221b1226;
+}
+[class~="HOHHba_header"], [class~="HOHHba_row"], [class~="HOHHba_toggle"] {
+  background: transparent !important;
+  color: var(--mc-ink) !important;
+  text-shadow: none !important;
+}
+[class~="HOHHba_list"] { border-top-color: #6b4a2f33 !important; }
+[class~="HOHHba_list"] > li + li { border-top: 1px solid #6b4a2f26; }
+button:is([class~="HOHHba_header"], [class~="HOHHba_row"], [class~="HOHHba_toggle"]):hover:not(:disabled) {
+  background: #6b4a2f0d !important;
+}
+[class~="K5rwea_cardPreview"] { background: transparent !important; }
+
+/* The shipped right-hand start guide uses p2k40q; the terminal provider has its
+ * own split launch/menu card. Both keep their existing actions and shortcuts. */
+[data-sidebar-right-guide] :is([class~="p2k40q_entry"], [class~="-4GESq_entry"]) {
+  --dsw-alias-label-primary: #38291d;
+  --dsw-alias-label-secondary: #65533f;
+  --dsw-alias-label-tertiary: #7d6a52;
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/guide_frame.png) 6 / 6px / 0 stretch !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  color: #38291d !important;
+  padding: 12px 16px;
+  gap: 14px;
+  box-shadow: none !important;
+  filter: drop-shadow(0 3px 0 #35271c66);
+  image-rendering: pixelated;
+}
+[data-sidebar-right-guide] :is([class~="p2k40q_entry"], [class~="-4GESq_entry"]):is(:hover, :focus-within),
+[data-sidebar-right-guide] [class~="p2k40q_entry"][aria-expanded="true"] {
+  background-color: #fff5e5 !important;
+  border-image-source: url(sprites/guide_frame_hover.png) !important;
+}
+[data-sidebar-right-guide] :is([class~="p2k40q_entryTitle"], [class~="-4GESq_title"]) {
+  color: #38291d !important;
+  font-weight: 700;
+  text-shadow: 0 1px 0 #fff8eb;
+}
+[data-sidebar-right-guide] :is([class~="p2k40q_entryDescription"], [class~="-4GESq_description"]) {
+  color: #79664e !important;
+  font-size: 12px;
+}
+[data-sidebar-right-guide] [class~="p2k40q_hero"] {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  background: url(sprites/tool_compass.svg) center / contain no-repeat;
+  filter: drop-shadow(0 3px 0 #18232266);
+  image-rendering: pixelated;
+}
+/* Hide the complete original icon subtree, including potential slot wrappers. */
+[data-sidebar-right-guide] [class~="p2k40q_hero"] > * { display: none !important; }
+/* The terminal's invisible launch button must not fill the transparent corners
+ * or cover the independent shell-menu trigger with a second surface. */
+[data-sidebar-right-guide-entry="terminal"] [class~="-4GESq_main"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-image: none !important;
+  box-shadow: none !important;
+}
+[data-sidebar-right-guide-entry="terminal"] [class~="-4GESq_trigger"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+[data-sidebar-right-guide-entry="terminal"] [class~="-4GESq_trigger"]:hover {
+  background: #7d64421c !important;
+}
+
+/* Match semantic entry kinds, never their order or translated labels. Hide the
+ * original icon subtree so slot wrappers cannot paint it over the new artwork. */
+[data-sidebar-right-guide-entry="files"] [class~="p2k40q_entryIcon"] {
+  background: url(sprites/tool_chest.svg) center / contain no-repeat;
+}
+[data-sidebar-right-guide-entry="terminal"] :is([class~="-4GESq_icon"], [class~="p2k40q_entryIcon"]) {
+  background: url(sprites/tool_prompt.svg) center / contain no-repeat;
+}
+[data-sidebar-right-guide-entry="browser"] [class~="p2k40q_entryIcon"] {
+  background: url(sprites/tool_ender_pearl.svg) center / contain no-repeat;
+}
+[class~="p2k40q_moreAnchor"] [class~="p2k40q_entryIcon"] {
+  background: url(sprites/tool_healing_potion.svg) center / contain no-repeat;
+}
+:is([data-sidebar-right-guide-entry="files"], [data-sidebar-right-guide-entry="browser"],
+  [data-sidebar-right-guide-entry="terminal"], [class~="p2k40q_moreAnchor"])
+  :is([class~="p2k40q_entryIcon"], [class~="-4GESq_icon"]) {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  image-rendering: pixelated;
+}
+:is([data-sidebar-right-guide-entry="files"], [data-sidebar-right-guide-entry="browser"],
+  [data-sidebar-right-guide-entry="terminal"], [class~="p2k40q_moreAnchor"])
+  :is([class~="p2k40q_entryIcon"], [class~="-4GESq_icon"]) > * {
+  display: none !important;
+}
+
+/* Tool panes: real Dockkit chrome, shared by files, terminal and browser.
+ * Semantic attributes preserve dragging, split controls, tab menus and floats.
+ * Content fills the pane; documents and the start guide keep their layout.
+ */
+[data-sidebar-right-panel] [data-dockkit-host="dock"] {
+  /* Frame the moving host, not the layout column: that column may be 0px
+   * wide in overlay mode. Borders reserve space beside content/scrollbars.
+   * Native host transforms, dividers and focus-flash overlays stay intact. */
+  box-sizing: border-box;
+  border-inline: 5px solid #80522c !important;
+  border-image: url(sprites/wood_side_rails.svg) 0 5 / 0 5px / 0 stretch repeat !important;
+}
+:is([data-dockkit-pane], [data-dockkit-float]) [data-dockkit-strip] {
+  --dsw-alias-label-primary: #fff4db;
+  --dsw-alias-label-secondary: #f1ddbc;
+  --dsw-alias-label-tertiary: #dbc099;
+  --dsw-alias-interactive-bg-hover: #fff2cd24;
+  box-sizing: border-box;
+  height: 44px;
+  padding-block: 6px;
+  background: #724824 url(sprites/plank_tile_active.png) left top / 128px 128px repeat;
+  /* A continuous wooden strip, without an extra cap above the grain. */
+  border-top: 0;
+  border-bottom: 2px solid #332215;
+  box-shadow: inset 0 1px 0 #dec49b88, inset 0 -1px 0 #ba9158;
+}
+[data-dockkit-strip] [data-dockkit-tab] {
+  box-sizing: border-box;
+  height: 30px;
+  color: #f1ddbc;
+  border-radius: 0;
+}
+[data-dockkit-strip] [data-dockkit-tab][aria-selected="true"] {
+  min-width: 120px;
+  padding-inline: 8px 26px;
+  background: #e0b46a url(sprites/tab_oak_tile.png) left top / 128px 128px repeat !important;
+  border: 3px solid transparent;
+  border-image: url(sprites/tab_oak.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box !important;
+  color: #392617 !important;
+  font-weight: 650;
+  box-shadow: 0 2px 0 #30201380;
+}
+[data-dockkit-strip] [data-dockkit-tab][aria-selected="true"] [class~="_tabTitle_3oazc_392"] {
+  mask-image: none !important;
+}
+[data-dockkit-tab] [data-dockkit-tab-close] { color: inherit; }
+[data-dockkit-tab][aria-selected="true"] [data-dockkit-tab-close] { top: 2px; right: 1px; }
+[data-dockkit-tab]:focus-visible { outline: 2px solid #d6edaa !important; outline-offset: -2px; }
+/* Active tabs reserve physical space for close, so icons and short names do not
+ * disappear into the native fade mask. Inactive tabs retain the host behavior. */
+[data-dockkit-strip] [class~="_stripChrome_3oazc_299"] { gap: 5px; }
+button:is([data-dockkit-split-button], [data-dockkit-add-tab]),
+:is([class~="_4EiRdG_header"], [class~="bZwPEG_toolbar"], [class~="_3R73eq_header"], [data-changes-review] > [class~="_0cITKW_header"]) button {
+  box-sizing: border-box;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  color: #392c20 !important;
+  box-shadow: 0 2px 0 #21170e66;
+}
+button:is([data-dockkit-split-button], [data-dockkit-add-tab]):hover:not(:disabled),
+:is([class~="_4EiRdG_header"], [class~="bZwPEG_toolbar"]) button:hover:not(:disabled) {
+  background-color: #eee7d9 !important;
+  background-image: var(--mc-cobble) !important;
+}
+:is([class~="_4EiRdG_header"], [class~="bZwPEG_toolbar"]) button:disabled {
+  color: #938675 !important;
+  box-shadow: none;
+}
+[class~="acoR2W_tabBody"]:has(:is([data-files-page], [class~="_70dcBq_root"], [class~="bZwPEG_root"])) {
+  background: #724824 url(sprites/plank_tile_active.png) left top / 128px 128px repeat;
+}
+/* Slot wrappers and SVG roots both retain their geometry and accessible names;
+ * hide only the original artwork inside the replaced icon element. */
+[class~="_4EiRdG_titleIcon"], [class~="bZwPEG_titleIcon"] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: url(sprites/tool_chest.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[class~="bZwPEG_titleIcon"] { background-image: url(sprites/tool_ender_pearl.svg); }
+:is([class~="_4EiRdG_titleIcon"], [class~="bZwPEG_titleIcon"]) > * { display: none !important; }
+[class~="_tabTitle_3oazc_392"]:has(:is([class~="vvWwJq_title"], [class~="vvWwJq_name"]))::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: url(sprites/tool_prompt.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[class~="acoR2W_tabTitle"]:has(:is([class~="vvWwJq_title"], [class~="vvWwJq_name"])) svg { display: none !important; }
+
+/* Files: a readable paper list inside a stone rim. Keep the navigator's resize
+ * handle, nested tree indentation, file-type glyphs and context actions intact. */
+[data-files-page], [class~="bZwPEG_root"] {
+  background: #724824 url(sprites/plank_tile_active.png) left top / 128px 128px repeat !important;
+}
+[class~="_4EiRdG_header"], [class~="bZwPEG_toolbar"] {
+  height: 40px;
+  gap: 5px;
+  padding: 5px 8px;
+  border-bottom: 1px solid #372516;
+  box-shadow: inset 0 1px 0 #ba915866;
+  color: #fff1d9;
+}
+[class~="_4EiRdG_header"] [data-files-path] {
+  min-width: 0;
+  flex: 1 1 auto;
+  padding: 3px 7px;
+  margin-right: 2px;
+  background: #332418;
+  color: #f6ead4;
+  box-shadow: inset 1px 1px 0 #180f0a, 0 1px 0 #b58a5355;
+  overflow: hidden;
+}
+[data-files-navigator] {
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  color: var(--mc-ink) !important;
+  border-radius: 0 !important;
+}
+[data-files-body] {
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 6px 3px;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  background-clip: padding-box;
+}
+[data-files-body] [class~="ZaWTnW_row"] { border-radius: 0; }
+[data-files-body] [class~="ZaWTnW_action"] {
+  min-height: 32px;
+  padding: 5px 8px;
+  gap: 8px;
+  border-radius: 0;
+}
+[data-files-body] [class~="ZaWTnW_row"]:hover { background-color: #6b4a2f13; }
+[data-files-body] [class~="ZaWTnW_current"],
+[data-files-body] [class~="ZaWTnW_current"]:hover {
+  --dsw-alias-label-secondary: #f3f0d4;
+  background: #729642;
+  color: #fffdf2;
+  box-shadow: inset 0 0 0 1px #486b2b, inset 0 1px 0 #aecb74;
+}
+[data-files-entry="directory"] > [class~="ZaWTnW_row"] > [class~="ZaWTnW_action"]::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: url(sprites/tool_chest.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[data-files-entry="directory"] > [class~="ZaWTnW_row"] > [class~="ZaWTnW_action"] > [class~="ZaWTnW_icon"] {
+  display: none;
+}
+[data-files-entry="directory"] > [class~="ZaWTnW_row"] > [class~="ZaWTnW_action"]:is([aria-expanded="true"], [aria-selected="true"], [aria-current="true"])::before,
+[data-files-entry="directory"] > [class~="ZaWTnW_row"]:is([class~="ZaWTnW_current"], [aria-selected="true"]) > [class~="ZaWTnW_action"]::before {
+  background-image: url(sprites/tool_chest_open.svg);
+}
+
+/* xterm reads the computed screen colors into its palette on theme changes.
+ * Set the opaque surface here; never recolor ANSI cells or terminal output. */
+[class~="_70dcBq_root"] {
+  --dsw-alias-label-primary: #e6e9df;
+  --dsw-alias-label-secondary: #c1c9b4;
+  --dsw-alias-bg-l2: #2c3229;
+  --dsh-scrollbar-thumb: #626b59;
+  --dsh-scrollbar-thumb-hover: #849375;
+  box-sizing: border-box;
+  padding: 5px;
+  background: #724824;
+  color: #e6e9df;
+}
+[class~="_70dcBq_screen"] {
+  box-sizing: border-box;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  padding: 10px;
+  background: #20231f !important;
+  background-clip: padding-box !important;
+  color: #e6e9df !important;
+}
+[class~="_70dcBq_screen"] .xterm-viewport { background: #20231f !important; }
+[class~="_70dcBq_screen"] .xterm-helper-textarea {
+  background: transparent !important;
+  color: inherit !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+[class~="_70dcBq_status"], [class~="_70dcBq_error"] { background: #2c3229; color: #e6e9df; }
+
+/* Browser chrome ends at the guest viewport. No styles enter the actual page. */
+[class~="bZwPEG_content"] {
+  box-sizing: border-box;
+  margin: 5px;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  background: #fff;
+  background-clip: padding-box;
+}
+:is([class~="bZwPEG_viewport"], [class~="bZwPEG_frame"], [class~="bZwPEG_webview"]) { background: #fff !important; }
+[class~="bZwPEG_toolbar"] input[class~="bZwPEG_address"] {
+  background: #fff4e4 !important;
+  border: 2px solid #c3aa82;
+  border-radius: 0 !important;
+  color: var(--mc-ink) !important;
+  box-shadow: inset 1px 1px 0 #65513b, 0 1px 0 #2b1b11 !important;
+}
+[class~="bZwPEG_addressBox"] button[class~="bZwPEG_addressGo"] {
+  border: 0 !important;
+  border-image: none !important;
+  background: transparent !important;
+  box-shadow: none;
+}
+[class~="bZwPEG_addressChanged"] { background: #f3e3cd; color: #79664e; }
+[class~="bZwPEG_start"], [class~="bZwPEG_restore"] { background: #fbeedb; color: #79664e; }
+[class~="bZwPEG_toolbar"] button[class~="bZwPEG_sandboxOff"] {
+  color: #a32e25 !important;
+  background-color: #f4d6c4 !important;
+}
+/* Standalone fields retain an inset edge; the composer override above is stronger. */
+textarea, input:is([type="text"], [type="search"], [type="password"], [type="email"],
+  [type="url"], [type="number"], :not([type])), [contenteditable="true"] {
+  background: #fff4e4 !important;
+  color: var(--mc-ink) !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 0 0 1px #87745c, inset 1px 1px 0 #55463155 !important;
+}
+textarea::placeholder, input::placeholder { color: #8a7b67 !important; }
+
+[role="dialog"], [role="alertdialog"] {
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important;
+  box-shadow: 0 8px 0 #120a0455 !important;
+  color: var(--mc-ink) !important;
+  image-rendering: pixelated !important;
+}
+
+/* Model/options menus use paper inside a stone frame, as in the close-up refs. */
+[role="menu"], [role="listbox"], [class~="_9r0rkG_menu"], [class~="pc3rQa_menu"] {
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent !important;
+  border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important;
+  box-shadow: 0 5px 0 #120a0440 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: var(--mc-ink) !important;
+  --dsw-alias-interactive-bg-hover: #6b4a2f12;
+  --dsw-alias-interactive-bg-active: #6b4a2f22;
+  image-rendering: pixelated !important;
+}
+:is([role="menu"], [role="listbox"]) :is([aria-selected="true"], [aria-checked="true"]),
+button[class~="_9r0rkG_selected"] {
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat !important;
+  color: #fffdf2 !important;
+  box-shadow: inset 0 0 0 1px #253d0e, inset 2px 2px 0 #d8f59b88, inset -2px -2px 0 #263f0b88;
+}
+button[class~="_9r0rkG_selected"] :is([class~="_9r0rkG_check"], [class~="_9r0rkG_modelName"]),
+:is([role="menu"], [role="listbox"]) [aria-checked="true"] [class~="_9r0rkG_check"] {
+  color: inherit !important;
+}
+/* The sidebar's More popover is portalled out of the wooden column, so the
+ * cream sidebar ink used to land on the paper face and read as nothing. It
+ * keeps the shared stone frame but gets a plain white face and the normal dark
+ * ink, so the host's row labels and icons read as usual. The extra
+ * [role="menu"] in the selector also settles the face against the generic
+ * menu rule instead of relying on source order. */
+[role="menu"][class~="wtg9ga_moreMenu"], [class~="wtg9ga_moreMenu"] {
+  background: #ffffff !important;
+  color: #2b2118 !important;
+  --dsw-alias-label-primary: #2b2118;
+  --dsw-alias-label-secondary: #4a3b26;
+  --dsw-alias-label-tertiary: #6b5a42;
+  --dsw-alias-menu-icon: #3f3220;
+  --dsw-alias-interactive-bg-hover: #00000012;
+  --dsw-alias-interactive-bg-active: #0000001c;
+}
+[class~="Iwzhua_themeCube"] {
+  box-sizing: border-box;
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 4px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 round !important;
+  border-radius: 0 !important;
+  color: var(--mc-ink) !important;
+  box-shadow: 0 2px 0 #221b1233;
+}
+[class~="Iwzhua_themeCube"][class~="Iwzhua_selected"] {
+  border-image-source: url(sprites/green.png) !important;
+  background: #fff2df !important;
+}
+
+/* Paint the paper only inside the rim. Otherwise its square background fills
+ * the sprite's transparent cut-outs and hides the pixel corner silhouette.
+ * Avoid clipping the container: its anchored menus and focus rings must escape.
+ */
+[class~="GRgSLq_card"], [class~="an3WzG_root"][data-phase="active"],
+[class~="HOHHba_card"], [class~="K5rwea_file"], [class~="LOmM4q_fileCard"],
+[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"],
+[class~="_9r0rkG_menu"], [class~="pc3rQa_menu"], [class~="Iwzhua_themeCube"] {
+  background-clip: padding-box !important;
+}
+
+[role="tooltip"] {
+  background: #110315 !important;
+  border: 2px solid #49205e !important;
+  border-radius: 2px !important;
+  color: #f0e1ff !important;
+  text-shadow: 1px 1px 0 #0009;
+}
+pre, code { border-radius: 2px !important; image-rendering: auto !important; }
+
+/* Document and review tabs: opaque reading surfaces, shared oak chrome.
+ * Keep the host scrollports and its split/wrap grids intact. */
+[data-document-preview], [data-changes-review] {
+  min-width: 0;
+  background: #724824 url(sprites/plank_tile_active.png) left top / 128px 128px repeat !important;
+  container-type: inline-size;
+}
+[class~="_3R73eq_header"], [data-changes-review] > [class~="_0cITKW_header"] {
+  height: 44px !important;
+  padding: 5px 6px !important;
+  gap: 5px !important;
+  color: #fff1da !important;
+  /* R04: the header used to inherit whatever surface it landed on, so the light
+   * labels could sit on light paper. Give it its own wood band; measured 10.8:1
+   * for #fff1da on #4a3120. */
+  background: #4a3120 !important;
+  border-bottom: 2px solid #392716 !important;
+  --dsw-alias-label-primary: #fff1da;
+  --dsw-alias-label-secondary: #e0c7a2;
+  --dsw-alias-label-tertiary: #c8b08e;
+}
+/* R04: the page readout is a span, not a button, and it used to inherit the
+ * light label colour. It is a necessary number, so it gets its own paper plate
+ * with deep ink (#2b2118 on #f2e3c4, 12.4:1) instead of a lighter-than-paper tan. */
+[class~="_3R73eq_header"] [class~="_3R73eq_viewerTool"]:not(button) {
+  background: #f2e3c4 !important;
+  border: 1px solid #a89372;
+  color: #2b2118 !important;
+  padding: 2px 7px;
+  font-variant-numeric: tabular-nums;
+}
+[class~="_3R73eq_path"] {
+  flex: 1 1 0;
+  min-width: 0;
+  margin-right: 0 !important;
+  padding: 4px 8px;
+  background: #38271ed9;
+  box-shadow: inset 0 1px 2px #160e0a;
+  overflow: hidden;
+}
+[class~="_3R73eq_header"] button[class~="_3R73eq_viewerTool"],
+[data-changes-review] button[class~="tQx-aa_selectorButton"] {
+  width: auto !important;
+  min-width: 0;
+  max-width: 160px;
+  padding: 2px 7px !important;
+}
+[data-changes-review] [class~="tQx-aa_selector"] { flex: 0 1 auto; min-width: 0; }
+[data-changes-review] button[class~="tQx-aa_selectorButton"] {
+  /* PathLabel's basename and directory read their own color tokens, rather
+   * than inheriting the button color. Override both on this light control. */
+  --dsw-alias-label-primary: #30251b;
+  --dsw-alias-label-secondary: #554735;
+  --dsw-alias-label-tertiary: #655541;
+  color: #30251b !important;
+  font-weight: 600;
+}
+[data-changes-review] [class~="tQx-aa_counts"] { gap: 5px; white-space: nowrap; }
+[data-changes-review] [class~="tQx-aa_tools"] { gap: 4px; }
+[data-changes-review] [class~="tQx-aa_added"] { color: #b7df84 !important; }
+[data-changes-review] [class~="tQx-aa_deleted"] { color: #ffaca1 !important; }
+[data-changes-review] > [class~="_0cITKW_status"] { color: #fff1da !important; }
+[class~="_3R73eq_header"] button:hover:not(:disabled),
+[data-changes-review] [class~="_0cITKW_header"] button:hover:not(:disabled) {
+  background: #eee7d9 var(--mc-cobble) left top / 64px 64px repeat !important;
+}
+[data-review-tool][aria-pressed="true"],
+[data-textpreview-tool][aria-pressed="true"] { border-image-source: url(sprites/green.png) !important; }
+[class~="_3R73eq_content"], [data-changes-review] > [class~="_0cITKW_body"] {
+  box-sizing: border-box;
+  margin: 5px;
+  border: var(--mc-frame) solid transparent !important;
+  border-image: var(--mc-stone, url(sprites/stone.png)) 6 / var(--mc-frame) / 0 stretch !important;
+  background: #faf2e5 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  background-clip: padding-box !important;
+  border-radius: 0 !important;
+  min-width: 0;
+}
+/* C11: the text viewer uses the host's real line structure
+ * (_3R73eq_textDocument > _3R73eq_page > _3R73eq_line). Give it readable mono
+ * metrics and let the body scroll locally; PDF/Office pages stay host-rendered on
+ * the neutral mat above, so no page content is invented here. */
+[class~="_3R73eq_textDocument"] { padding: 10px 0; }
+[class~="_3R73eq_page"] {
+  font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px; line-height: 1.7;
+  color: #30271e !important;
+}
+[class~="_3R73eq_line"] { padding: 0 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+[class~="_3R73eq_body"] { overflow: auto; min-height: 0; }
+[data-textpreview-body] {
+  color: #30271e !important;
+  --dsw-alias-label-primary: #30271e;
+  --dsw-alias-label-secondary: #665947;
+  --dsw-alias-border-l2: #cbbda6;
+}
+[data-document-markdown] {
+  box-sizing: border-box;
+  max-width: 900px;
+  margin-inline: auto;
+  padding: clamp(16px, 3cqi, 32px) !important;
+  font-family: var(--dsw-font-family) !important;
+  font-size: var(--dsh-content-font-size, 14px);
+  line-height: 1.75 !important;
+  color: #30271e !important;
+  overflow-wrap: anywhere;
+}
+[data-document-markdown] :is(h1,h2,h3,h4) { color: #30271e !important; line-height: 1.4; font-weight: 700; }
+[data-document-markdown] h1 { font-size: 1.65em !important; margin: 0 0 1em; }
+[data-document-markdown] h2 { font-size: 1.3em !important; margin: 1.6em 0 .7em; }
+[data-document-markdown] :is(p,ul,ol) { margin-block: .7em; }
+[data-document-markdown] li { margin-block: .3em; }
+[data-document-markdown] table { width: 100%; border-collapse: collapse; font: inherit; }
+[data-document-markdown] :is(th,td) { border: 1px solid #d0c1a9 !important; padding: .65em .8em; }
+[data-document-markdown] th { background: #e9ddc5 !important; color: #3d3021 !important; font-weight: 600; }
+[data-document-markdown] tbody tr:nth-child(even) { background: #eee3d04d; }
+[data-document-markdown] :not(pre) > code { background: #eadfc9 !important; color: #453521 !important; padding: .12em .3em; }
+[data-document-markdown] pre { background: #eee3d0 !important; color: #30271e; border: 1px solid #d0c1a9; padding: 12px; overflow: auto; }
+[data-document-markdown] blockquote { border-left: 3px solid #a18a5e; padding-left: 1em; color: #665947; }
+/* Media viewers retain their own sizing/zoom controls on a quiet neutral mat. */
+[class~="_3R73eq_content"]:has(:is([data-pdf-preview], [class~="bQZhyq_frame"])) { background: #d5d0c6 !important; }
+
+/* Review colors are local: they do not change conversation cards or menus. */
+[data-changes-review] > [class~="_0cITKW_body"] {
+  padding: 0 !important;
+  background: #20251f !important;
+  background-clip: padding-box !important;
+  color: #e2e6d8 !important;
+  --dsw-alias-label-primary: #e2e6d8;
+  --dsw-alias-label-secondary: #c9cfbf;
+  --dsw-alias-label-tertiary: #a0ac94;
+  --dsw-alias-border-l3: #56604c;
+  --dsw-alias-file-diff-added-bg: #283a2b;
+  --dsw-alias-file-diff-added-gutter: #30452d;
+  --dsw-alias-file-diff-added-marker: #b3d88a;
+  --dsw-alias-file-diff-deleted-bg: #3b292a;
+  --dsw-alias-file-diff-deleted-gutter: #493030;
+  --dsw-alias-file-diff-deleted-marker: #f0a69a;
+  --diff-empty-fill: #252c24;
+}
+[data-changes-review] [class~="_0cITKW_hunkHeader"] { background: #2c3429; color: #b5bfa7; }
+[data-changes-review] [class~="_0cITKW_number"] { background: #252c24; }
+[data-changes-review] [class~="_0cITKW_column"] { scrollbar-color: #778365 #252c24; }
+/* The host highlighter supplies inline theme colors. Lift light-theme ink on
+ * this dark surface without replacing tokens or touching diff text/layout. */
+body:not([data-ds-dark-theme]) [data-changes-review] [data-diff-code] > span { filter: brightness(1.8); }
+@container (max-width: 480px) {
+  [class~="_3R73eq_header"], [data-changes-review] > [class~="_0cITKW_header"] { flex-wrap: wrap; height: auto !important; min-height: 44px; }
+  [class~="_3R73eq_path"] { flex-basis: 100%; }
+  [data-changes-review] [class~="tQx-aa_selector"] { flex-basis: 100%; }
+  [data-changes-review] button[class~="tQx-aa_selectorButton"] { max-width: 100%; }
+  [data-document-markdown] :is(th,td) { padding: .45em; }
+}
+
+/* Management pages: a pale birch board inset from the shared landscape.
+ * Size the existing page root, leaving native list scrollports, sticky header
+ * measurements, portaled menus and task detail panes in their own containers. */
+:is([class~="V7pFBG_page"], [class~="olCj9W_page"]) {
+  --mc-board-gap: clamp(12px, 2vw, 24px);
+  --mc-board-rim: 20px;
+  --dsw-alias-bg-base: #f2e9cf;
+  --dsw-alias-label-primary: #302819;
+  --dsw-alias-label-secondary: #5d5039;
+  --dsw-alias-label-tertiary: #746348;
+  --dsw-alias-label-caption: #827153;
+  --dsw-alias-label-dimmed: #96866b;
+  --dsw-alias-border-l1: #967b4533;
+  --dsw-alias-border-l2: #967b4555;
+  --dsw-alias-border-l3: #967b4577;
+  --dsw-alias-interactive-bg-hover: #71562714;
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--mc-board-gap));
+  max-width: 1120px;
+  height: calc(100% - 2 * var(--mc-board-gap));
+  min-width: 0;
+  min-height: 0;
+  margin: var(--mc-board-gap) auto;
+  align-self: center;
+  flex: 0 1 auto;
+  border: var(--mc-board-rim) solid transparent;
+  border-image: url(sprites/birch_carved_frame.png) 16 / var(--mc-board-rim) / 0 stretch;
+  border-radius: 0;
+  background: #f2e9cf url(sprites/birch_tile.png) left top / 128px 128px repeat !important;
+  background-clip: padding-box !important;
+  color: #302819;
+  box-shadow: 0 4px 0 #342c1d55;
+  overflow: hidden;
+  position: relative;
+}
+/* Decorative only: these plaques stay inside the reserved border, without
+ * covering content, catching input or posing as close/resize controls. */
+:is([class~="V7pFBG_page"], [class~="olCj9W_page"])::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--mc-board-rim));
+  z-index: 10;
+  pointer-events: none;
+  background-image: url(sprites/birch_medallion.png), url(sprites/birch_medallion.png),
+    url(sprites/birch_medallion.png), url(sprites/birch_medallion.png);
+  background-size: var(--mc-board-rim) var(--mc-board-rim);
+  background-position: center top, center bottom, left center, right center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+@supports (overflow-clip-margin: border-box) {
+  /* Keep decoration visible over the border while still containing lists. */
+  :is([class~="V7pFBG_page"], [class~="olCj9W_page"]) {
+    overflow: clip;
+    overflow-clip-margin: border-box;
+  }
+}
+[class~="V7pFBG_page"] { --plugin-page-inset: clamp(18px, 2vw, 32px); }
+/* The plugin header paints an opaque layer when it sticks during scrolling. */
+[class~="V7pFBG_page"] [class~="V7pFBG_pageBar"][data-natural]::before {
+  background: #f2e9cf url(sprites/birch_tile.png) left top / 128px 128px repeat;
+}
+@media (max-width: 600px) {
+  :is([class~="V7pFBG_page"], [class~="olCj9W_page"]) { --mc-board-rim: 12px; }
+}
+[class~="olCj9W_pageContent"] { padding-inline: clamp(18px, 2vw, 32px); }
+:is([class~="V7pFBG_pageBody"], [class~="olCj9W_pageScroll"])::-webkit-scrollbar {
+  width: var(--dsh-scrollbar-width, 8px);
+  height: var(--dsh-scrollbar-width, 8px);
+}
+
+/* Conversation detail pass: original item artwork and restrained inventory
+ * chrome. Do not rewrite text, infer task success or replace native actions. */
+[class~="an3WzG_root"][data-phase="active"] > [class~="an3WzG_header"] {
+  background: linear-gradient(#38200e55, #38200e55),
+    #704924 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px repeat;
+  border-bottom: 3px solid #4c321b;
+  box-shadow: inset 0 2px 0 #d1ad6b66, 0 2px 0 #482c1940;
+  padding-top: 10px;
+  padding-bottom: 7px;
+  --dsw-alias-label-primary: #fff1d5;
+  --dsw-alias-label-secondary: #f3dfbb;
+  --dsw-alias-label-tertiary: #e4c89c;
+  --dsw-alias-label-caption: #d1b288;
+}
+[data-phase="active"] [class~="an3WzG_titleRow"] { min-width: 0; min-height: 38px; }
+[data-phase="active"] [class~="an3WzG_headerCorner"] { margin-right: 0; }
+[data-phase="active"] [class~="an3WzG_headerUtilities"] { margin-left: 8px; }
+[data-phase="active"] [class~="an3WzG_header"] [class~="mOxcpG_split"] {
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat;
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box;
+  height: 28px;
+  border-radius: 0;
+  color: #392b1c;
+}
+[data-phase="active"] [class~="an3WzG_header"] :is([class~="mOxcpG_main"], [class~="mOxcpG_chevron"]) { color: #392b1c; }
+/* Directory launchers also appear in the blank/hero header. Target their real
+ * semantic kind, keeping file/editor icons, loading placeholders and both
+ * independently clickable halves of the split control intact. */
+[class~="an3WzG_header"] [data-open-target="directory"][data-size="compact"] [class~="mOxcpG_main"]:not(:has([data-open-target-skeleton]))::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: url(sprites/tool_chest.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+[class~="an3WzG_header"] [data-open-target="directory"][data-size="compact"] [class~="mOxcpG_main"] > :is(img, svg) { display: none; }
+[data-phase="active"] [class~="an3WzG_crumbs"]::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  margin-right: 3px;
+  background: url(sprites/book_quill.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+[data-phase="active"] [class~="an3WzG_crumb"] { color: #f2dfbb !important; }
+[data-phase="active"] [class~="an3WzG_crumbCurrent"] {
+  box-sizing: border-box;
+  background: #d8b46e url(sprites/tab_oak_tile.png) left top / 128px 128px repeat;
+  border: 3px solid transparent;
+  border-image: url(sprites/tab_oak.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box;
+  padding: 2px 8px;
+  max-width: min(420px, 52vw);
+  color: #342311 !important;
+  font-weight: 650;
+  text-shadow: 0 1px 0 #ffedbd88;
+}
+[data-phase="active"] [class~="an3WzG_tabs"] {
+  align-items: center;
+  padding-block: 5px 0;
+  margin-top: 6px;
+  gap: 10px;
+  border-top: 1px solid #e9ba6a55;
+}
+[data-phase="active"] [class~="an3WzG_viewTabs"] { gap: 10px; }
+[data-phase="active"] button[class~="an3WzG_tab"] {
+  margin: 0;
+  min-height: 30px;
+  padding: 3px 12px;
+  background: #d8b46e url(sprites/tab_oak_tile.png) left top / 128px 128px repeat;
+  border: 3px solid transparent;
+  border-image: url(sprites/tab_oak.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box;
+  border-radius: 0 !important;
+  color: #422e18 !important;
+  font-weight: 650;
+  box-shadow: 0 2px 0 #2b1c1066;
+}
+[data-phase="active"] button[class~="an3WzG_tabActive"] {
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat;
+  border-image-source: url(sprites/green.png);
+  color: #fffdf2 !important;
+}
+[data-phase="active"] button[class~="an3WzG_tab"]:hover:not(:disabled) { filter: brightness(1.08); }
+[class~="an3WzG_header"] [class~="an3WzG_viewsMore"] { margin-top: 0; }
+
+/* Riveted six-pixel rims share the established slice contract. The title keeps
+ * the host's hover preview hint; file links still open the actual review. */
+[class~="HOHHba_card"] {
+  border-width: 6px !important;
+  border-image: url(sprites/inventory_frame.svg) 6 / 6px / 0 stretch !important;
+  background-clip: padding-box !important;
+}
+[class~="HOHHba_card"] [class~="HOHHba_header"] {
+  background: #a7753e var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px repeat !important;
+  color: #fff5df !important;
+  min-height: 64px;
+  padding: 8px 12px;
+  gap: 12px;
+  box-shadow: inset 0 1px 0 #ffdd9955, inset 0 -2px 0 #65401e88;
+}
+[class~="HOHHba_card"] button[class~="HOHHba_header"]:hover:not(:disabled) { filter: brightness(1.06); }
+[class~="HOHHba_title"] { font-weight: 650; text-shadow: 0 1px 0 #50351e; }
+[class~="HOHHba_header"] [class~="HOHHba_stat"] {
+  color: #fff1d4;
+  font-weight: 600;
+  background: #fff0cddd;
+  width: fit-content;
+  max-width: 100%;
+  padding-inline: 5px;
+  border: 1px solid #69451d55;
+  text-shadow: none;
+}
+[class~="HOHHba_header"] [class~="HOHHba_previewHint"] { color: #5e4326; }
+[class~="HOHHba_header"] [class~="HOHHba_stat"][data-error="true"] { color: #a72f24; }
+[class~="HOHHba_tile"] {
+  box-sizing: border-box;
+  background: #e4dbbf url(sprites/crafting_table.svg) center / 32px 32px no-repeat !important;
+  border: 3px solid transparent;
+  border-image: url(sprites/guide_frame.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+}
+[class~="HOHHba_tile"] > * { visibility: hidden; }
+[class~="HOHHba_row"]::before {
+  content: "";
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  background: #e8dec5 url(sprites/paper_sheet.svg) center / 19px 19px no-repeat;
+  border: 2px solid #a99c7d;
+  box-shadow: inset 1px 1px 0 #fff5dc, inset -1px -1px 0 #73675355;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+[class~="HOHHba_row"] [class~="HOHHba_path"] { flex: 1; }
+[class~="HOHHba_row"] { min-height: 38px; }
+[class~="HOHHba_added"] { color: #3e6d1b; }
+[class~="HOHHba_deleted"] { color: #ac3425; }
+
+/* A stitched written-note bubble, with no clipping of references or links. */
+[class~="rhSLKq_bubble"], [data-message-bubble] {
+  box-sizing: border-box;
+  background: #f4e3bd var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat !important;
+  border: 6px solid transparent;
+  border-image: url(sprites/scroll_frame.svg) 6 / 6px / 0 stretch;
+  background-clip: padding-box;
+  border-radius: 0;
+  padding: 9px 13px;
+  color: #35291d;
+  box-shadow: 0 2px 0 #51391c33;
+}
+[class~="LOmM4q_compactionRow"] { padding-block: 6px 8px; border-bottom: 1px dashed #9e896866; }
+[class~="LOmM4q_compactionLeading"] { width: 24px; height: 24px; margin-right: 7px; }
+[class~="LOmM4q_compactionContextIcon"] {
+  width: 24px;
+  height: 24px;
+  background: url(sprites/command_block.svg) center / 22px 22px no-repeat;
+}
+[class~="LOmM4q_compactionContextIcon"] > * { visibility: hidden; }
+[class~="V4vHZW_column"] [data-markdown-variant] h3 {
+  display: table;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 3px 8px;
+  background: #dbc18d url(sprites/tab_oak_tile.png) left top / 128px 128px repeat;
+  border: 3px solid transparent;
+  border-image: url(sprites/tab_oak.png) 6 / 3px / 0 stretch;
+  background-clip: padding-box;
+  color: #382818;
+  line-height: 1.5;
+}
+/* The host has no success/error attribute on the closed-turn heading. Use a
+ * neutral clock rather than a green check that could mislabel a failed turn. */
+[data-turn-process] {
+  min-height: 36px;
+  height: auto;
+  padding-block: 5px 8px;
+  border-bottom: 1px dashed #9e896866;
+}
+[data-turn-process]::before {
+  content: "";
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  margin-right: 8px;
+  background: url(sprites/pixel_clock.svg) center / contain no-repeat;
+  pointer-events: none;
+}
+
+/* Running status keeps the native clock, text and accessibility announcement.
+ * Replace both whale variants, including the animated mask, without altering
+ * React-owned children. Only this status uses the book/monospace font stack. */
+[data-chat-running] [class~="V4vHZW_runningText"] {
+  /* R05: "running" is information blue (#2a5d8f on the #f7ead1 paper = 5.35:1),
+   * not the teal-green that used to compete with the success green. */
+  color: #2a5d8f !important;
+  --dsw-alias-label-shimmer: #2a5d8f;
+  font-family: Consolas, "SimSun", "Noto Serif SC", serif !important;
+  font-size: var(--dsh-content-font-size, 14px);
+  font-weight: 700;
+  letter-spacing: .3px;
+  font-variant-numeric: tabular-nums;
+}
+[data-chat-running] [class~="V4vHZW_runningText"] > [class~="_decoration_1rdzk_25"] {
+  display: none;
+}
+[data-chat-running] [class~="V4vHZW_runningContent"] {
+  height: auto;
+  min-height: calc(28px + var(--dsh-content-font-delta, 0px));
+  gap: 7px;
+}
+[data-chat-running] [class~="V4vHZW_runningIcon"] {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  contain: none;
+  overflow: visible;
+  pointer-events: none;
+}
+[data-chat-running] [class~="V4vHZW_runningIcon"] > * { display: none !important; }
+[data-chat-running] [class~="V4vHZW_runningIcon"]::before,
+[data-chat-running] [class~="V4vHZW_runningIcon"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  image-rendering: pixelated;
+  background: url(sprites/mining_ore.svg) center / contain no-repeat;
+}
+[data-chat-running] [class~="V4vHZW_runningIcon"]::after {
+  background-image: url(sprites/diamond_pickaxe.svg);
+  /* Reference-shaped SVG handle endpoint (17.5,45) in an 80px canvas. */
+  transform-origin: 21.875% 56.25%;
+  transform: rotate(55deg);
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-chat-running]:not([data-holding]) [class~="V4vHZW_runningIcon"]::after {
+    animation: mc-pickaxe-mine 1.4s linear infinite;
+  }
+}
+@keyframes mc-pickaxe-mine {
+  0%, 15% {
+    transform: rotate(-10deg);
+    animation-timing-function: cubic-bezier(.55, 0, .85, .45);
+  }
+  40%, 52% {
+    transform: rotate(55deg);
+    animation-timing-function: ease-out;
+  }
+  100% { transform: rotate(-10deg); }
+}
+@media (forced-colors: active) {
+  [data-chat-running] [class~="V4vHZW_runningText"] { color: CanvasText !important; }
+}
+
+/* Quest scroll: real TodoPanel items and disclosure remain untouched. Keep
+ * the native sticky seat and overlay measurement contract; add no fixed UI. */
+[class~="DXuOLW_root"] {
+  background: #f3e3bf var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  border: 6px solid transparent;
+  border-image: url(sprites/scroll_frame.svg) 6 / 6px / 0 stretch;
+  background-clip: padding-box;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: 0 2px 0 #51391c33;
+}
+[class~="DXuOLW_body"] { padding: 3px 8px; }
+[class~="DXuOLW_lead"] {
+  background: url(sprites/quest_scroll.svg) center / contain no-repeat;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+}
+[class~="DXuOLW_lead"] > * { visibility: hidden; }
+[class~="DXuOLW_title"] { color: #352719; font-weight: 650; }
+[class~="DXuOLW_progress"] { color: #705b3e; }
+[class~="DXuOLW_list"] { border-top: 1px solid #a88a5a66; padding-block: 6px 3px; }
+[class~="an3WzG_root"][data-phase="active"] [class~="an3WzG_composerSeat"] {
+  background: #fbeedb var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) repeat;
+  padding-top: 8px;
+  box-shadow: 0 -1px 0 #bfa77e66;
+}
+[data-phase="active"] [class~="GRgSLq_card"] {
+  border-image-source: url(sprites/inventory_frame.svg) !important;
+  border-image-repeat: stretch !important;
+}
+[class~="GRgSLq_card"] [class~="_86kJGG_triggerIcon"] { color: #bc8b22; }
+
+/* Compact wooden status rail, laid out in normal flow so narrow windows wrap.
+ * Activity and token glyphs are decorative; labels and dialogs stay native. */
+[data-phase="active"] [class~="GRgSLq_dock"]:not(:empty) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dsh-composer-card-max-width);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px 8px;
+  margin-top: 3px;
+  padding: 1px 6px;
+  background: #855a30 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px repeat;
+  border: 2px solid transparent;
+  border-image: url(sprites/plank.png) 6 / 2px / 0 stretch;
+  background-clip: padding-box;
+  color: #fff1d8;
+  --dsw-alias-label-tertiary: #f1dec0;
+  --dsw-alias-label-secondary: #fff5df;
+}
+[class~="GRgSLq_dock"] [class~="hNGZaa_pill"],
+[class~="GRgSLq_dock"] [class~="A6Bq1a_trigger"] {
+  color: inherit;
+  border-radius: 0;
+  padding-block: 0;
+}
+:is([data-composer-stat="activity"], [data-composer-stat="usage"]) [class~="hNGZaa_pill"]::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: url(sprites/pixel_clock.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+[data-composer-stat="usage"] [class~="hNGZaa_pill"]::before { background-image: url(sprites/emerald.svg); }
+:is([data-composer-stat="activity"], [data-composer-stat="usage"]) [class~="hNGZaa_pill"] > svg { display: none; }
+/* The marker is installed only after reading valid native ring geometry. A
+ * missing/new host meter therefore retains its original accessible ring. */
+[class~="A6Bq1a_trigger"][data-mc-context-meter]::before {
+  content: "";
+  box-sizing: border-box;
+  width: 86px;
+  height: 11px;
+  flex: 0 0 86px;
+  border: 2px solid #2c291b;
+  background: repeating-linear-gradient(to right, transparent 0 7px, #242c19bb 7px 9px),
+    linear-gradient(to right, #8de32e var(--mc-context-fill), #454333 var(--mc-context-fill));
+  box-shadow: inset 0 2px 0 #fff9bd44, 0 1px 0 #edc88488;
+  pointer-events: none;
+}
+[class~="A6Bq1a_trigger"][data-mc-context-meter] > svg { display: none; }
+[class~="A6Bq1a_bar"] { height: 7px; border-radius: 0; background: #ded0b5; box-shadow: inset 0 0 0 1px #a18c6c; }
+[class~="A6Bq1a_segment"] { border-radius: 0; }
+[class~="an3WzG_root"][data-phase="active"] [data-conversation-scroll] { scrollbar-color: auto; }
+[class~="an3WzG_root"][data-phase="active"] [data-conversation-scroll]::-webkit-scrollbar { width: 8px; height: 8px; }
+[class~="an3WzG_root"][data-phase="active"] [data-conversation-scroll]::-webkit-scrollbar-button { display: none; }
+[class~="an3WzG_root"][data-phase="active"] [data-conversation-scroll]::-webkit-scrollbar-thumb {
+  background: #a8793e var(--mc-plank, url(sprites/plank_tile.png)) left top / 64px 64px repeat !important;
+  border: 1px solid #624420;
+  box-shadow: inset 1px 1px 0 #e8bb74, inset -1px -1px 0 #6a461f;
+}
+@container (max-width: 480px) {
+  [data-phase="active"] [class~="an3WzG_crumbs"]::before { width: 26px; height: 26px; flex-basis: 26px; }
+  [class~="HOHHba_row"] { padding-inline: 8px; gap: 7px; }
+  [class~="HOHHba_row"]::before { width: 20px; height: 20px; flex-basis: 20px; background-size: 16px 16px; }
+}
+
+/* Preserve keyboard focus independently of the decorative bevel. */
+:is(button, [role="button"], input, textarea, [contenteditable="true"]):focus-visible {
+  outline: 2px solid #629729 !important;
+  outline-offset: 2px;
+}
+[class*="q_sidebarCol"] :is(button, [role="button"], [role="treeitem"]):focus-visible {
+  outline: 2px solid #e0f9a7 !important;
+  outline-offset: -2px;
+}
+
+body {
+  --dsh-scrollbar-thumb: #a8917a;
+  --dsh-scrollbar-thumb-hover: #8d7660;
+  --dsh-scrollbar-width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--dsh-scrollbar-thumb, #a8917a) !important;
+  border-radius: 1px !important;
+  box-shadow: inset 0 0 0 1px #4a3a2c;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: var(--dsh-scrollbar-thumb-hover, #8d7660) !important; }
+*::-webkit-scrollbar-track { background-color: #2b1c101a !important; }
+
+/* A — shared controls. Semantic hooks where available; *_181ew_ and
+ * *_1ocp1_ identify the inspected shared Field/Segmented modules. Recheck
+ * those two families on host upgrades. No React children or state are changed. */
+/* A1: square stone slider in a recessed track, retaining the host's 16px travel. */
+[role="switch"] {
+  box-sizing: border-box;
+  position: relative;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #45443a !important;
+  background-clip: padding-box !important;
+  box-shadow: inset 2px 2px #24251e, inset -2px -2px #918b73;
+}
+[role="switch"][aria-checked="true"] { background: #547d28 !important; }
+[role="switch"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box;
+  pointer-events: none;
+}
+[role="switch"][aria-checked="true"]::before { transform: translateX(16px); }
+[role="switch"] > [class*="_thumb_"] { visibility: hidden; }
+[role="switch"]:is(:disabled, [aria-disabled="true"]) { opacity: .5; cursor: default; }
+
+/* A2: the check/bar is drawn as a background, so replaced input elements
+ * need no pseudo-element support. Native checked/indeterminate state wins. */
+input[type="checkbox"] {
+  appearance: none !important;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 20px !important;
+  height: 20px !important;
+  border: 2px solid transparent !important;
+  border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / 3px / 0 stretch !important;
+  border-radius: 0 !important;
+  background: #514b3e !important;
+  background-clip: padding-box !important;
+  vertical-align: middle;
+}
+input[type="checkbox"]:checked {
+  background: #34472a url(sprites/check_mark.svg) center / 14px 14px no-repeat !important;
+  background-clip: padding-box !important;
+}
+input[type="checkbox"]:indeterminate {
+  background: linear-gradient(#c4ed8a, #c4ed8a) center / 10px 4px no-repeat, #34472a !important;
+  background-clip: padding-box !important;
+}
+input[type="checkbox"]:disabled { opacity: .5; cursor: default; }
+
+/* A3: frame the innermost keys only; shortcut containers keep their layout
+ * and the host's modality-based visibility. */
+:is(kbd, .mc-kbd, [class*="_shortcutKeys"], [class*="_keyBadge"], [class*="_fixedKeyBadge"],
+  :is([class*="_shortcut_"], [class$="_shortcut"], [class*="_shortcut "]):not(:has([class*="_shortcutKeys"], kbd))) {
+  box-sizing: border-box;
+  border: 2px solid #645e52 !important;
+  border-radius: 0 !important;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px !important;
+  background-clip: padding-box !important;
+  color: var(--mc-ink) !important;
+  box-shadow: inset 1px 1px #fff7df, 0 2px #484437 !important;
+  padding: 0 4px;
+  font-family: Consolas, "Cascadia Mono", monospace;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* A4/A6: opt-in button variants, plus native selects. Match a selector
+ * button even when another class follows it; never style wrapper divs. */
+select,
+button:is([class*="_selector"], [class*="_ghost_"], [class*="_outline_"], [class*="_toolbar_"]) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch !important;
+  border-radius: 0 !important;
+  background-color: #d3d0ca !important;
+  background-image: var(--mc-cobble) !important;
+  background-size: 64px 64px;
+  background-clip: padding-box !important;
+  color: var(--mc-ink) !important;
+  box-shadow: 0 2px #221b1233 !important;
+}
+select { appearance: auto; min-height: 28px; font: inherit; }
+select option { background: #fff6ea; color: #2b2118; }
+:is(select, button:is([class*="_selector"], [class*="_ghost_"], [class*="_outline_"], [class*="_toolbar_"])):hover:not(:disabled):not([aria-disabled="true"]) {
+  background-color: #eee7d9 !important;
+}
+button:is([class*="_ghost_"], [class*="_outline_"], [class*="_toolbar_"]):active:not(:disabled) {
+  box-shadow: inset 1px 1px #4d433b88 !important;
+}
+:is(select, button:is([class*="_selector"], [class*="_ghost_"], [class*="_outline_"], [class*="_toolbar_"])):is(:disabled, [aria-disabled="true"]) {
+  opacity: .5;
+  cursor: default;
+}
+:is([class*="_control_1ocp1_"], [class*="_tabs_1lga9_"]) {
+  border-radius: 0 !important;
+  background: #45443a !important;
+  box-shadow: inset 2px 2px #24251e, inset -2px -2px #918b73;
+  min-width: 0;
+  max-width: 100%;
+}
+:is([class*="_indicator_1ocp1_"], [class*="_indicator_1lga9_"]) {
+  box-sizing: border-box;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/green.png) 6 / 3px / 0 stretch !important;
+  border-radius: 0 !important;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px !important;
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+}
+:is([class*="_tab_1ocp1_"], [class*="_tab_1lga9_"]) { min-width: 0; padding-inline: 8px; border-radius: 0 !important; color: #fff6ea !important; }
+:is([class*="_tab_1ocp1_"], [class*="_tab_1lga9_"])[aria-selected="true"] { color: #fff !important; text-shadow: 1px 1px #263c16; }
+
+/* A5: advancement-shaped notification, retaining actual status, action,
+ * aria-live and --dsh-toast-hold. The host still owns removal timing. */
+[class*="_toast_hr9yd_"] {
+  box-sizing: border-box;
+  left: auto !important;
+  right: 16px;
+  max-width: min(640px, calc(100vw - 32px)) !important;
+  transform: none !important;
+  border: 6px solid transparent;
+  border-image: url(sprites/plank.png) 6 / 6px / 0 stretch;
+  border-radius: 0 !important;
+  background: #fff0d6 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  background-clip: padding-box !important;
+  color: var(--mc-ink) !important;
+  box-shadow: 0 3px #2b211844 !important;
+  animation: mc-toast-enter .16s ease-out, mc-toast-fade 1s ease var(--dsh-toast-hold, 3s) forwards !important;
+}
+[class*="_toast_hr9yd_"] [class*="_text_"] { overflow-wrap: anywhere; }
+[class*="_icon_hr9yd_"] { color: #96351f !important; }
+[class*="_icon_hr9yd_"][class*="_success_"] { color: #3c641e !important; }
+[class*="_icon_hr9yd_"][class*="_success_"]::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url(sprites/emerald.svg) center / contain no-repeat;
+}
+[class*="_icon_hr9yd_"][class*="_success_"] > svg { display: none; }
+[class*="_action_hr9yd_"] { color: #325b83 !important; text-decoration: underline; }
+@keyframes mc-toast-enter { from { translate: calc(100% + 16px) 0; } to { translate: 0 0; } }
+@keyframes mc-toast-fade { to { opacity: 0; } }
+
+/* A7: restrained paper rows. Invalid input keeps both its native message
+ * and a redstone outline; hints/help remain ordinary readable text. */
+[class*="_field_181ew_"] {
+  min-width: 0;
+  padding-inline: 10px;
+  background: #fff3df var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box;
+  color: var(--mc-ink);
+}
+[class*="_field_181ew_"] + [class*="_field_181ew_"] { border-top: 1px solid #b6a184; }
+[class*="_label_181ew_"] { color: var(--mc-ink) !important; }
+:is([class*="_help_181ew_"], [class*="_hint_181ew_"], [class*="_reset_181ew_"]) { color: #65513c !important; }
+[class*="_input_181ew_"] { box-sizing: border-box; min-width: 0; max-width: 100%; }
+[class*="_field_181ew_"] [aria-invalid="true"] {
+  border: 2px solid #a73025 !important;
+  border-image: none !important;
+  box-shadow: inset 0 0 0 1px #f5ad8c !important;
+}
+[class*="_invalid_181ew_"] { color: #9a2d20 !important; }
+:is([role="switch"], select, [role="tab"]):focus-visible { outline: 2px solid #629729 !important; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  [class*="_toast_hr9yd_"] { animation: mc-toast-fade 1s ease var(--dsh-toast-hold, 3s) forwards !important; }
+}
+@media (forced-colors: active) {
+  :is([role="switch"], input[type="checkbox"], select, kbd, .mc-kbd,
+    [class*="_shortcut"], [class*="_keyBadge"], [class*="_fixedKeyBadge"],
+    :is([class*="_control_1ocp1_"], [class*="_tabs_1lga9_"]), :is([class*="_indicator_1ocp1_"], [class*="_indicator_1lga9_"]), [class*="_toast_hr9yd_"],
+    [class*="_field_181ew_"], [class*="_button_1ulci_"], button:is([class*="_selector"], [class*="_ghost_"], [class*="_outline_"], [class*="_toolbar_"])) {
+    border: 1px solid ButtonText !important;
+    border-image: none !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+    box-shadow: none !important;
+  }
+  input[type="checkbox"] { appearance: auto !important; }
+  [role="switch"]::before { background: ButtonText; border-image: none; }
+  [role="switch"], [role="switch"]::before,
+  :is([class*="_indicator_1ocp1_"], [class*="_indicator_1lga9_"]) { forced-color-adjust: none; }
+  [role="switch"][aria-checked="true"] { background: Highlight !important; }
+  :is([class*="_indicator_1ocp1_"], [class*="_indicator_1lga9_"]) { background: Highlight !important; }
+  :is([class*="_tab_1ocp1_"], [class*="_tab_1lga9_"]) { color: ButtonText !important; text-shadow: none; }
+  :is([class*="_tab_1ocp1_"], [class*="_tab_1lga9_"])[aria-selected="true"] { color: HighlightText !important; }
+  [class*="_icon_hr9yd_"][class*="_success_"]::before { display: none; }
+  [class*="_icon_hr9yd_"][class*="_success_"] > svg { display: block; }
+  :is([class*="_label_181ew_"], [class*="_help_181ew_"], [class*="_hint_181ew_"], [class*="_invalid_181ew_"], [class*="_reset_181ew_"], [class*="_icon_hr9yd_"], [class*="_action_hr9yd_"]) { color: CanvasText !important; }
+  [class*="_field_181ew_"] [aria-invalid="true"] { border: 2px dashed CanvasText !important; box-shadow: none !important; }
+  :is(button, input, select, [role="switch"], [role="tab"]):focus-visible { outline-color: Highlight !important; }
+}

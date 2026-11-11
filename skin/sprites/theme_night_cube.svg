@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 40" fill="none" shape-rendering="crispEdges">
+  <defs>
+    <clipPath id="top"><path d="m18 1 17 9-17 9L1 10Z"/></clipPath>
+    <clipPath id="left"><path d="m1 10 17 9v20L1 30Z"/></clipPath>
+    <clipPath id="right"><path d="m18 19 17-9v20l-17 9Z"/></clipPath>
+  </defs>
+  <path d="m1 10 17 9v20L1 30Z" fill="#3f3c55"/>
+  <path d="m18 19 17-9v20l-17 9Z" fill="#292940"/>
+  <g clip-path="url(#left)">
+    <path d="m1 10 17 9v6l-4-2v3l-4-2v-4l-4-2v3l-5-3Z" fill="#425b70"/>
+    <path d="m3 22 4 2v4l-4-2Zm7 7 4 2v5l-4-2Zm4-6 4 2v4l-4-2Z" fill="#55536c"/>
+    <path d="m1 27 3 2v4l-3-2Zm7-5 3 2v4l-3-2Zm6 12 4 2v4l-4-2Z" fill="#34334d"/>
+  </g>
+  <g clip-path="url(#right)">
+    <path d="m18 19 17-9v8l-4 2v-3l-4 2v5l-4 2v-4l-5 3Z" fill="#34445e"/>
+    <path d="m20 29 4-2v5l-4 2Zm7-5 4-2v4l-4 2Zm4 5 4-2v5l-4 2Z" fill="#43415a"/>
+    <path d="m18 35 4-2v5l-4 2Zm7-4 3-2v5l-3 2Z" fill="#24263c"/>
+  </g>
+  <path d="m18 1 17 9-17 9L1 10Z" fill="#384e7c"/>
+  <g clip-path="url(#top)">
+    <path d="m6 7 5-3 5 3-5 3Zm10 6 5-3 5 3-5 3Zm10-6 5-3 5 3-5 3Z" fill="#516798"/>
+    <path d="m1 10 5-3 5 3-5 3Zm15-6 5-3 5 3-5 3Zm5 6 5-3 5 3-5 3Z" fill="#30436c"/>
+  </g>
+  <path d="m1 10 17 9 17-9M18 19v20" stroke="#20253c" stroke-width="1"/>
+  <path d="m18 1 17 9v20l-17 9L1 30V10Z" stroke="#252940" stroke-width="1"/>
+<g clip-path="url(#top)" fill="#f8edbd"><path d="M17 4h3v2h-2v3h3v2h-4V9h-2V6h2z"/><path d="M8 9h1v1H8zm17-2h1v1h-1z"/></g></svg>

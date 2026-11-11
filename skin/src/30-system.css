@@ -1,0 +1,335 @@
+/* C9: feedback dialog as a beacon selection panel. Reasons are stone chips;
+ * the chosen one keeps a 2px inset ring and bold text so forced colors still
+ * read the state without color. The note field is paper, submit is the shared
+ * green primary, and only real failures get redstone. */
+[class~="Hyy-Wa_action"] {
+  border: 1px solid #a89372 !important; border-radius: 0 !important; background: #efe0bd !important;
+  color: #4a3f2c !important; box-shadow: inset 0 0 0 1px #fff6dd66; width: 26px !important; height: 26px !important;
+  padding: 4px !important;
+}
+[class~="Hyy-Wa_action"]:hover { background: #f7ead1 !important; color: #2b2118 !important; border-color: #6b4a2b !important; }
+[class~="Hyy-Wa_action"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 1px; }
+[class~="Hyy-Wa_failure"] {
+  color: #7d1f18 !important; border-left: 3px solid #a02e25; background: #f6d9d2;
+  padding: 4px 8px !important; margin: 10px 0 0;
+}
+[class~="cS6V_W_dialog"] {
+  background: #f2e9cf var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  border: 6px solid transparent !important; border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important; box-shadow: 6px 8px 0 #00000033 !important; color: #302819;
+}
+[class~="cS6V_W_categories"] { gap: 6px !important; margin-top: 0 !important; }
+[class~="cS6V_W_chip"] {
+  border: 1px solid #7a6a52 !important; border-radius: 0 !important; background: #efe0bd !important;
+  color: #3a2f20 !important; box-shadow: inset 0 0 0 1px #fff6dd66; padding: 4px 10px;
+  height: auto !important; min-height: 28px; line-height: 18px; text-align: left;
+}
+[class~="cS6V_W_chip"]:hover:not(:disabled) { background: #f7ead1 !important; border-color: #6b4a2b !important; }
+[class~="cS6V_W_chip"]:focus-visible { outline: 2px solid #547c2b; outline-offset: 2px; }
+/* R04: the selected reason used #fffdf2 on #669a1a - 3.32:1 for 13-14px text,
+ * below the 4.5:1 floor. Deep grass keeps the selected meaning and reaches
+ * 7.06:1 (#fffdf2 on #3f6110); the inset ring and bold weight carry the state
+ * as well, so colour is not the only signal. */
+[class~="cS6V_W_chipActive"], [class~="cS6V_W_chipActive"]:hover:not(:disabled) {
+  background: #3f6110 !important; border-color: #2f4d0d !important; color: #fffdf2 !important;
+  box-shadow: inset 0 0 0 2px #2f5b13; font-weight: 650;
+}
+[class~="cS6V_W_chip"]:disabled { opacity: .45; }
+[class~="cS6V_W_detail"] {
+  border: 1px solid #a89372 !important; border-radius: 0 !important; background: #fff4e4 !important;
+  box-shadow: inset 1px 1px 0 #00000018; color: #2b2118 !important; margin-top: 14px !important;
+}
+[class~="cS6V_W_detail"]:focus {
+  border-color: #547c2b !important; box-shadow: inset 0 0 0 1px #547c2b, 0 0 0 2px #547c2b33 !important; outline: none !important;
+}
+[class~="cS6V_W_detail"]::placeholder { color: #8a7a62 !important; }
+/* R06: the submit uses the same green primary recipe as every other primary
+ * action (green.png 6px slice shown at 4px, deep plate, top-left bevel from the
+ * frame, 2px press offset). It used to be a flat 1px outline, which made C9 look
+ * like a different button family from C3/C4. */
+[class~="cS6V_W_submit"] {
+  box-sizing: border-box;
+  border: 2px solid transparent !important; border-radius: 0 !important;
+  border-image: url(sprites/green.png) 6 / 4px / 0 round !important;
+  background: #3f6110 url(sprites/green_tile.png) left top / 32px 32px repeat !important;
+  background-clip: padding-box !important;
+  color: #fffdf2 !important; text-shadow: 1px 1px 0 #20380899; font-weight: 650; letter-spacing: .02em;
+  box-shadow: 0 2px 0 #1b280855 !important;
+  margin-top: 12px;
+}
+[class~="cS6V_W_submit"]:hover:not(:disabled) { background-color: #46700f !important; background-image: url(sprites/green_tile_hover.png) !important; border-image-source: url(sprites/green_hover.png) !important; }
+[class~="cS6V_W_submit"]:active:not(:disabled) { box-shadow: inset 1px 1px 0 #14210a99 !important; }
+[class~="cS6V_W_submit"]:focus-visible { outline: 2px solid #2f5b13; outline-offset: 2px; }
+[class~="cS6V_W_submit"]:disabled {
+  background: #d9cbaa !important; border-image-source: url(sprites/stone_plain.png) !important;
+  color: #7a6a52 !important; text-shadow: none; box-shadow: none !important; cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  [class~="cS6V_W_chip"] { height: auto !important; min-height: 28px; padding: 4px 10px; white-space: normal; line-height: 18px; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { [class~="cS6V_W_chip"] { transition: none !important; } }
+@media (forced-colors: active) {
+  :is([class~="cS6V_W_dialog"], [class~="cS6V_W_detail"], [class~="cS6V_W_chip"], [class~="cS6V_W_submit"], [class~="Hyy-Wa_action"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="cS6V_W_chipActive"] {
+    border: 3px solid CanvasText !important; font-weight: 700 !important; text-decoration: underline !important;
+  }
+  [class~="cS6V_W_submit"]:disabled { border-style: dashed !important; }
+}
+
+/* C10: file-type icons. The host renders one 24x24 stroke <svg> per type and
+ * keeps its <title> for assistive tech; the skin paints an original 16x16 pixel
+ * sprite on the same element and hides the vector children. Types the skin has
+ * no art for (folder, other) are left completely untouched, so the existing
+ * open/closed box icons and the unknown-file icon stay native. */
+[class*="_1wejo_"] {
+  background-repeat: no-repeat; background-position: center; background-size: contain;
+  image-rendering: pixelated;
+}
+:is([class*="_markdown_1wejo_"], [class*="_code_1wejo_"], [class*="_html_1wejo_"], [class*="_image_1wejo_"], [class*="_pdf_1wejo_"], [class*="_word_1wejo_"], [class*="_excel_1wejo_"], [class*="_ppt_1wejo_"], [class*="_video_1wejo_"]) > * { opacity: 0; }
+[class*="_markdown_1wejo_"] { background-image: url(sprites/file-markdown.png); }
+[class*="_code_1wejo_"] { background-image: url(sprites/file-code.png); }
+[class*="_html_1wejo_"] { background-image: url(sprites/file-html.png); }
+[class*="_image_1wejo_"] { background-image: url(sprites/file-image.png); }
+[class*="_pdf_1wejo_"] { background-image: url(sprites/file-pdf.png); }
+[class*="_word_1wejo_"] { background-image: url(sprites/file-word.png); }
+[class*="_excel_1wejo_"] { background-image: url(sprites/file-excel.png); }
+[class*="_ppt_1wejo_"] { background-image: url(sprites/file-ppt.png); }
+[class*="_video_1wejo_"] { background-image: url(sprites/file-video.png); }
+@media (forced-colors: active) {
+  /* Keep the bitmap (it is our own artwork with its own outline); do not let the
+   * system palette repaint it, and keep the host title readable. */
+  [class*="_1wejo_"] { forced-color-adjust: none; }
+}
+
+/* C11: image lightbox and inline editor. The lightbox keeps the host's mask,
+ * stage and fit rules; the skin gives the picture a stone frame with a paper
+ * mat, turns the close key and zoom strip into stone/wood controls, and never
+ * resamples or stretches the bitmap. The inline editor is a textarea with one
+ * class - the host draws no line numbers, so neither do we: only chrome. */
+[class~="_mask_19zw2_19"] { background: #17110bee !important; backdrop-filter: none !important; }
+[class~="_stage_19zw2_9"] { padding: 46px !important; }
+[class~="_image_19zw2_26"] {
+  border: 6px solid transparent !important;
+  border-image: var(--mc-stone, url(sprites/stone.png)) 6 / 6px / 0 round !important;
+  border-radius: 0 !important; padding: 0 !important; box-sizing: content-box !important;
+  /* C11: the host paints this element with --dsw-specific-input-major, which turns
+   * a transparent PNG into an opaque pale rectangle. Drop the backdrop so alpha
+   * shows the stone mat and photos keep their own colours. */
+  background: transparent !important;
+  box-shadow: inset 0 0 0 1px #fff6dd66, 6px 8px 0 #00000055 !important; image-rendering: auto !important;
+}
+/* R06: close and zoom are ordinary operations, so they share the A-series stone
+ * key: continuous stepped frame from stone_plain.png (6px source slice shown at
+ * 3px on these 26/34px keys), top-left highlight from the slice, 2px press
+ * offset. No corner rivets, no second outline. */
+[class~="_close_19zw2_37"] {
+  box-sizing: border-box;
+  width: 34px !important; height: 34px !important; border-radius: 0 !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch !important;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  background-clip: padding-box !important;
+  color: #392c20 !important;
+  box-shadow: 0 2px 0 #21170e66 !important;
+}
+[class~="_close_19zw2_37"]:hover { background-color: #eee7d9 !important; }
+[class~="_close_19zw2_37"]:active { box-shadow: inset 1px 1px 0 #4d433b55 !important; }
+[class~="_close_19zw2_37"]:focus-visible { outline: 2px solid #547c2b !important; outline-offset: 3px !important; }
+[class~="_panel_denjv_2"] {
+  border: 1px solid #7a6a52 !important; border-radius: 0 !important;
+  background: #efe0bd var(--mc-plank, url(sprites/plank_tile.png)) left top / 32px repeat !important;
+  box-shadow: 3px 3px 0 #00000044 !important; gap: 1px !important;
+}
+[class~="_zoomButton_denjv_39"] {
+  box-sizing: border-box;
+  width: 26px !important; height: 26px !important; border-radius: 0 !important;
+  border: 2px solid transparent !important;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch !important;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px repeat !important;
+  background-clip: padding-box !important;
+  color: #392c20 !important;
+  box-shadow: 0 2px 0 #21170e66 !important;
+}
+[class~="_zoomButton_denjv_39"]:hover { background-color: #eee7d9 !important; }
+[class~="_zoomButton_denjv_39"]:active { box-shadow: inset 1px 1px 0 #4d433b55 !important; }
+[class~="_percent_denjv_40"] { color: #2b2118 !important; font-variant-numeric: tabular-nums; background: #f7ead1; border: 1px solid #a89372; }
+[class~="_editor_61ozo_1"] {
+  border: 1px solid #a89372 !important; border-radius: 0 !important;
+  background: #fff4e4 !important; color: #2b2118 !important;
+  box-shadow: inset 1px 1px 0 #00000018; caret-color: #2b2118;
+}
+[class~="_editor_61ozo_1"]:focus, [class~="_editor_61ozo_1"]:focus-visible {
+  border-color: #547c2b !important; box-shadow: inset 0 0 0 1px #547c2b !important; outline: none !important;
+}
+@media (max-width: 600px) {
+  [class~="_stage_19zw2_9"] { padding: 24px !important; }
+  [class~="_image_19zw2_26"] { max-width: 100% !important; }
+  [class~="_panel_denjv_2"] { max-width: calc(100vw - 32px); }
+}
+@media (forced-colors: active) {
+  :is([class~="_image_19zw2_26"], [class~="_close_19zw2_37"], [class~="_panel_denjv_2"], [class~="_zoomButton_denjv_39"], [class~="_percent_denjv_40"], [class~="_editor_61ozo_1"]) {
+    background: Canvas !important; background-image: none !important; border-color: CanvasText !important; color: CanvasText !important; box-shadow: none !important;
+  }
+  [class~="_image_19zw2_26"] { border: 2px solid CanvasText !important; }
+}
+
+/* C12: empty-state scenes. Three original 110x100 pixel scenes share the
+ * valley_day palette and upper-left light: a cold fire pit (automation list
+ * empty), an open empty chest (market filtered to nothing) and a blank signpost
+ * (workspace empty). They only fill the illustration slots the host already
+ * renders - titles, descriptions and the create/retry actions stay host text,
+ * and the failure state deliberately keeps no illustration. */
+[class~="olCj9W_emptyIllustration"] {
+  background: center / contain no-repeat url(sprites/empty-campfire.png);
+  image-rendering: pixelated;
+}
+[class~="olCj9W_emptyIllustration"] > * { opacity: 0; }
+[class~="m2i3Fa_empty"]::before {
+  content: ""; display: block; width: 110px; height: 100px; margin-bottom: 4px; flex: none;
+  background: center / contain no-repeat url(sprites/empty-chest.png);
+  image-rendering: pixelated;
+}
+[class~="m2i3Fa_empty"] > span[aria-hidden="true"] { display: none; }
+[class~="GAkraW_emptyState"]::before {
+  content: ""; display: block; width: 110px; height: 100px; margin-bottom: 4px; flex: none;
+  background: center / contain no-repeat url(sprites/empty-signpost.png);
+  image-rendering: pixelated;
+}
+@media (forced-colors: active) {
+  [class~="olCj9W_emptyIllustration"], [class~="m2i3Fa_empty"]::before, [class~="GAkraW_emptyState"]::before { forced-color-adjust: none; }
+}
+
+/* D1/R03: bitmap font. Only short Latin/digit surfaces switch to the original
+ * "Skin Pixel 5x7" face (keyboard keys and the zoom percentage); Chinese text,
+ * body copy, code and the terminal keep the system stack, because the font
+ * deliberately covers printable ASCII only and falls back per glyph.
+ *
+ * The old rule forced 8px so the badge would keep the host key text width
+ * (24px for "Ctrl"). That made Ctrl/Shift unreadable, so the width parity is
+ * gone: 12px is the auxiliary floor from TODO section 5 and the size the zoom
+ * percentage already used. 12px is 1.5x the 8px bitmap em, so the stems stay
+ * crisp enough at DPR 1 and land on whole device pixels at DPR 2; the face is
+ * only used at readable sizes, never below 12px. Letter-spacing is 0 so the
+ * bitmap grid is not broken up by fractional advances. */
+:is(kbd, [class~="St8tea_keyBadge"], [class~="St8tea_fixedKeyBadge"], [class~="_percent_denjv_40"]) {
+  font-family: "Skin Pixel 5x7", var(--dsw-font-family), ui-monospace, monospace !important;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+  font-synthesis: none;
+}
+:is(kbd, [class~="St8tea_keyBadge"], [class~="St8tea_fixedKeyBadge"]) { font-size: 12px !important; }
+
+/* D4: optional colour variants. They are opt-in through `data-mc-variant` and
+ * never replace the warm default just because dark mode is on. Only the paper,
+ * stone, plank and slot slices change (recoloured copies of our own sprites,
+ * ramps measured from refs/vanilla-26.3 blocks); body text, semantic colours
+ * (error red / selected green / running blue) and the primary green stay as-is,
+ * so nothing has to be re-tuned per variant. Unknown values fall through to the
+ * warm default because every token has a warm fallback in its own declaration. */
+[data-mc-variant="night"] {
+  --mc-parch: url(sprites/parch_night.png);
+  --mc-stone: url(sprites/stone_night.png);
+  --mc-plank: url(sprites/plank_night.png);
+  --mc-slot-img: url(sprites/slot_night.png);
+}
+[data-mc-variant="nether"] {
+  --mc-parch: url(sprites/parch_nether.png);
+  --mc-stone: url(sprites/stone_nether.png);
+  --mc-plank: url(sprites/plank_nether.png);
+  --mc-slot-img: url(sprites/slot_nether.png);
+}
+
+/* D6: boot screen. The host renders .u7vgf_boot > .u7vgf_card(wordmark, spinner,
+ * hint) and swaps the spinner for .u7vgf_failed on a load failure. We only
+ * decorate the shell and the indicator: the wordmark, the hint text and the
+ * failure items stay host content, and the arc keeps reading the host's own
+ * --dsh-boot-arc (0 when there is no total, real degrees when there is), so no
+ * fake 0->100% loop is introduced. A fixed pixel dot keeps signalling "waiting"
+ * once the rotation stops under reduced motion. */
+[data-dsh-boot] {
+  background: radial-gradient(circle at 50% 42%, #35291d 0%, #241b12 55%, #17110b 100%) !important;
+}
+[class~="_card_u7vgf_24"] {
+  padding: 20px 26px !important;
+  border: 6px solid transparent !important;
+  border-image: url(sprites/stone.png) 6 / 6px / 0 round !important;
+  background: #faf2e5 url(sprites/parch_large.png) left top / var(--mc-paper-size) repeat !important;
+  box-shadow: 8px 10px 0 #00000055 !important;
+}
+[class~="_wordmark_u7vgf_31"] { color: #2b2118 !important; letter-spacing: .14em !important; }
+[class~="_hint_u7vgf_39"] { color: #4e4034 !important; text-align: center; }
+[class~="_spinner_u7vgf_45"] {
+  width: 44px !important; height: 44px !important;
+  border: 4px solid #3a2f22 !important; border-radius: 50% !important;
+  background: #241b12 !important;
+  box-shadow: inset 0 0 0 1px #8a7355 !important;
+}
+[class~="_spinner_u7vgf_45"]::after {
+  inset: -4px !important; border-radius: 50% !important;
+  /* R05: the progress arc means "running", so it uses the information blue
+   * (#3e7cb1 on #241b12 = 5.0:1) instead of the grass green that also means
+   * primary/selected. The arc still reads the host's own --dsh-boot-arc. */
+  background: conic-gradient(#5b9bd1 var(--dsh-boot-arc, 0deg), transparent 0) !important;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0) !important;
+  mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0) !important;
+}
+[class~="_spinner_u7vgf_45"]::before {
+  content: ""; position: absolute; top: -4px; left: 50%; width: 4px; height: 4px; margin-left: -2px;
+  background: #a6d36a; box-shadow: 0 0 0 1px #241b12;
+}
+[class~="_failed_u7vgf_72"] {
+  border-left: 3px solid #a02e25 !important; padding-left: 10px !important;
+}
+[class~="_failedTitle_u7vgf_79"] { color: #7d1f18 !important; }
+[class~="_failedItem_u7vgf_86"] { color: #4e4034 !important; }
+@media (prefers-reduced-motion: reduce) {
+  /* Stop rotating but keep the dot and the arc: the screen still reads as waiting. */
+  [class~="_spinner_u7vgf_45"] { animation: none !important; }
+}
+@media (forced-colors: active) {
+  [data-dsh-boot] { background: Canvas !important; }
+  [class~="_card_u7vgf_24"] { border: 2px solid CanvasText !important; background: Canvas !important; }
+}
+
+/* D7: micro details. Focus keeps a crisp 2px ring; the paper-coloured halo
+ * keeps it readable on both parchment panels and the dark sidebar without
+ * becoming an animation. Drag previews and drop markers keep the host's own
+ * geometry, coordinates and pointer-events; only the paint changes. No cursor,
+ * caret or ::selection override - the crosshair is deliberately absent. */
+:is(button, [role="button"], a[href], summary, input, textarea, select, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid #547c2b !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px #f6ecd6 !important;
+}
+[class*="q_sidebarCol"] :is(button, [role="button"], [tabindex]):focus-visible,
+[class~="wnFoaW_sessionRow"]:focus-visible {
+  outline-color: #d6edaa !important;
+  box-shadow: 0 0 0 2px #3a2a1acc !important;
+}
+[class~="wnFoaW_dragPreview"] {
+  background: #f2e9cf url(sprites/parch_large.png) left top / 64px 64px repeat !important;
+  border: 3px solid transparent !important;
+  border-image: url(sprites/slot.png) 6 / 3px / 0 stretch !important;
+  color: #2b2118 !important;
+  box-shadow: 4px 4px 0 #00000044 !important;
+  opacity: .96 !important;
+}
+[class~="wnFoaW_sessionRow"][class~="wnFoaW_dropBefore"]::before,
+[class~="wnFoaW_sessionRow"][class~="wnFoaW_dropAfter"]::after {
+  /* keep the host 12px band and its 4px inset; draw a 2px hard line plus its shadow */
+  background:
+    linear-gradient(#3f6110 0 0) 4px 7px / calc(100% - 4px) 2px no-repeat,
+    linear-gradient(#a6d36a 0 0) 4px 5px / calc(100% - 4px) 2px no-repeat !important;
+  box-shadow: none !important;
+}
+@media (forced-colors: active) {
+  :is(button, [role="button"], a[href], summary, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid Highlight !important;
+    box-shadow: none !important;
+  }
+  [class~="wnFoaW_dragPreview"] { border: 1px solid CanvasText !important; background: Canvas !important; color: CanvasText !important; }
+  [class~="wnFoaW_sessionRow"][class~="wnFoaW_dropBefore"]::before,
+  [class~="wnFoaW_sessionRow"][class~="wnFoaW_dropAfter"]::after { background: Highlight !important; box-shadow: none !important; }
+}

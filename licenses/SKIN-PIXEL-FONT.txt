@@ -1,0 +1,17 @@
+skin-pixel-5x7.ttf - original pixel font of the minecraft_skin project
+=========================================================================
+
+Copyright: the authors of the minecraft_skin repository.
+Licence:   CC0 1.0 Universal (public domain dedication).
+
+Every glyph in this font was drawn by scripts/pixel_font.py from the bitmap table
+in that file. No existing font file was copied, converted, traced or subset, and
+no Mojang asset (for example refs/vanilla-26.3/textures/font/ascii.png, which
+stays local reference only) contributed any pixel to it.
+
+You may use, modify and redistribute this font for any purpose, including
+commercially, without asking permission. Attribution is appreciated but not
+required. The font is provided as-is, without warranty of any kind.
+
+The 5x7 bitmap grid and 6px advance are ordinary bitmap-metrics conventions; the
+glyph shapes themselves are this project's own design.

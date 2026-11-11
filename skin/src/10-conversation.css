@@ -1,0 +1,591 @@
+/* B2: villager-style inset choices on a stone-framed sandstone panel. The host owns
+ * radio/checkbox semantics, paging, countdown, review locks and submission. */
+[class~="wnLwla_card"] {
+  min-width: 0;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  border-radius: 0 !important;
+  background: #e1d3a4 url(sprites/sandstone_tile.png) left top / 128px 128px;
+  background-clip: padding-box;
+  color: var(--mc-ink);
+  --dsw-alias-label-primary: #35291d;
+  --dsw-alias-label-secondary: #594732;
+  --dsw-alias-label-tertiary: #715b40;
+  --dsw-alias-label-caption: #715b40;
+  --dsw-alias-state-error-primary: #9a2d20;
+}
+[class~="wnLwla_options"] { gap: 6px; }
+[class~="wnLwla_optionRow"] {
+  border: 2px solid #93856c;
+  border-radius: 0;
+  background: #e6d8bd;
+  background-clip: padding-box;
+  box-shadow: inset 2px 2px #b5a58a, inset -2px -2px #fff4db;
+}
+[class~="wnLwla_optionRowInteractive"]:hover { background: #f1e5cc; }
+[class~="wnLwla_optionRow"]:is([class~="wnLwla_optionSelected"], :has([aria-checked="true"])) {
+  border-color: #527d2e;
+  background: #e3ebcd;
+  box-shadow: inset 2px 2px #b5c693, inset -2px -2px #f5ffdf;
+}
+[class~="wnLwla_number"] {
+  border-radius: 0;
+  background: #c9bda3;
+  color: #51432d;
+  box-shadow: inset 1px 1px #8b7d65, inset -1px -1px #fff1d2;
+}
+[class~="wnLwla_optionSelected"] [class~="wnLwla_number"] {
+  font-size: 0;
+  background: #d9e9b7 url(sprites/check_mark.svg) center / 16px 16px no-repeat;
+}
+[class~="wnLwla_checkbox"]::before {
+  border: 2px solid #766d59;
+  border-radius: 0;
+  background: #d5c9af;
+  background-clip: padding-box;
+  box-shadow: inset 1px 1px #a5977a;
+}
+[class~="wnLwla_checkboxChecked"] { color: #35591c; }
+[class~="wnLwla_checkboxChecked"]::before {
+  border-color: #527d2e;
+  background: #d9e9b7 url(sprites/check_mark.svg) center / 14px 14px no-repeat;
+}
+[class~="wnLwla_checkboxChecked"] > svg { visibility: hidden; }
+:is([class~="wnLwla_optionCopy"], [class~="wnLwla_optionLine"], [class~="wnLwla_optionLabel"]) { min-width: 0; overflow-wrap: anywhere; }
+[class~="wnLwla_badge"] { border-radius: 0; background: #dae6bc; color: #3c641e; }
+:is([class~="wnLwla_customRow"], [class~="wnLwla_customBlock"]) {
+  border: 3px solid transparent;
+  border-image: url(sprites/plank.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  background: #f1dfbb;
+  background-clip: padding-box;
+}
+:is([class~="wnLwla_customRow"], [class~="wnLwla_customBlock"]):focus-within { outline: 2px solid #527d2e; outline-offset: -2px; }
+:is([class~="wnLwla_customRow"], [class~="wnLwla_customBlock"]):is(:hover, :focus-within, [class~="wnLwla_customRowActive"]) { background: #f1dfbb; }
+/* The answer field uses an invisible mirror for autosizing; keep its exact
+ * geometry and transparent textarea instead of adding a second input frame. */
+[class~="wnLwla_fieldInput"] {
+  border: 0 !important;
+  border-image: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: var(--dsh-answer-field-padding) !important;
+  color: #35291d !important;
+}
+[class~="wnLwla_waitStatus"]::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: -4px;
+  background: url(sprites/pixel_clock.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[class~="wnLwla_footer"] { flex-wrap: wrap; border-top: 1px solid #c6b08a; padding-top: 8px; }
+[class~="wnLwla_footerActions"] { flex-wrap: wrap; gap: 6px; margin-left: auto; }
+[class~="wnLwla_header"] { flex-wrap: wrap; gap: 6px; }
+[class~="wnLwla_headerActions"] { flex-wrap: wrap; justify-content: flex-end; min-width: 0; }
+[class~="wnLwla_iconButton"] {
+  border: 1px solid #93856c;
+  border-radius: 0;
+  background: #d3d0ca;
+  background-clip: padding-box;
+  color: #51432d;
+}
+[class~="wnLwla_iconButton"]:disabled { opacity: .5; }
+[class~="wnLwla_option"]:disabled { opacity: .65; }
+[class~="wnLwla_feedback"] { color: #9a2d20; overflow-wrap: anywhere; }
+
+/* B3: wooden code labels above a quiet deep-stone screen. Token spans keep
+ * host syntax colors; scrollports, sticky banner and wrap controls stay native.
+ * cf6qc is READ numbering; the actual diff family is 1cyuy. */
+:is([class*="_block_7gxqk_"], [class*="_block_74wpx_"], [class*="_card_1mqf1_"]) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_dark.png) 6 / 6px / 0 stretch;
+  border-radius: 0 !important;
+  background: #20231f;
+  background-clip: padding-box;
+  color: #e6e9df;
+  --dsl-code-block-background: #20231f;
+  --dsl-code-block-border-radius: 0px;
+  --dsw-alias-label-primary: #e6e9df;
+  --dsw-alias-label-secondary: #c9d0bf;
+  --dsw-alias-label-tertiary: #aab89c;
+}
+:is([class*="_bannerWrap_7gxqk_"], [class*="_banner_7gxqk_"], [class*="_header_74wpx_"], [class*="_header_1mqf1_"]) {
+  border-radius: 0 !important;
+  background: #855b31 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px;
+  background-clip: padding-box;
+  color: #fff2d8;
+}
+:is([class*="_infostring_7gxqk_"], [class*="_summary_74wpx_"], [class*="_language_1mqf1_"], [class*="_title_1mqf1_"], [class*="_status_1mqf1_"]) { color: #fff2d8; font-family: Consolas, monospace; }
+:is([class*="_banner_7gxqk_"], [class*="_header_74wpx_"], [class*="_header_1mqf1_"]) { padding: 4px 12px; }
+:is([class*="_copyButton_7gxqk_"], [class*="_copyButton_74wpx_"], [class*="_action_1mqf1_"]) {
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  padding: 1px 3px;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px !important;
+  background-clip: padding-box !important;
+  color: #35291d;
+}
+:is([class*="_copyButton_7gxqk_"], [class*="_copyButton_74wpx_"]) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding-inline: 5px;
+  line-height: 18px;
+}
+/* Text-label copies get a quill alongside the live copied label. Modern icon
+ * actions share a class with wrap; leave both native icons distinguishable. */
+:is([class*="_copyButton_7gxqk_"], [class*="_copyButton_74wpx_"])::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url(sprites/book_quill.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[class*="_numbered_7gxqk_"] pre code > .line::before {
+  background: #343a2d;
+  border-inline-end: 1px solid #697458;
+  background-clip: padding-box;
+  color: #bac6a9;
+}
+:is([class*="_gutter_cf6qc_"], [class*="_lineNumber_74wpx_"]) {
+  background: #343a2d;
+  border-inline-end: 1px solid #697458;
+  padding-inline: 4px;
+  background-clip: padding-box;
+  color: #bac6a9;
+}
+[class*="_del_1cyuy_"] { box-shadow: inset 4px 0 #d78d76; }
+[class*="_add_1cyuy_"] { box-shadow: inset 4px 0 #9cc36a; }
+[class*="_markdown_rve47_"] :not(pre) > code {
+  display: inline;
+  border: 1px solid #baa485;
+  border-radius: 0 !important;
+  padding: .06em .28em;
+  background: #eadfc9;
+  background-clip: padding-box;
+  color: #453521;
+  box-decoration-break: clone;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+  [class~="wnLwla_frame"] { padding-inline: 6px; }
+  [class~="wnLwla_header"] { padding-inline: 10px; }
+  [class~="wnLwla_questionTitle"] { margin-inline: 10px; }
+  [class~="wnLwla_detail"] { margin-inline: 10px; }
+  [class~="wnLwla_footer"] { gap: 6px; padding-inline: 6px; }
+  [class*="_header_1mqf1_"] { flex-wrap: wrap; gap: 6px; }
+}
+@media (forced-colors: active) {
+  :is([class~="wnLwla_card"], [class~="wnLwla_optionRow"], [class~="wnLwla_customRow"], [class~="wnLwla_customBlock"], [class~="wnLwla_iconButton"],
+      [class*="_block_7gxqk_"], [class*="_block_74wpx_"], [class*="_card_1mqf1_"], [class*="_markdown_rve47_"] :not(pre) > code,
+      [class*="_copyButton_7gxqk_"], [class*="_copyButton_74wpx_"], [class*="_action_1mqf1_"]) {
+    border: 1px solid CanvasText !important;
+    border-image: none !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+    box-shadow: none !important;
+  }
+  [class~="wnLwla_optionRow"]:has([aria-checked="true"]) { outline: 2px solid Highlight; outline-offset: -3px; }
+  [class~="wnLwla_number"] { font-size: 12px !important; background: Canvas !important; }
+  [class~="wnLwla_checkboxChecked"] > svg { visibility: visible; }
+  [class~="wnLwla_checkbox"]::before { background: Canvas; border-color: ButtonText; }
+  :is([class~="wnLwla_waitStatus"], [class*="_copyButton_7gxqk_"], [class*="_copyButton_74wpx_"])::before { display: none; }
+  :is([class*="_bannerWrap_7gxqk_"], [class*="_banner_7gxqk_"], [class*="_header_74wpx_"], [class*="_header_1mqf1_"], [class*="_gutter_cf6qc_"], [class*="_lineNumber_74wpx_"]) { background: Canvas !important; color: CanvasText; }
+  [class*="_numbered_7gxqk_"] pre code > .line::before { background: Canvas; color: CanvasText; }
+  [class*="_del_1cyuy_"] { border-left: 3px dashed CanvasText; }
+  [class*="_add_1cyuy_"] { border-left: 3px solid CanvasText; }
+}
+
+/* Thinking stays on the conversation paper. Replace only its idle glyph:
+ * native hover/expanded chevrons, streaming mask and text stay untouched. */
+[data-variant="think"] [class~="VJlF5q_leading"] {
+  width: 24px;
+  height: 24px;
+}
+[data-variant="think"] [class~="VJlF5q_leading"] [class*="_iconIdle_"] {
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  background: url(sprites/tool_item_enchanting_table.svg) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+[data-variant="think"] [class~="VJlF5q_leading"] [class*="_iconIdle_"] > svg { visibility: hidden; }
+[data-variant="think"] [class~="VJlF5q_thinkBody"] { padding-left: calc(30px + var(--dsh-content-font-delta, 0px)); }
+@media (forced-colors: active) {
+  [data-variant="think"] [class~="VJlF5q_leading"] [class*="_iconIdle_"] { background: none; }
+  [data-variant="think"] [class~="VJlF5q_leading"] [class*="_iconIdle_"] > svg { visibility: visible; }
+}
+
+/* B1 tool calls: a thin wooden inventory rail, paper results and a dark
+ * command-block screen. Disclosure/scroll/copy/link behavior stays host-owned.
+ * Module families verified against the local ToolRow, ToolDetails,
+ * AskQuestionCard and shared DisclosureRow/TerminalBlock source. */
+:is([class~="hKdVjq_root"], [class~="cr4P6W_card"]) {
+  min-width: 0;
+  max-width: 100%;
+  margin-block: 6px;
+  --dsw-alias-label-primary: #35291d;
+  --dsw-alias-label-secondary: #594732;
+  --dsw-alias-label-tertiary: #715b40;
+  --dsw-alias-label-caption: #715b40;
+}
+:is([class~="hKdVjq_row"], [class~="cr4P6W_root"]) {
+  box-sizing: border-box;
+  height: auto !important;
+  min-height: calc(32px + var(--dsh-content-font-delta, 0px));
+  padding: 2px 6px;
+  border: 2px solid transparent;
+  border-image: url(sprites/plank.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  background: #855b31 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px !important;
+  background-clip: padding-box !important;
+  color: #fff2d8 !important;
+  overflow: visible;
+}
+:is([class~="hKdVjq_row"], [class~="cr4P6W_root"])::before {
+  content: var(--mc-tool-content, none);
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  background: var(--mc-tool-icon) center / 24px 24px no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+:is([class~="hKdVjq_row"], [class~="cr4P6W_root"]) > [class*="_root_1rdzk_"] { flex: 1; width: auto; }
+/* Keep the real disclosure arrow beside the item, including when expanded.
+ * Unknown names retain their native idle/hover behavior. Run-state labels
+ * and the animated text content are never hidden. */
+:is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) [class*="_iconIdle_"] { display: var(--mc-tool-idle, inline-flex); }
+:is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) [class*="_chevronHover_"] { opacity: var(--mc-tool-chevron, 0); }
+[class~="cr4P6W_leading"] [class~="cr4P6W_iconIdle"] { display: none; }
+[class~="cr4P6W_leading"] [class~="cr4P6W_chevronHover"] { opacity: 1; }
+:is([class~="hKdVjq_row"], [class~="cr4P6W_root"]):not([data-expandable]) > :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) { display: var(--mc-tool-static-leading, inline-flex); }
+:is([class~="hKdVjq_title"], [class~="cr4P6W_title"]) { color: #fff6e5; font-weight: 600; }
+:is([class~="hKdVjq_summary"], [class~="hKdVjq_summarySuffix"], [class~="cr4P6W_summary"]) { color: #f4dfbd; }
+:is([class~="hKdVjq_sep"], [class~="cr4P6W_sep"]) { background: #ddba85; }
+[class~="hKdVjq_fileLink"] { color: inherit; }
+:is([class~="hKdVjq_errorSummary"], [class~="cr4P6W_errorSummary"]) { color: #ffe0d5 !important; text-decoration: underline wavy #ef9679; }
+:is([class~="hKdVjq_stoppedSummary"], [class~="cr4P6W_stoppedSummary"]) { color: #ffe9a8 !important; }
+[class~="hKdVjq_root"][data-state="error"] [class~="hKdVjq_row"] { border-image-source: none; border-color: #bc6651; }
+[class~="hKdVjq_root"]:is([data-state="running"], [data-state="preparing"]) [class~="hKdVjq_row"] { box-shadow: inset 0 -2px #87bdd9; }
+[class~="hKdVjq_root"][data-state="stopped"] [class~="hKdVjq_row"] { border-bottom-color: #dfbb68; }
+:is([class~="hKdVjq_bodyWrap"], [class~="cr4P6W_bodyWrap"]) { min-width: 0; padding-top: 2px; }
+:is([class~="hKdVjq_ioCard"], [class~="cr4P6W_ioCard"], [class~="_1h1PMq_root"], [class~="ZG377q_card"]) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: 4px 0;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  border-radius: 0 !important;
+  background: #fff0d8 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  background-clip: padding-box !important;
+  color: #594732;
+}
+:is([class~="hKdVjq_ioSection"], [class~="cr4P6W_ioSection"]) { grid-template-columns: minmax(0, max-content) minmax(0, 1fr); padding: 10px; gap: 8px; }
+:is([class~="hKdVjq_ioLabel"], [class~="cr4P6W_ioLabel"]) { color: #715b40; }
+:is([class~="hKdVjq_ioText"], [class~="cr4P6W_ioText"]) { color: #594732; overflow-wrap: anywhere; }
+:is([class~="hKdVjq_ioText"], [class~="cr4P6W_ioText"])[data-error] { color: #9a2d20; }
+:is([class~="hKdVjq_ioDivider"], [class~="cr4P6W_ioDivider"]) { background: #bca17b; }
+/* Detail lists retain their native height caps, changes and inspection space. */
+[class~="_1h1PMq_item"] + [class~="_1h1PMq_item"] { border-top-color: #c6b08a; }
+:is([class~="_1h1PMq_caption"], [class~="_1h1PMq_statusText"], [class~="_1h1PMq_subtitle"], [class~="_1h1PMq_description"], [class~="_1h1PMq_field"] dt) { color: #715b40; }
+[class~="_1h1PMq_badge"] { border: 1px solid currentColor; padding: 0 4px; background-clip: padding-box; }
+[class~="_1h1PMq_badge"]::before { border-radius: 0; }
+[class~="_1h1PMq_badge"][data-tone="success"] { color: #3c641e; }
+[class~="_1h1PMq_badge"][data-tone="error"] { color: #9a2d20; }
+[class~="_1h1PMq_badge"][data-tone="warning"] { color: #79530f; }
+[class~="_1h1PMq_badge"][data-tone="info"] { color: #325b83; }
+:is([class~="ZG377q_verdict"], [class~="ZG377q_skipped"]) { border-left: 3px solid #8d795b; padding: 3px 8px; background: #ead9b7; background-clip: padding-box; color: #594732; }
+[class~="ZG377q_question"] { color: #715b40; }
+[class~="ZG377q_answer"] { color: #35291d; }
+:is([class~="hKdVjq_imageMeta"], [class~="hKdVjq_imageExtra"], [class~="hKdVjq_searchRecovery"]) { color: #715b40; }
+[class~="hKdVjq_diffStat"] { display: inline-flex; gap: 4px; margin-left: 6px; }
+[class~="hKdVjq_row"] [class~="hKdVjq_diffAdded"] { color: #e2f5b3 !important; border-bottom: 2px solid #9ac55d; }
+[class~="hKdVjq_row"] [class~="hKdVjq_diffRemoved"] { color: #ffe0d5 !important; border-bottom: 2px solid #eb967c; }
+/* Terminal foreground applies to plain text only. ANSI/command syntax spans
+ * keep their own semantic colors. No global pre/code highlighter overrides. */
+:is([class~="hKdVjq_terminalBody"], [class~="cr4P6W_terminal"]) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  border-radius: 0 !important;
+  background: #20231f !important;
+  background-clip: padding-box !important;
+  color: #e6e9df;
+  margin: 4px 0;
+  --dsw-alias-label-primary: #e6e9df;
+  --dsw-alias-label-secondary: #c0d5ac;
+  --dsw-alias-label-tertiary: #a9b79b;
+  --dsw-alias-border-l2: #4d5a43;
+}
+:is([class~="hKdVjq_root"], [class~="cr4P6W_card"]) :is([class*="_command_15hvo_"], [class~="cr4P6W_commandInput"]) { color: #a7cc76; }
+:is([class~="hKdVjq_root"], [class~="cr4P6W_card"]) [class*="_copyButton_15hvo_"] { background: #20231f; color: #d8e4c6; }
+[class~="cr4P6W_commandInput"] { padding: 4px 6px; background: #20231f; }
+:is([class~="hKdVjq_inspectButton"], [class~="cr4P6W_inspectButton"]) {
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box;
+  color: var(--mc-ink);
+}
+@media (max-width: 480px) {
+  :is([class~="hKdVjq_ioSection"], [class~="cr4P6W_ioSection"]) { grid-template-columns: minmax(0, 1fr); }
+  :is([class~="hKdVjq_ioLabel"], [class~="cr4P6W_ioLabel"]) { position: static; }
+  [class~="_1h1PMq_field"] { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  [class~="ZG377q_card"] { padding: 10px; }
+}
+@media (forced-colors: active) {
+  :is([class~="hKdVjq_row"], [class~="cr4P6W_root"])::before { display: none; }
+  :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) :is([class*="_iconIdle_"], [class~="cr4P6W_iconIdle"]) { display: inline-flex; }
+  :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) :is([class*="_chevronHover_"], [class~="cr4P6W_chevronHover"]) { opacity: 0; }
+  :is([class~="hKdVjq_row"], [class~="cr4P6W_root"]):not([data-expandable]) > :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) { display: inline-flex; }
+  :is([class~="hKdVjq_row"], [class~="cr4P6W_root"], [class~="hKdVjq_ioCard"], [class~="cr4P6W_ioCard"], [class~="_1h1PMq_root"], [class~="ZG377q_card"], [class~="hKdVjq_terminalBody"], [class~="cr4P6W_terminal"], [class~="hKdVjq_inspectButton"], [class~="cr4P6W_inspectButton"]) {
+    border: 1px solid CanvasText !important;
+    border-image: none !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+    box-shadow: none !important;
+  }
+  :is([class~="hKdVjq_root"], [class~="cr4P6W_card"]) :is([class~="hKdVjq_title"], [class~="hKdVjq_summary"], [class~="hKdVjq_summarySuffix"], [class~="hKdVjq_ioText"], [class~="hKdVjq_ioLabel"], [class~="hKdVjq_errorSummary"], [class~="hKdVjq_stoppedSummary"], [class~="hKdVjq_diffAdded"], [class~="hKdVjq_diffRemoved"], [class~="cr4P6W_title"], [class~="cr4P6W_summary"], [class~="cr4P6W_ioText"], [class~="cr4P6W_ioLabel"], [class~="cr4P6W_errorSummary"], [class~="cr4P6W_stoppedSummary"], [class~="_1h1PMq_badge"], [class~="ZG377q_verdict"], [class~="ZG377q_skipped"], [class*="_command_15hvo_"], [class~="cr4P6W_commandInput"]) { color: CanvasText !important; }
+  [class~="hKdVjq_root"][data-state="error"] [class~="hKdVjq_row"] { border-style: dashed !important; }
+}
+
+/* B4: small paper signs. Inline chips may break across lines, including long
+ * paths; quote source truncation and the real remove/hover glyph stay native. */
+:is([class*="_quote_at713_"], [class*="_fileMention_rve47_"], [class*="_refChip_fbulu_"]) {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 4px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch;
+  border-radius: 0;
+  background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box;
+  color: #59422a;
+  padding: 0 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  text-align: inherit;
+}
+[class*="_quote_at713_"] { max-width: min(80%, 300px); border-left-color: #735031; border-image-width: 4px 4px 4px 0; }
+[class*="_popoverText_at713_"] { border-left: 4px solid #735031; background: #f1e4c7; background-clip: padding-box; color: #35291d; }
+[class*="_remove_at713_"] { border-radius: 0; }
+[class*="_remove_at713_"]:hover { background: #d9c49b; }
+[class*="_markdown_rve47_"] :not(pre) > code:has(> [class*="_fileMention_rve47_"]) { border: 0; background: none; padding: 0; }
+:is([class*="_fileMention_rve47_"], [class*="_refChip_fbulu_"]):focus-visible,
+[class*="_quote_at713_"]:focus-within { outline: 2px solid #527d2e; outline-offset: 2px; }
+/* B5: a stack of map pages. The ordered list numbering, dates, snippets and
+ * native 320px internal scrollport are retained. Links remain real links. */
+[class*="_block_1j4y1_"] {
+  min-width: 0;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  border-radius: 0;
+  background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box;
+  color: #35291d;
+  padding: 10px;
+}
+[class*="_sources_1j4y1_"] { padding: 4px 6px 6px 2em; gap: 12px; }
+[class*="_source_1j4y1_"] { border-bottom: 2px solid #c3aa7e; padding: 0 0 8px 2px; background-clip: padding-box; }
+[class*="_source_1j4y1_"]::marker { color: #735031; font-family: Consolas, monospace; font-weight: bold; }
+:is([class*="_sourceLink_1j4y1_"], [class*="_fetchUrl_1j4y1_"]) {
+  box-sizing: border-box;
+  color: #fff6e5;
+  border: 4px solid transparent;
+  border-image: url(sprites/plank.png) 6 / 4px / 0 stretch;
+  border-radius: 0;
+  background: #986b38 var(--mc-plank, url(sprites/plank_tile.png)) left top / 128px 128px;
+  background-clip: padding-box;
+  padding: 1px 5px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+[class*="_fetchUrl_1j4y1_"] { display: block; }
+[class*="_sourceLink_1j4y1_"] { display: inline-block; max-width: 100%; vertical-align: top; }
+:is([class*="_snippet_1j4y1_"], [class*="_empty_1j4y1_"]) { color: #594732; }
+:is([class*="_published_1j4y1_"], [class*="_truncated_1j4y1_"], [class*="_status_1j4y1_"]) { color: #715b40; }
+[class*="_fetchMeta_1j4y1_"] { flex-wrap: wrap; gap: 4px 12px; }
+@media (forced-colors: active) {
+  :is([class*="_quote_at713_"], [class*="_fileMention_rve47_"], [class*="_refChip_fbulu_"], [class*="_popoverText_at713_"], [class*="_block_1j4y1_"], [class*="_sourceLink_1j4y1_"], [class*="_fetchUrl_1j4y1_"]) {
+    border: 1px solid CanvasText;
+    border-image: none;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+  :is([class*="_fileMention_rve47_"], [class*="_sourceLink_1j4y1_"], [class*="_fetchUrl_1j4y1_"]) { color: LinkText; text-decoration: underline; }
+  :is([class*="_fileMention_rve47_"], [class*="_refChip_fbulu_"]):focus-visible, [class*="_quote_at713_"]:focus-within { outline-color: Highlight; }
+}
+
+/* B6: explicit action labels only; branch/usage/unknown actions keep their
+ * native icons. Live copied labels switch to a check instead of hiding state.
+ * Feedback maps native icon identity (outline and filled) to splash potions. */
+button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"]) { --mc-message-item: url(sprites/tool_item_written_book.svg); }
+button[class~="_1KfHza_action"]:is([aria-label="已复制"], [aria-label="Copied"]) { --mc-message-item: url(sprites/check_mark.svg); }
+button[class~="_1KfHza_action"]:is([aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"]) { --mc-message-item: url(sprites/pixel_clock.svg); }
+button[class~="_1KfHza_action"]:is([aria-label="引用"], [aria-label="引用消息"], [aria-label="Quote"], [aria-label="Quote message"]) { --mc-message-item: url(sprites/tool_item_sign.svg); }
+button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"], [aria-label="已复制"], [aria-label="Copied"], [aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"], [aria-label="引用"], [aria-label="引用消息"], [aria-label="Quote"], [aria-label="Quote message"]) {
+  position: relative;
+  padding: 2px;
+}
+button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"], [aria-label="已复制"], [aria-label="Copied"], [aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"], [aria-label="引用"], [aria-label="引用消息"], [aria-label="Quote"], [aria-label="Quote message"])::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--mc-message-item) center / 20px 20px no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"], [aria-label="已复制"], [aria-label="Copied"], [aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"], [aria-label="引用"], [aria-label="引用消息"], [aria-label="Quote"], [aria-label="Quote message"]) svg { visibility: hidden; }
+button[class~="Hyy-Wa_action"] { position: relative; padding: 2px; --mc-rating-content: none; --mc-rating-native: visible; }
+button[class~="Hyy-Wa_action"]:has(svg:is([data-icon^="dsw-icon-like-"], [data-icon^="dsw-icon-dislike-"])) { --mc-rating-content: ""; --mc-rating-native: hidden; }
+button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-like-"]) { --mc-rating-item: url(sprites/tool_item_splash_healing_potion.svg); }
+button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-dislike-"]) { --mc-rating-item: url(sprites/tool_item_splash_harming_potion.svg); }
+button[class~="Hyy-Wa_action"]::before { content: var(--mc-rating-content); position: absolute; inset: 0; background: var(--mc-rating-item, none) center / 24px 24px no-repeat; image-rendering: pixelated; pointer-events: none; }
+button[class~="Hyy-Wa_action"] svg { visibility: var(--mc-rating-native); }
+button[class~="Hyy-Wa_action"][aria-pressed="true"] { outline: 2px solid #527d2e; outline-offset: 1px; }
+@media (forced-colors: active) {
+  button:is([class~="_1KfHza_action"], [class~="Hyy-Wa_action"]) { border: 1px solid ButtonText !important; border-image: none !important; background: Canvas !important; color: ButtonText !important; box-shadow: none !important; }
+  button:is([class~="_1KfHza_action"], [class~="Hyy-Wa_action"])::before { display: none; }
+  button:is([class~="_1KfHza_action"], [class~="Hyy-Wa_action"]) svg { visibility: visible !important; position: static; width: 17px; height: 17px; padding: 0; background: Canvas; color: ButtonText; }
+  button[class~="Hyy-Wa_action"][aria-pressed="true"] { outline-color: Highlight; }
+}
+
+/* B7: inventory frames around attachments; only the chrome is pixelated.
+ * Upload widths/indeterminate transforms are supplied exclusively by the host. */
+:is([class~="yTDIAG_thumbnail"], [class~="Onur9G_thumbnail"], [class~="n-Yh7q_frame"]) {
+  box-sizing: border-box;
+  border: 4px solid transparent;
+  border-image: var(--mc-slot-img, url(sprites/slot.png)) 6 / 4px / 0 stretch;
+  border-radius: 0;
+  /* n-Yh7q_frame also matches the older generic q_frame landscape rule. */
+  background: #aaa89b !important;
+  background-clip: padding-box;
+}
+:is([class~="yTDIAG_thumbnail"], [class~="Onur9G_thumbnail"], [class~="n-Yh7q_frame"]) img { image-rendering: auto; }
+[class~="yTDIAG_thumbnailFailed"], [class~="n-Yh7q_error"], [class~="EEnIVa_failed"] { border-image-source: none !important; border-color: #9a3f32 !important; }
+[class~="yTDIAG_thumbnailRefused"] [class~="yTDIAG_failureGlyph"] { background: url(sprites/tool_item_barrier.svg) center / 32px 32px no-repeat; image-rendering: pixelated; }
+[class~="yTDIAG_thumbnailRefused"] [class~="yTDIAG_failureGlyph"] svg { visibility: hidden; }
+[class~="EEnIVa_card"] {
+  max-width: 100%;
+  border: 4px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch;
+  border-radius: 0;
+  background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size);
+  background-clip: padding-box;
+}
+:is([class~="yTDIAG_progressTrack"], [class~="EEnIVa_progressTrack"]) { height: 6px; border: 1px solid #323c23; border-radius: 0; background: #3e472d; background-clip: padding-box; }
+:is([class~="yTDIAG_progressBar"], [class~="EEnIVa_progressBar"]) { border-radius: 0; background: #3e7cb1 url(sprites/blue_tile.png) left top / 64px 64px; box-shadow: inset 0 1px #a9cdec; }
+:is([class~="yTDIAG_remove"], [class~="Onur9G_remove"], [class~="EEnIVa_remove"], [class~="Onur9G_arrow"]) {
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 2px / 0 stretch;
+  border-radius: 0;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box;
+  color: #35291d;
+}
+[class~="EEnIVa_removeFailed"] { background: #9a3f32; color: #fff6e5; border-color: #6d2c24; border-image: none; }
+[class~="n-Yh7q_error"] { border-radius: 0; background: #f1d5c1; background-clip: padding-box; color: #9a2d20; }
+/* Drag mask remains pointer-transparent and retains the real accept/refuse text. */
+[class~="mwbuSa_mask"] { background-color: #222a24b8; backdrop-filter: none; }
+[class~="mwbuSa_wrap"] { border: 6px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch; background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size); background-clip: padding-box; padding: 24px; max-width: calc(100% - 24px); color: #35291d; }
+[class~="mwbuSa_desc"] { color: #715b40; }
+@media (prefers-reduced-motion: reduce) {
+  :is([class~="yTDIAG_progressBar"], [class~="EEnIVa_progressBar"], [class~="EEnIVa_spinner"]) { animation: none; }
+}
+@media (forced-colors: active) {
+  :is([class~="yTDIAG_thumbnail"], [class~="Onur9G_thumbnail"], [class~="n-Yh7q_frame"], [class~="n-Yh7q_error"], [class~="EEnIVa_card"], [class~="yTDIAG_remove"], [class~="Onur9G_remove"], [class~="EEnIVa_remove"], [class~="Onur9G_arrow"], [class~="mwbuSa_wrap"]) { border: 1px solid CanvasText !important; border-image: none !important; background: Canvas; color: CanvasText; }
+  :is([class~="yTDIAG_thumbnailFailed"], [class~="n-Yh7q_error"], [class~="EEnIVa_failed"]) { border-style: dashed !important; }
+  [class~="yTDIAG_thumbnailRefused"] [class~="yTDIAG_failureGlyph"] { background: none; }
+  [class~="yTDIAG_thumbnailRefused"] [class~="yTDIAG_failureGlyph"] svg { visibility: visible; }
+  :is([class~="yTDIAG_progressTrack"], [class~="EEnIVa_progressTrack"]) { background: Canvas; border-color: CanvasText; }
+  :is([class~="yTDIAG_progressBar"], [class~="EEnIVa_progressBar"]) { background: Highlight; box-shadow: none; }
+}
+
+/* B8: quest parchment, achievement plaque, enchanted book and item frames.
+ * GoalBar exposes no numeric progress: its plaque does not invent a fill.
+ * Presented is a real host list, not a completion stamp on arbitrary files. */
+:is([class~="lLdGaq_card"], [class~="K5rwea_file"], [class~="iJmaOG_instructionsCard"]) {
+  box-sizing: border-box;
+  border: 6px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 6px / 0 stretch;
+  border-radius: 0;
+  background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size) !important;
+  background-clip: padding-box !important;
+  color: #35291d;
+}
+:is([class~="lLdGaq_card"], [class~="K5rwea_file"]) { height: auto; min-height: 72px; padding: 8px; gap: 8px; }
+[class~="lLdGaq_cardIcon"] { border: 0; border-radius: 0; background: url(sprites/quest_scroll.svg) center / 36px 36px no-repeat !important; image-rendering: pixelated; }
+[class~="lLdGaq_cardIcon"] > * { visibility: hidden; }
+:is([class~="lLdGaq_cardDescription"], [class~="K5rwea_description"], [class~="K5rwea_hostStatus"]) { color: #715b40; }
+[class~="K5rwea_description"][data-error="true"] { color: #9a2d20; }
+[class~="K5rwea_fileIcon"] { border: 4px solid transparent; border-image: url(sprites/plank.png) 6 / 4px / 0 stretch; border-radius: 0; background: #bea075 !important; background-clip: padding-box !important; color: #59422a; }
+/* Preserve file-type glyphs and image previews inside the wooden display frame. */
+[class~="K5rwea_fileIcon"] img { image-rendering: auto; }
+:is([class~="lLdGaq_cardOpen"], [class~="C7Zcma_chip"], [class~="iJmaOG_inspectButton"], [class~="K5rwea_toggle"], [class~="Gc24Bq_iconBtn"]) {
+  border: 2px solid transparent;
+  border-image: url(sprites/stone_plain.png) 6 / 3px / 0 stretch;
+  border-radius: 0;
+  background: #d3d0ca var(--mc-cobble) left top / 64px 64px;
+  background-clip: padding-box;
+  color: #35291d;
+}
+[class~="lLdGaq_reviewLink"] { color: #59422a; text-decoration: underline dotted; text-underline-offset: 3px; }
+[class~="lLdGaq_preview"] { background: #f1e4c7 var(--mc-parch, url(sprites/parch_large.png)) left top / var(--mc-paper-size); }
+[class~="C7Zcma_chip"] { min-height: 28px; height: auto; }
+[class~="Gc24Bq_dock"] { min-width: 0; max-width: 100%; }
+[class~="Gc24Bq_bar"] { border: 4px solid transparent; border-image: url(sprites/stone_plain.png) 6 / 4px / 0 stretch; border-radius: 0; background: #313b28; background-clip: padding-box; min-height: 40px; height: auto; padding: 2px 4px; gap: 6px; box-shadow: none; }
+[class~="Gc24Bq_bar"]::before { background: none; backdrop-filter: none; }
+:is([class~="Gc24Bq_label"], [class~="Gc24Bq_objective"]) { color: #e3ebcf; }
+[class~="Gc24Bq_goalGlyph"] { width: 20px; height: 20px; background: url(sprites/emerald.svg) center / contain no-repeat; image-rendering: pixelated; }
+[class~="Gc24Bq_goalGlyph"] > * { visibility: hidden; }
+[class~="Gc24Bq_actions"] { gap: 4px; }
+[class~="Gc24Bq_error"] { color: #ffbcaa; }
+[class~="Gc24Bq_editBar"] { background: #f1e4c7; color: #35291d; }
+[class~="Gc24Bq_editBar"] [class*="_editor_61ozo_"] { min-width: 0; }
+[class~="Gc24Bq_editBar"] [class~="Gc24Bq_error"] { color: #9a2d20; }
+[class~="iJmaOG_row"] { height: auto; min-height: 32px; color: #715b40; }
+[class~="iJmaOG_leading"] { width: 24px; height: 24px; }
+[class~="iJmaOG_iconIdle"] { width: 24px; height: 24px; background: url(sprites/tool_item_enchanted_book.svg) center / contain no-repeat; image-rendering: pixelated; }
+[class~="iJmaOG_iconIdle"] svg { visibility: hidden; }
+[class~="iJmaOG_leading"]:has(> svg:not([class~="iJmaOG_chevron"])) { background: url(sprites/tool_item_enchanted_book.svg) center / contain no-repeat; image-rendering: pixelated; }
+[class~="iJmaOG_leading"] > svg:not([class~="iJmaOG_chevron"]) { visibility: hidden; }
+[class~="iJmaOG_instructionsHeader"] { background: #604270; border-bottom: 2px solid #402e4b; color: #f8e6ff; padding: 4px 10px; }
+[class~="iJmaOG_instructions"] { color: #594732; }
+[class~="iJmaOG_instructions"][data-error] { color: #9a2d20; }
+@media (max-width: 480px) {
+  :is([class~="lLdGaq_card"], [class~="K5rwea_file"]) { padding: 6px; gap: 6px; }
+  [class~="lLdGaq_cardOpen"] { padding: 2px 4px; }
+  [class~="Gc24Bq_bar"] { flex-wrap: wrap; }
+  [class~="Gc24Bq_objective"] { flex-basis: calc(100% - 100px); }
+  [class~="Gc24Bq_actions"] { margin-left: auto; }
+}
+@media (forced-colors: active) {
+  :is([class~="lLdGaq_card"], [class~="K5rwea_file"], [class~="K5rwea_fileIcon"], [class~="iJmaOG_instructionsCard"], [class~="lLdGaq_cardOpen"], [class~="C7Zcma_chip"], [class~="iJmaOG_inspectButton"], [class~="K5rwea_toggle"], [class~="Gc24Bq_iconBtn"], [class~="Gc24Bq_bar"], [class~="iJmaOG_instructionsHeader"]) { border: 1px solid CanvasText !important; border-image: none !important; background: Canvas !important; color: CanvasText !important; box-shadow: none; }
+  :is([class~="lLdGaq_cardIcon"], [class~="Gc24Bq_goalGlyph"], [class~="iJmaOG_iconIdle"]) { background: none !important; }
+  :is([class~="lLdGaq_cardIcon"], [class~="Gc24Bq_goalGlyph"]) > *, [class~="iJmaOG_iconIdle"] svg { visibility: visible; }
+  [class~="iJmaOG_leading"] { background: none !important; }
+  [class~="iJmaOG_leading"] > svg:not([class~="iJmaOG_chevron"]) { visibility: visible; }
+  :is([class~="Gc24Bq_label"], [class~="Gc24Bq_objective"], [class~="Gc24Bq_error"], [class~="iJmaOG_instructions"]) { color: CanvasText; }
+}

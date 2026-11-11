@@ -1,0 +1,47 @@
+{
+  "name": "dsh-mc-valley",
+  "version": "1.2.31",
+  "type": "module",
+  "description": "A pixel-art valley theme for the DeepSeek Harness Web client.",
+  "license": "MIT",
+  "author": "Imccark",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Imccark/dsh-mc-valley.git"
+  },
+  "homepage": "https://github.com/Imccark/dsh-mc-valley#readme",
+  "keywords": ["dsh-plugin", "deepseek-harness", "theme", "pixel-art"],
+  "engines": {
+    "dsh": "0.2.2-rc.1"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "licenses/",
+    "assets/",
+    "screenshots.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    }
+  }
+}
