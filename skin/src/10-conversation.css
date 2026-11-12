@@ -266,8 +266,8 @@
 }
 :is([class~="hKdVjq_row"], [class~="cr4P6W_root"]) > [class*="_root_1rdzk_"] { flex: 1; width: auto; }
 /* Keep the real disclosure arrow beside the item, including when expanded.
- * Unknown names retain their native idle/hover behavior. Run-state labels
- * and the animated text content are never hidden. */
+ * Every named tool (and the generic chest fallback) hides the native idle
+ * glyph; run-state labels and the animated text content are never hidden. */
 :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) [class*="_iconIdle_"] { display: var(--mc-tool-idle, inline-flex); }
 :is([class~="hKdVjq_leading"], [class~="cr4P6W_leading"]) [class*="_chevronHover_"] { opacity: var(--mc-tool-chevron, 0); }
 [class~="cr4P6W_leading"] [class~="cr4P6W_iconIdle"] { display: none; }
@@ -440,7 +440,7 @@
 
 /* B6: explicit action labels only; branch/usage/unknown actions keep their
  * native icons. Live copied labels switch to a check instead of hiding state.
- * Feedback maps native icon identity (outline and filled) to splash potions. */
+ * Feedback maps native icon identity (outline and filled) to potions. */
 button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"]) { --mc-message-item: url(sprites/tool_item_written_book.svg); }
 button[class~="_1KfHza_action"]:is([aria-label="已复制"], [aria-label="Copied"]) { --mc-message-item: url(sprites/check_mark.svg); }
 button[class~="_1KfHza_action"]:is([aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"]) { --mc-message-item: url(sprites/pixel_clock.svg); }
@@ -460,8 +460,8 @@ button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消
 button[class~="_1KfHza_action"]:is([aria-label="复制"], [aria-label="复制消息"], [aria-label="Copy"], [aria-label="Copy message"], [aria-label="已复制"], [aria-label="Copied"], [aria-label="重试"], [aria-label="重新生成"], [aria-label="Retry"], [aria-label="Regenerate"], [aria-label="引用"], [aria-label="引用消息"], [aria-label="Quote"], [aria-label="Quote message"]) svg { visibility: hidden; }
 button[class~="Hyy-Wa_action"] { position: relative; padding: 2px; --mc-rating-content: none; --mc-rating-native: visible; }
 button[class~="Hyy-Wa_action"]:has(svg:is([data-icon^="dsw-icon-like-"], [data-icon^="dsw-icon-dislike-"])) { --mc-rating-content: ""; --mc-rating-native: hidden; }
-button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-like-"]) { --mc-rating-item: url(sprites/tool_item_splash_healing_potion.svg); }
-button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-dislike-"]) { --mc-rating-item: url(sprites/tool_item_splash_harming_potion.svg); }
+button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-like-"]) { --mc-rating-item: url(sprites/tool_item_healing_potion.svg); }
+button[class~="Hyy-Wa_action"]:has(svg[data-icon^="dsw-icon-dislike-"]) { --mc-rating-item: url(sprites/tool_item_harming_potion.svg); }
 button[class~="Hyy-Wa_action"]::before { content: var(--mc-rating-content); position: absolute; inset: 0; background: var(--mc-rating-item, none) center / 24px 24px no-repeat; image-rendering: pixelated; pointer-events: none; }
 button[class~="Hyy-Wa_action"] svg { visibility: var(--mc-rating-native); }
 button[class~="Hyy-Wa_action"][aria-pressed="true"] { outline: 2px solid #527d2e; outline-offset: 1px; }

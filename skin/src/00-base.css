@@ -5,8 +5,11 @@
  */
 
 /* B1 wire-name map, centralized for host upgrades. These are host-owned
- * data-tool names, not labels parsed from localized text. Unknown tools keep
- * their native icon. Only original tool_item_*.svg assets are distributed. */
+ * data-tool names and data-variant families, not labels parsed from localized
+ * text. DSH 44.7 renamed the command tool to pwsh and added working_directory,
+ * read_image, terminal_*, goal/schedule/session and cordis tools; the generic
+ * and per-variant rows below keep every tool on a real inventory item instead
+ * of exposing the native glyph. Only original tool_item_*.svg are distributed. */
 :where([class~="hKdVjq_root"], [class~="cr4P6W_card"]) {
   --mc-tool-content: none;
   --mc-tool-icon: none;
@@ -14,32 +17,48 @@
   --mc-tool-chevron: 0;
   --mc-tool-static-leading: inline-flex;
 }
-[class~="hKdVjq_root"]:is([data-tool="read"], [data-tool="write"], [data-tool="edit"],
-  [data-tool="apply_patch"], [data-tool="bash"], [data-tool="grep"], [data-tool="glob"],
-  [data-tool="web_search"], [data-tool="web_fetch"], [data-tool="todo_write"],
-  [data-tool="subagent"], [data-tool^="subagent_"], [data-tool="workflow"], [data-tool^="workflow_"],
-  [data-tool="skill"], [data-tool^="skill_"], [data-tool^="job_"], [data-tool="present"], [data-tool="ask_user_question"]),
+/* Fallback for names this table has not met yet: the chest is the toolbox. */
+[class~="hKdVjq_root"][data-tool] {
+  --mc-tool-content: "";
+  --mc-tool-icon: url(sprites/tool_item_chest.svg);
+  --mc-tool-idle: none;
+  --mc-tool-chevron: 1;
+  --mc-tool-static-leading: none;
+}
+/* Variant fallbacks use the host's own grouping (bash/code/read/search/write/
+ * edit/others), so a renamed tool keeps the material of its family. */
+[class~="hKdVjq_root"]:is([data-variant="bash"], [data-variant="code"]) { --mc-tool-icon: url(sprites/tool_item_command_block.svg); }
+[class~="hKdVjq_root"][data-variant="read"] { --mc-tool-icon: url(sprites/tool_item_writable_book.svg); }
+[class~="hKdVjq_root"][data-variant="search"] { --mc-tool-icon: url(sprites/tool_item_compass.svg); }
+[class~="hKdVjq_root"][data-variant="write"] { --mc-tool-icon: url(sprites/tool_item_written_book.svg); }
+[class~="hKdVjq_root"][data-variant="edit"] { --mc-tool-icon: url(sprites/tool_item_anvil.svg); }
 [class~="cr4P6W_card"] {
   --mc-tool-content: "";
+  --mc-tool-icon: url(sprites/tool_item_command_block.svg);
   --mc-tool-idle: none;
   --mc-tool-chevron: 1;
   --mc-tool-static-leading: none;
 }
 [class~="hKdVjq_root"][data-tool="read"] { --mc-tool-icon: url(sprites/tool_item_writable_book.svg); }
+[class~="hKdVjq_root"][data-tool="read_image"] { --mc-tool-icon: url(sprites/tool_item_item_frame.svg); }
 [class~="hKdVjq_root"][data-tool="write"] { --mc-tool-icon: url(sprites/tool_item_written_book.svg); }
-[class~="hKdVjq_root"][data-tool="edit"] { --mc-tool-icon: url(sprites/tool_item_anvil.svg); }
+[class~="hKdVjq_root"]:is([data-tool="edit"], [data-tool="str_replace_editor"]) { --mc-tool-icon: url(sprites/tool_item_anvil.svg); }
 [class~="hKdVjq_root"][data-tool="apply_patch"] { --mc-tool-icon: url(sprites/tool_item_crafting_table.svg); }
-[class~="hKdVjq_root"][data-tool="bash"], [class~="cr4P6W_card"] { --mc-tool-icon: url(sprites/tool_item_command_block.svg); }
-[class~="hKdVjq_root"][data-tool="grep"] { --mc-tool-icon: url(sprites/tool_item_spyglass.svg); }
-[class~="hKdVjq_root"][data-tool="glob"] { --mc-tool-icon: url(sprites/tool_item_compass.svg); }
+[class~="hKdVjq_root"]:is([data-tool="bash"], [data-tool="pwsh"], [data-tool="run_code"]) { --mc-tool-icon: url(sprites/tool_item_command_block.svg); }
+[class~="hKdVjq_root"][data-tool^="terminal_"] { --mc-tool-icon: url(sprites/tool_item_command_block.svg); }
+[class~="hKdVjq_root"]:is([data-tool="grep"], [data-tool^="session_"]) { --mc-tool-icon: url(sprites/tool_item_spyglass.svg); }
+[class~="hKdVjq_root"]:is([data-tool="glob"], [data-tool="working_directory"]) { --mc-tool-icon: url(sprites/tool_item_compass.svg); }
 [class~="hKdVjq_root"][data-tool="web_search"] { --mc-tool-icon: url(sprites/tool_item_map.svg); }
 [class~="hKdVjq_root"][data-tool="web_fetch"] { --mc-tool-icon: url(sprites/tool_item_paper.svg); }
-[class~="hKdVjq_root"]:is([data-tool="todo_write"], [data-tool="ask_user_question"]) { --mc-tool-icon: url(sprites/tool_item_sign.svg); }
-[class~="hKdVjq_root"]:is([data-tool="subagent"], [data-tool^="subagent_"]) { --mc-tool-icon: url(sprites/tool_item_villager.svg); }
-[class~="hKdVjq_root"]:is([data-tool="workflow"], [data-tool^="workflow_"]) { --mc-tool-icon: url(sprites/tool_item_repeater.svg); }
+[class~="hKdVjq_root"]:is([data-tool="todo_write"], [data-tool="ask_user_question"],
+  [data-tool="create_goal"], [data-tool="get_goal"], [data-tool="update_goal"]) { --mc-tool-icon: url(sprites/tool_item_sign.svg); }
+[class~="hKdVjq_root"]:is([data-tool="subagent"], [data-tool^="subagent_"], [data-tool="list_agents"],
+  [data-tool="send_message"], [data-tool="interrupt_agent"], [data-tool="list_subagent_models"]) { --mc-tool-icon: url(sprites/tool_item_villager.svg); }
+[class~="hKdVjq_root"]:is([data-tool="workflow"], [data-tool^="workflow_"], [data-tool="ralph"], [data-tool^="schedule_"]) { --mc-tool-icon: url(sprites/tool_item_repeater.svg); }
 [class~="hKdVjq_root"]:is([data-tool="skill"], [data-tool^="skill_"]) { --mc-tool-icon: url(sprites/tool_item_enchanted_book.svg); }
 [class~="hKdVjq_root"][data-tool^="job_"] { --mc-tool-icon: url(sprites/tool_item_chest.svg); }
 [class~="hKdVjq_root"][data-tool="present"] { --mc-tool-icon: url(sprites/tool_item_item_frame.svg); }
+[class~="hKdVjq_root"][data-tool^="cordis_"] { --mc-tool-icon: url(sprites/tool_item_enchanting_table.svg); }
 
 :root {
   --dsw-radius-xs: 2px;
