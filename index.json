@@ -1,0 +1,63 @@
+{
+  "format": 1,
+  "title": {
+    "en": "MC valley",
+    "zh": "MC 山谷主题"
+  },
+  "description": {
+    "en": "An independent pixel-art valley theme for the DeepSeek Harness Web client.",
+    "zh": "为 DeepSeek Harness Web 客户端制作的独立像素山谷主题。"
+  },
+  "metadata": {
+    "categories": {
+      "theme": {
+        "title": {
+          "en": "Theme",
+          "zh": "主题"
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "dsh-mc-valley",
+      "title": {
+        "en": "MC valley for DSH",
+        "zh": "MC 山谷主题"
+      },
+      "description": {
+        "en": "Minecraft-style pixel theme: wooden navigation, paper panels, stone controls and grass-green actions. Artwork is inlined; nothing is downloaded at runtime.",
+        "zh": "Minecraft 风格像素主题：木质导航、纸面面板、灰石控件与草绿主操作；素材全部内联，运行时不下载图片。"
+      },
+      "icon": "https://raw.githubusercontent.com/Imccark/dsh-mc-valley/main/assets/icon.png",
+      "author": "Imccark",
+      "homepage": "https://github.com/Imccark/dsh-mc-valley",
+      "repository": {
+        "url": "https://github.com/Imccark/dsh-mc-valley"
+      },
+      "metadata": {
+        "category": "theme",
+        "keywords": [
+          "dsh-plugin",
+          "deepseek-harness",
+          "theme",
+          "pixel-art"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.2.34",
+          "publishTimestamp": 1794725073,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Imccark/dsh-mc-valley",
+            "commit": "785c60c3a560b657b4220c3a4d3ba640832e502c"
+          },
+          "engines": {
+            "dsh": "^0.2.2-rc.1"
+          }
+        }
+      ]
+    }
+  ]
+}
