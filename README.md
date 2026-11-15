@@ -9,9 +9,10 @@
 
 ## 兼容性
 
-- 已实测：Ubuntu WSL 2，DSH Web `0.2.2-rc.1`，Windows 浏览器，Node.js `24.18.0`。
-- 目前安装清单仅声明支持 DSH `0.2.2-rc.1`。界面使用部分宿主 CSS Module 类名，
-  即便版本号相同，不同构建也可能不同；其他版本需要额外验证。
+- 已实测：Ubuntu WSL 2，DSH Web `0.2.2-rc.1`，Windows 浏览器，Node.js `24.18.0`；
+  Windows，DSH Desktop `0.2.2-rc.3`，安装与启用通过。
+- 安装清单声明 `^0.2.2-rc.1`。界面使用部分宿主 CSS Module 类名，
+  即便版本号相同，不同构建也可能不同；不在该范围内的版本需要额外验证。
 - 主题改变界面外观，不提供模型或账号服务。聊天仍需按 DSH 自身要求配置模型。
 - 如果之前安装过其他版本的本皮肤，请先停用或卸载旧版本，避免两套主题同时覆盖。
 
@@ -29,6 +30,18 @@ dsh web
 
 用浏览器打开 DSH 打印的完整地址，在「插件」中确认 **MC valley for DSH** 已启用。
 如果使用自定义 profile，将上面的 `web` 换成对应名称。
+
+## 从插件市场安装
+
+DSH `0.2.2-rc.3` 起提供实验性的自定义插件索引（Discover）。先在 **Plugins → Experimental
+plugins** 打开 **Custom plugin indexes**，再在 **Discover** 的 **Index sources** 里添加：
+
+```
+https://raw.githubusercontent.com/Imccark/dsh-mc-valley/main/index.json
+```
+
+然后在市场里搜索 **MC valley for DSH** 并安装。市场安装使用固定到发布提交的 Git 源，
+不依赖 npm 上架；索引文件与插件同仓库维护。
 
 ## 卸载
 
@@ -67,5 +80,6 @@ npm pack --dry-run --ignore-scripts
 ---
 
 An independent pixel-art valley theme for the DeepSeek Harness Web client.
-Tested on DSH Web `0.2.2-rc.1` in Ubuntu WSL 2. This is an unofficial fan
-project, not approved by or associated with Mojang or Microsoft.
+Tested on DSH Web `0.2.2-rc.1` in Ubuntu WSL 2; installation and activation verified
+on DSH `0.2.2-rc.3` for Windows. This is an unofficial fan project, not approved by
+or associated with Mojang or Microsoft.

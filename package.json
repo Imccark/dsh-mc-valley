@@ -1,6 +1,6 @@
 {
   "name": "dsh-mc-valley",
-  "version": "1.2.33",
+  "version": "1.2.34",
   "type": "module",
   "description": "A pixel-art valley theme for the DeepSeek Harness Web client.",
   "license": "MIT",
@@ -12,7 +12,7 @@
   "homepage": "https://github.com/Imccark/dsh-mc-valley#readme",
   "keywords": ["dsh-plugin", "deepseek-harness", "theme", "pixel-art"],
   "engines": {
-    "dsh": "0.2.2-rc.1"
+    "dsh": "^0.2.2-rc.1"
   },
   "exports": {
     ".": "./index.js",

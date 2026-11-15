@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.34
+
+- Declare `engines.dsh` as `^0.2.2-rc.1`, so DSH 0.2.2-rc.3 installs and
+  activates the bundle instead of refusing it as incompatible.
+- Add `index.json`, a format-1 plugin market index for the Discover tab.
+
 ## 1.2.33
 
 - Map the DSH 44.7 tool names (`pwsh`, `working_directory`, `read_image`,
